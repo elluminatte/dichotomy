@@ -26,6 +26,12 @@ class EloquentRepository implements RepositoryInterface
     public $model;
 
     /**
+     * используется для хранения имени роли зарегистрированного пользователя
+     * чтобы назначать эту роль всем, кто подтвердил свой аккаунт по электронной почте
+     */
+    const USER_ROLE_NAME = 'user';
+
+    /**
      * Create a new ConfideRepository
      *
      * @param \Illuminate\Foundation\Application $app Laravel application object
@@ -144,6 +150,14 @@ class EloquentRepository implements RepositoryInterface
     protected function confirmUser($user)
     {
         $user->confirmed = true;
+
+        // назначение роли зарегистрированного пользователя при подтверждении через email
+
+        // получили роль зарег. пользователя
+        $userRole = \Role::where('name','=', self::USER_ROLE_NAME)->first();
+
+        // назначили текущему пользователю эту роль
+        $user->attachRole($userRole);
 
         return $user->save();
     }
