@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'postmaster@sandbox74c180a8d959478394676650cd4abd8e.mailgun.org', 'name' => 'Diagnostic'),
+	'from' => array('address' => 'postmaster@sandbox74c180a8d959478394676650cd4abd8e.mailgun.org', 'name' => 'Администрация Diagnostic'),
 
 	/*
 	|--------------------------------------------------------------------------
