@@ -17,7 +17,7 @@ class CreateOkvedTable extends Migration {
 			$table->increments('id')->unsigned();
 			$table->string('code', 16)->unique();
 			$table->string('name', 512)->unique();
-			$table->integer('parent_id')->default(0)->unsigned();
+			$table->integer('parent_id')->unsigned()->nullable();
 			$table->text('additional_info')->nullable();
 			$table->foreign('parent_id')->references('id')->on('okved');
 		});
