@@ -12,7 +12,14 @@ class CreateOkvedTable extends Migration {
 	 */
 	public function up()
 	{
-		//
+		// создаем таблицу ОКВЭД
+		Schema::create('okved', function( $table ) {
+			$table->increments('id');
+			$table->string('code', 16)->unique();
+			$table->string('name', 512)->unique();
+			$table->integer('parent_id')->default(0);
+			$table->text('additional_info')->nullable();
+		});
 	}
 
 	/**
@@ -22,7 +29,8 @@ class CreateOkvedTable extends Migration {
 	 */
 	public function down()
 	{
-		//
+		// удаляем таблицу ОКВЭД при откате миграции
+		Schema::drop('okved');
 	}
 
 }
