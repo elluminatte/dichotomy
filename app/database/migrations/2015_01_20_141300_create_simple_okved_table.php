@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOkvedTable extends Migration {
+class CreateSimpleOkvedTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,14 +12,13 @@ class CreateOkvedTable extends Migration {
 	 */
 	public function up()
 	{
-		// создаем таблицу ОКВЭД
-		Schema::create('okved', function( $table ) {
+		// создаем таблицу упрощенный ОКВЭД
+		Schema::create('simplified_okved', function( $table ) {
 			$table->increments('id')->unsigned();
-			$table->string('code', 16)->unique();
 			$table->string('name', 512);
+			$table->string('okved_correspondence', 16)->default('');
 			$table->integer('parent_id')->unsigned()->nullable();
-			$table->text('additional_info')->nullable();
-			$table->foreign('parent_id')->references('id')->on('okved');
+			$table->foreign('parent_id')->references('id')->on('simplified_okved');
 		});
 	}
 
@@ -31,7 +30,7 @@ class CreateOkvedTable extends Migration {
 	public function down()
 	{
 		// удаляем таблицу ОКВЭД при откате миграции
-		Schema::drop('okved');
+		Schema::drop('simplified_okved');
 	}
 
 }
