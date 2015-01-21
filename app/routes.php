@@ -13,10 +13,11 @@
 
 Route::get('/', function()
 {
-	return View::make('hello');
+	return View::make('okved');
 });
 //
 
+Route::get('okved/{sectionId?}', 'OkvedController@showOkvedTree');
 
 // Confide routes
 Route::get('users/create', 'UsersController@create');
