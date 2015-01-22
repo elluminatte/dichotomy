@@ -18,7 +18,7 @@ class CreateSimpleOkvedTable extends Migration {
 			$table->string('name', 512);
 			$table->string('okved_correspondence', 16)->default('');
 			$table->integer('parent_id')->unsigned()->nullable();
-			$table->foreign('parent_id')->references('id')->on('simplified_okved');
+			$table->foreign('parent_id')->references('id')->on('simplified_okved')->onDelete('cascade')->onUpdate('cascade');
 		});
 	}
 
