@@ -25,7 +25,7 @@ class OkvedController extends BaseController {
      */
     public function showTree($sectionId = 0) {
         $sections = $this->okved->getSections($sectionId);
-        return View::make('admin.okved.tree', array('sections' => $sections));
+        return View::make('admin.okved.tree', array('sections' => $sections, 'parentId' => $sectionId));
     }
 
     /** удаляет раздел по id

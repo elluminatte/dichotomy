@@ -17,8 +17,8 @@ Route::get('/', function()
 });
 //
 
-Route::get('okved/list/{sectionId?}', 'OkvedController@showTree');
-Route::get('okved/delete/{sectionId?}', 'OkvedController@deleteSection');
+Route::get('okved/list/{sectionId?}', array('as' => 'okvedList', 'uses' => 'OkvedController@showTree'));
+Route::get('okved/delete/{sectionId?}', array('as' => 'delOkved', 'uses' => 'OkvedController@deleteSection'));
 Route::get('okved/add-form/{parentId?}', array('as' => 'addOkvedForm', 'uses' => 'OkvedController@showAddForm'));
 Route::post('okved/add', array('before' => 'csrf', 'as' => 'addOkved', 'uses' => 'OkvedController@addSection'));
 Route::get('okved/edit-form/{sectionId}', array('as' => 'editOkvedForm', 'uses' => 'OkvedController@showEditForm'));

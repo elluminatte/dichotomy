@@ -1,4 +1,4 @@
-@extends('......layouts.master')
+@extends('layouts.master')
 @section('content')
     <div class="row">
         <ul class="breadcrumb">
@@ -8,7 +8,7 @@
         </ul>
     </div>
     <div class="row">
-        <button type="button" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить</button>
+        <a href="{{ URL::route('addOkvedForm', array('parentId' => $parentId)) }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить</a>
     </div>
     <div class="row">
         <div class="col-lg-10">
@@ -27,10 +27,10 @@
                 <tbody>
                     @foreach($sections as $section)
                         <tr>
-                            <td><a href="#">{{ $section->name }}</a></td>
+                            <td><a href="{{ URL::route('okvedList', array('sectionId' => $section->id)) }}">{{ $section->name }}</a></td>
                             <td>{{ $section->okved_correspondence }}</td>
-                            <td><button class="btn btn-primary" type="button"><i class="fa fa-pencil"></i></button></td>
-                            <td><button class="btn btn-primary" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></button></td>
+                            <td><a href="{{ URL::route('editOkvedForm', array('sectionId' => $section->id)) }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
+                            <td><a href="{{ URL::route('delOkved', array('sectionId' => $section->id)) }}" class="btn btn-primary" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></a></td>
                         </tr>
                     @endforeach
                 </tbody>
