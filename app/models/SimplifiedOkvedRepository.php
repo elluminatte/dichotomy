@@ -57,4 +57,19 @@ class SimplifiedOkvedRepository {
             $okved->parent_id = $parentId;
         return $okved->save();
     }
+
+    /** обновляет данные раздела по id
+     * @param $name - имя раздела
+     * @param $okved_correspondence - соответсвтие ОКВЭД
+     * @param $sectionId - id раздела, который надо обновить
+     * @return bool - истина, если обновилось, иначе - ложь
+     */
+    public function updateSection($name, $okved_correspondence, $sectionId) {
+        $sectionId = (int)$sectionId;
+        if(!$sectionId) return false;
+        $okved = SimplifiedOkved::find($sectionId);
+        $okved->name = $name;
+        $okved->okved_correspondence = $okved_correspondence;
+        return $okved->save();
+    }
 }

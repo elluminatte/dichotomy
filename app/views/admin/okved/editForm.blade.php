@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-{{ Form::model($section, array('route' => array('editOkved', $section->id), 'class' => 'form-horizontal')) }}
+{{ Form::model($section, array('route' => array('editOkved'), 'class' => 'form-horizontal')) }}
 <fieldset>
     <legend>Изменение раздела ОКВЭД</legend>
     <div class="form-group">
@@ -15,9 +15,10 @@
             {{ Form::text('okved_correspondence', null, array('id' => 'okved_correspondence', 'class' => 'form-control', 'placeholder' => 'Соответствие ОКВЭД')) }}
         </div>
     </div>
+    {{ Form::hidden('section_id', $section->id) }}
     <div class="form-group">
         <div class="col-lg-10 col-lg-offset-2">
-            {{ Form::submit('Добавить', array('class' => 'btn btn-primary')) }}
+            {{ Form::submit('Изменить', array('class' => 'btn btn-primary')) }}
             {{ Form::reset('Отмена', array('class' => 'btn btn-default')) }}
         </div>
     </div>

@@ -73,6 +73,11 @@ class OkvedController extends BaseController {
         return View::make('admin.okved.editForm', array('section' => $section));
     }
     public function editSection() {
-//        $sectionId =
+        $sectionId = Input::get('section_id');
+        $name = Input::get('name');
+        $okved_correspondence = Input::get('okved_correspondence');
+//        ToDo: валидация
+        $result = $this->okved->updateSection($name, $okved_correspondence, $sectionId) ? array(1) : array();
+        return View::make('admin.okved.editResult', array('result' => $result));
     }
 }
