@@ -10,15 +10,15 @@
         <p>или воспользуйтесь поиском браузера на Вашем мобильном устройстве</p>
     </div>
     </div>
-    <div class="row">
-        <a href="{{ URL::route('addOkvedForm', array('parentId' => $parentId)) }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить</a>
-    </div>
     {{--немного магии, взяли из сессии имя шаблона результата операции (удаление, изменение, добавление) и отрисовали его вот тут--}}
     @if ( Session::get('form_result') )
         <div class="row">
             @include('admin.forms.'.Session::get('form_result'))
         </div>
     @endif
+    <div class="row">
+        <a href="{{ URL::route('addOkvedForm', array('parentId' => $parentId)) }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить</a>
+    </div>
     <div class="row">
         <div class="col-lg-10">
             <div class="page-header">
