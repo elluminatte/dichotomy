@@ -35,5 +35,7 @@
 {{ HTML::script('assets/js/jquery-1.11.1.min.js') }}
 {{ HTML::script('assets/bootstrap/js/bootstrap.min.js') }}
 
+@yield('scripts')
+
 </body>
 </html>

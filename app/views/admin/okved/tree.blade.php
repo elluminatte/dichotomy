@@ -30,7 +30,8 @@
                             <td><a href="{{ URL::route('okvedList', array('sectionId' => $section->id)) }}">{{ $section->name }}</a></td>
                             <td>{{ $section->okved_correspondence }}</td>
                             <td><a href="{{ URL::route('editOkvedForm', array('sectionId' => $section->id)) }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
-                            <td><a href="{{ URL::route('delOkved', array('sectionId' => $section->id)) }}" class="btn btn-primary" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></a></td>
+                            {{-- ToDo: Подтверждение удаления --}}
+                            <td><a data-href="{{ URL::route('delOkved', array('sectionId' => $section->id)) }}" class="btn btn-primary" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></a></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -49,9 +50,13 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Нет</button>
-                    <button type="button" class="btn btn-primary">Да</button>
+                    <a href="#" class="btn btn-danger danger">Да</a>
                 </div>
             </div>
         </div>
     </div>
+@stop
+
+@section('scripts')
+    {{ HTML::script('assets/js/okved/okved.js') }}
 @stop
