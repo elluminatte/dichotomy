@@ -4,6 +4,13 @@
         {{ Breadcrumbs::render('okvedList', $breadcrumbs) }}
     </div>
     <div class="row">
+    <div class="alert alert-dismissable alert-info">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <p><strong>Для поиска</strong> по странице воспользуйтесь сочетанием клавиш <strong>Ctrl + F</strong> на компьютерах</p>
+        <p>или воспользуйтесь поиском браузера на Вашем мобильном устройстве</p>
+    </div>
+    </div>
+    <div class="row">
         <a href="{{ URL::route('addOkvedForm', array('parentId' => $parentId)) }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить</a>
     </div>
     <div class="row">
