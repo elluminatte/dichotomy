@@ -34,8 +34,14 @@ class OkvedController extends BaseController {
      * @return \Illuminate\View\View
      */
     public function deleteSection($sectionId = 0) {
-        $result = $this->okved->delSection($sectionId) ? array(1) : array();
-        return View::make('admin.okved.delResult', array('result' => $result));
+        //получим родителя до того, как удалили, чтобы потом можно было вернуться к разделу
+        $parentId = $this->okved->getSectionParentId($sectionId);
+        $result = $this->okved->delSection($sectionId);
+        // магия - передает в вид переменную form_result - какой шаблон отрисовать в качестве результата удаления
+        if($result)
+            return Redirect::route('okvedList', array('sectionId' => $parentId))->withForm_result('delDone');
+        else
+            return Redirect::route('okvedList', array('sectionId' => $parentId))->withForm_result('delFailed');
     }
 
     /** показывает форму для добавления раздела
@@ -62,13 +68,15 @@ class OkvedController extends BaseController {
         $fieldNames = ['name' => 'Название', 'okved_correspondence' => 'Соответствие ОКВЭД', 'parentId' => 'Номер родительского раздела'];
         $validation = \Validator::make($fields, $rules, array(), $fieldNames);
         if ($validation->fails())
-        {
 //            если валидация провалилась, возвращаемся на форму и показываем ошибки
             return Redirect::route('addOkvedForm', array('parentId' => $parentId))->withErrors($validation);
-        }
 //        добавляем раздел, формируем вид
-        $result = $this->okved->addSection($name, $okved_correspondence, $parentId) ? array(1) : array();
-        return View::make('admin.okved.addResult', array('result' => $result));
+        $result = $this->okved->addSection($name, $okved_correspondence, $parentId);
+        // магия - передает в вид переменную form_result - какой шаблон отрисовать в качестве результата добавления
+        if($result)
+            return Redirect::route('okvedList', array('sectionId' => $parentId))->withForm_result('addDone');
+        else
+            return Redirect::route('okvedList', array('sectionId' => $parentId))->withForm_result('addFailed');
     }
 
     /** показывает форму редактирования раздела ОКВЭД
@@ -89,18 +97,20 @@ class OkvedController extends BaseController {
         $sectionId = Input::get('section_id');
         $name = Input::get('name');
         $okved_correspondence = Input::get('okved_correspondence');
-//        ToDo: валидация
+        $parentId = $this->okved->getSectionParentId($sectionId);
         //        валидируем данные  по правилам
         $fields = ['name' => $name, 'okved_correspondence' => $okved_correspondence, 'sectionId' => $sectionId];
         $rules = ['name' => array('required', 'min:10', 'alpha_spaces'), 'sectionId' => array('integer')];
         $fieldNames = ['name' => 'Название', 'okved_correspondence' => 'Соответствие ОКВЭД', 'parentId' => 'Номер раздела'];
         $validation = \Validator::make($fields, $rules, array(), $fieldNames);
         if ($validation->fails())
-        {
 //            если валидация провалилась, возвращаемся на форму и показываем ошибки
             return Redirect::route('editOkvedForm', array('sectionId' => $sectionId))->withErrors($validation);
-        }
-        $result = $this->okved->updateSection($name, $okved_correspondence, $sectionId) ? array(1) : array();
-        return View::make('admin.okved.editResult', array('result' => $result));
+        $result = $this->okved->updateSection($name, $okved_correspondence, $sectionId);
+        // магия - передает в вид переменную form_result - какой шаблон отрисовать в качестве результата изменения
+        if($result)
+            return Redirect::route('okvedList', array('sectionId' => $parentId))->withForm_result('editDone');
+        else
+            return Redirect::route('okvedList', array('sectionId' => $parentId))->withForm_result('editFailed');
     }
 }

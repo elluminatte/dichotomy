@@ -92,12 +92,21 @@ class SimplifiedOkvedRepository {
         $sectionId = (int)$sectionId;
         $sectionTree = array();
         array_push($sectionTree, ['id' => $sectionId, 'name' => SimplifiedOkved::find($sectionId)->name]);
-        while(!is_null(SimplifiedOkved::find($sectionId)->parent_id)) {
-            $parentId = SimplifiedOkved::find($sectionId)->parent_id;
+        while(!is_null($this->getSectionParentId($sectionId))) {
+            $parentId = $this->getSectionParentId($sectionId);
             $parentName = SimplifiedOkved::find($parentId)->name;
             array_unshift($sectionTree, ['id' => $parentId, 'name' => $parentName]);
             $sectionId = $parentId;
         }
         return $sectionTree;
+    }
+
+    /** получает id родителя раздела ОКВЭД
+     * @param $sectionId - id раздела, для которого надо найти родителя
+     * @return mixed - id родителя или null, если родителя нет
+     */
+    public function getSectionParentId($sectionId) {
+        $sectionId = (int)$sectionId;
+        return SimplifiedOkved::find($sectionId)->parent_id;
     }
 }
