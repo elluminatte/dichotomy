@@ -83,14 +83,13 @@ class SimplifiedOkvedRepository {
     public function collectSectionParents($sectionId) {
         $sectionId = (int)$sectionId;
         $sectionTree = array();
-        $lastSection = ['id' => $sectionId, 'name' => SimplifiedOkved::find($sectionId)->name];
-        while(SimplifiedOkved::find($sectionId)->parent_id) {
+        array_push($sectionTree, ['id' => $sectionId, 'name' => SimplifiedOkved::find($sectionId)->name]);
+        while(!is_null(SimplifiedOkved::find($sectionId)->parent_id)) {
             $parentId = SimplifiedOkved::find($sectionId)->parent_id;
             $parentName = SimplifiedOkved::find($parentId)->name;
-            array_push($sectionTree, ['id' => $parentId, 'name' => $parentName]);
+            array_unshift($sectionTree, ['id' => $parentId, 'name' => $parentName]);
             $sectionId = $parentId;
         }
-        array_push($sectionTree, $lastSection);
         return $sectionTree;
     }
 }

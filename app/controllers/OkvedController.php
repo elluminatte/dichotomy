@@ -44,7 +44,8 @@ class OkvedController extends BaseController {
      */
     public function showAddForm($parentId = 0) {
         $parentId = (int)$parentId;
-        return View::make('admin.okved.addForm', array('parentId' => $parentId));
+        $breadcrumbs = $this->okved->makeBreadCrumbs($parentId);
+        return View::make('admin.okved.addForm', array('parentId' => $parentId, 'breadcrumbs' => $breadcrumbs));
     }
 
     /** добавляет раздел ОКВЭД
@@ -70,8 +71,9 @@ class OkvedController extends BaseController {
 
     public function showEditForm($sectionId) {
         $sectionId = (int)$sectionId;
+        $breadcrumbs = $this->okved->makeBreadCrumbs($sectionId);
         $section = SimplifiedOkved::find($sectionId);
-        return View::make('admin.okved.editForm', array('section' => $section));
+        return View::make('admin.okved.editForm', array('section' => $section, 'breadcrumbs' => $breadcrumbs));
     }
     public function editSection() {
         $sectionId = Input::get('section_id');

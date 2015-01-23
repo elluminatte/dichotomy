@@ -1,5 +1,8 @@
 @extends('layouts.master')
 @section('content')
+    <div class="row">
+        {{ Breadcrumbs::render('okvedList', $breadcrumbs) }}
+    </div>
 {{ Form::open(array('route' => 'addOkved', 'class' => 'form-horizontal')) }}
 <fieldset>
     <legend>Добавление раздела ОКВЭД</legend>
