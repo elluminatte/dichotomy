@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
     <div class="row">
-        {{ Breadcrumbs::render('okvedList', $breadcrumbs) }}
+        {{ Breadcrumbs::render('okvedList', $breadcrumbs, 'edit') }}
     </div>
 {{ Form::model($section, array('route' => array('editOkved'), 'class' => 'form-horizontal')) }}
 <fieldset>
