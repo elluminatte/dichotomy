@@ -57,8 +57,10 @@ class OkvedController extends BaseController {
         $okved_correspondence = Input::get('okved_correspondence');
         $parentId = Input::get('parent_id', 0);
 //        валидируем данные  по правилам
-        $validator = new Elluminate\Validators\SimplifiedOkvedValidator($name, $okved_correspondence, $parentId);
-        $validation = $validator->validate();
+        $fields = ['name' => $name, 'okved_correspondence' => $okved_correspondence, 'parentId' => $parentId];
+        $rules = ['name' => array('required', 'min:10', 'alpha_spaces'), 'parentId' => array('integer')];
+        $fieldNames = ['name' => 'Название', 'okved_correspondence' => 'Соответствие ОКВЭД', 'parentId' => 'Номер родительского раздела'];
+        $validation = \Validator::make($fields, $rules, array(), $fieldNames);
         if ($validation->fails())
         {
 //            если валидация провалилась, возвращаемся на форму и показываем ошибки
@@ -69,17 +71,35 @@ class OkvedController extends BaseController {
         return View::make('admin.okved.addResult', array('result' => $result));
     }
 
+    /** показывает форму редактирования раздела ОКВЭД
+     * @param $sectionId - id раздела для редактирования
+     * @return \Illuminate\View\View
+     */
     public function showEditForm($sectionId) {
         $sectionId = (int)$sectionId;
         $breadcrumbs = $this->okved->makeBreadCrumbs($sectionId);
         $section = SimplifiedOkved::find($sectionId);
         return View::make('admin.okved.editForm', array('section' => $section, 'breadcrumbs' => $breadcrumbs));
     }
+
+    /** изменяет данные раздела ОКВЭД
+     * @return \Illuminate\View\View
+     */
     public function editSection() {
         $sectionId = Input::get('section_id');
         $name = Input::get('name');
         $okved_correspondence = Input::get('okved_correspondence');
 //        ToDo: валидация
+        //        валидируем данные  по правилам
+        $fields = ['name' => $name, 'okved_correspondence' => $okved_correspondence, 'sectionId' => $sectionId];
+        $rules = ['name' => array('required', 'min:10', 'alpha_spaces'), 'sectionId' => array('integer')];
+        $fieldNames = ['name' => 'Название', 'okved_correspondence' => 'Соответствие ОКВЭД', 'parentId' => 'Номер раздела'];
+        $validation = \Validator::make($fields, $rules, array(), $fieldNames);
+        if ($validation->fails())
+        {
+//            если валидация провалилась, возвращаемся на форму и показываем ошибки
+            return Redirect::route('editOkvedForm', array('sectionId' => $sectionId))->withErrors($validation);
+        }
         $result = $this->okved->updateSection($name, $okved_correspondence, $sectionId) ? array(1) : array();
         return View::make('admin.okved.editResult', array('result' => $result));
     }

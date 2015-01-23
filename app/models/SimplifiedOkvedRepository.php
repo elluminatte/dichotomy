@@ -73,6 +73,10 @@ class SimplifiedOkvedRepository {
         return $okved->save();
     }
 
+    /** собирает хлебные крошки
+     * @param $sectionId - id раздела ОКВЭД, для которого надо собрать крошки
+     * @return array
+     */
     public function makeBreadcrumbs($sectionId) {
         $sectionId = (int)$sectionId;
         if(!$sectionId) return array();
@@ -80,6 +84,10 @@ class SimplifiedOkvedRepository {
         return $breadcrumbs;
     }
 
+    /** собирает массив родителей раздела с именами для хлебных крошек
+     * @param $sectionId - id раздела, родителей которого надо собрать
+     * @return array - массив родителей и самого раздела
+     */
     public function collectSectionParents($sectionId) {
         $sectionId = (int)$sectionId;
         $sectionTree = array();
