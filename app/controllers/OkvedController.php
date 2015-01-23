@@ -25,7 +25,8 @@ class OkvedController extends BaseController {
      */
     public function showTree($sectionId = 0) {
         $sections = $this->okved->getSections($sectionId);
-        return View::make('admin.okved.tree', array('sections' => $sections, 'parentId' => $sectionId));
+        $breadcrumbs = $this->okved->makeBreadCrumbs($sectionId);
+        return View::make('admin.okved.tree', array('sections' => $sections, 'parentId' => $sectionId, 'breadcrumbs' => $breadcrumbs));
     }
 
     /** удаляет раздел по id
@@ -60,7 +61,7 @@ class OkvedController extends BaseController {
         if ($validation->fails())
         {
 //            если валидация провалилась, возвращаемся на форму и показываем ошибки
-            return Redirect::route('addOkvedForm')->withErrors($validation);
+            return Redirect::route('addOkvedForm', array('parentId' => $parentId))->withErrors($validation);
         }
 //        добавляем раздел, формируем вид
         $result = $this->okved->addSection($name, $okved_correspondence, $parentId) ? array(1) : array();

@@ -72,4 +72,25 @@ class SimplifiedOkvedRepository {
         $okved->okved_correspondence = $okved_correspondence;
         return $okved->save();
     }
+
+    public function makeBreadcrumbs($sectionId) {
+        $sectionId = (int)$sectionId;
+        if(!$sectionId) return array();
+        $breadcrumbs = $this->collectSectionParents($sectionId);
+        return $breadcrumbs;
+    }
+
+    public function collectSectionParents($sectionId) {
+        $sectionId = (int)$sectionId;
+        $sectionTree = array();
+        $lastSection = ['id' => $sectionId, 'name' => SimplifiedOkved::find($sectionId)->name];
+        while(SimplifiedOkved::find($sectionId)->parent_id) {
+            $parentId = SimplifiedOkved::find($sectionId)->parent_id;
+            $parentName = SimplifiedOkved::find($parentId)->name;
+            array_push($sectionTree, ['id' => $parentId, 'name' => $parentName]);
+            $sectionId = $parentId;
+        }
+        array_push($sectionTree, $lastSection);
+        return $sectionTree;
+    }
 }

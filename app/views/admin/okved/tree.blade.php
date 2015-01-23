@@ -1,11 +1,7 @@
 @extends('layouts.master')
 @section('content')
     <div class="row">
-        <ul class="breadcrumb">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Library</a></li>
-            <li class="active">Data</li>
-        </ul>
+        {{ Breadcrumbs::render('okvedList', $breadcrumbs) }}
     </div>
     <div class="row">
         <a href="{{ URL::route('addOkvedForm', array('parentId' => $parentId)) }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить</a>
