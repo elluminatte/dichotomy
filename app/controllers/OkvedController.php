@@ -68,8 +68,8 @@ class OkvedController extends BaseController {
         $fieldNames = ['name' => 'Название', 'okved_correspondence' => 'Соответствие ОКВЭД', 'parentId' => 'Номер родительского раздела'];
         $validation = \Validator::make($fields, $rules, array(), $fieldNames);
         if ($validation->fails())
-//            если валидация провалилась, возвращаемся на форму и показываем ошибки
-            return Redirect::route('addOkvedForm', array('parentId' => $parentId))->withErrors($validation);
+//            если валидация провалилась, возвращаемся на форму и показываем ошибки, заполняем поля, чтоб пользователю не писать заново
+            return Redirect::route('addOkvedForm', array('parentId' => $parentId))->withErrors($validation)->withInput();
 //        добавляем раздел, формируем вид
         $result = $this->okved->addSection($name, $okved_correspondence, $parentId);
         // магия - передает в вид переменную form_result - какой шаблон отрисовать в качестве результата добавления
@@ -104,8 +104,8 @@ class OkvedController extends BaseController {
         $fieldNames = ['name' => 'Название', 'okved_correspondence' => 'Соответствие ОКВЭД', 'parentId' => 'Номер раздела'];
         $validation = \Validator::make($fields, $rules, array(), $fieldNames);
         if ($validation->fails())
-//            если валидация провалилась, возвращаемся на форму и показываем ошибки
-            return Redirect::route('editOkvedForm', array('sectionId' => $sectionId))->withErrors($validation);
+//            если валидация провалилась, возвращаемся на форму и показываем ошибки, заполняем поля, чтоб пользователю не писать заново
+            return Redirect::route('editOkvedForm', array('sectionId' => $sectionId))->withErrors($validation)->withInput();
         $result = $this->okved->updateSection($name, $okved_correspondence, $sectionId);
         // магия - передает в вид переменную form_result - какой шаблон отрисовать в качестве результата изменения
         if($result)
