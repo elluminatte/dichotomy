@@ -91,12 +91,13 @@ class SimplifiedOkvedRepository {
     public function collectSectionParents($sectionId) {
         $sectionId = (int)$sectionId;
         $sectionTree = array();
-        array_push($sectionTree, ['id' => $sectionId, 'name' => SimplifiedOkved::find($sectionId)->name]);
+        $section = SimplifiedOkved::find($sectionId);
+        if(!$section) App::abort(404);
+        array_push($sectionTree, ['id' => $section->id, 'name' => $section->name]);
         while(!is_null($this->getSectionParentId($sectionId))) {
-            $parentId = $this->getSectionParentId($sectionId);
-            $parentName = SimplifiedOkved::find($parentId)->name;
-            array_unshift($sectionTree, ['id' => $parentId, 'name' => $parentName]);
-            $sectionId = $parentId;
+            $parent = $this->getParent($sectionId);
+            array_unshift($sectionTree, ['id' => $parent->id, 'name' => $parent->name]);
+            $sectionId = $parent->id;
         }
         return $sectionTree;
     }
@@ -109,4 +110,13 @@ class SimplifiedOkvedRepository {
         $sectionId = (int)$sectionId;
         return SimplifiedOkved::find($sectionId)->parent_id;
     }
+
+    public function getParent($sectionId) {
+        $sectionId = (int)$sectionId;
+        if(!$sectionId) App::abort(404);
+        $parent = SimplifiedOkved::find($sectionId);
+        if(!$parent) App::abort(404);
+        return $parent;
+    }
+
 }
