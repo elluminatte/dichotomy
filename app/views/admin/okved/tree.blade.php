@@ -22,7 +22,7 @@
                 {{ Breadcrumbs::render('okvedList', $breadcrumbs) }}
             </div>
             <div class="row">
-                <a href="{{ URL::route('addOkvedForm', array('parentId' => $parentId)) }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить ситуацию</a>
+                <a title="Добавить ситуацию" href="{{ URL::route('addOkvedForm', array('parentId' => $parentId)) }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить ситуацию</a>
             </div>
             <div style="margin-bottom: 20px"></div>
             <table class="table table-striped table-hover">
@@ -32,6 +32,7 @@
                     <th>Соответствие ОКВЭД</th>
                     <th>Редактировать реквизиты</th>
                     <th>Удалить</th>
+                    <th>Добавить решаемую задачу</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -39,8 +40,9 @@
                         <tr>
                             <td><a href="{{ URL::route('okvedList', array('sectionId' => $section->id)) }}">{{ $section->name }}</a></td>
                             <td>{{ $section->okved_correspondence }}</td>
-                            <td><a href="{{ URL::route('editOkvedForm', array('sectionId' => $section->id)) }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
-                            <td><a data-href="{{ URL::route('delOkved', array('sectionId' => $section->id)) }}" class="btn btn-primary" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></a></td>
+                            <td><a title="Редактировать реквизиты записи" href="{{ URL::route('editOkvedForm', array('sectionId' => $section->id)) }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
+                            <td><a title="Удалить запись" data-href="{{ URL::route('delOkved', array('sectionId' => $section->id)) }}" class="btn btn-primary" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></a></td>
+                            <td><a title="Добавить решаемую задачу" href="" class="btn btn-primary"><i class="fa fa-paperclip"></i></a></td>
                         </tr>
                     @endforeach
                 </tbody>
