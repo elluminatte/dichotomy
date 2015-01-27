@@ -32,7 +32,7 @@
                     <th>Соответствие ОКВЭД</th>
                     <th>Редактировать реквизиты</th>
                     <th>Удалить</th>
-                    <th>Добавить решаемую задачу</th>
+                    <th>Решаемые задачи</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -42,7 +42,7 @@
                             <td>{{ $section->okved_correspondence }}</td>
                             <td><a title="Редактировать реквизиты записи" href="{{ URL::route('editOkvedForm', array('sectionId' => $section->id)) }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                             <td><a title="Удалить запись" data-href="{{ URL::route('delOkved', array('sectionId' => $section->id)) }}" class="btn btn-primary" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></a></td>
-                            <td><a title="Добавить решаемую задачу" href="" class="btn btn-primary"><i class="fa fa-paperclip"></i></a></td>
+                            <td><a title="Решаемые задачи" href="{{ URL::route('modelsList', array('sectionId' => $section->id)) }}" class="btn btn-primary"><i class="fa fa-wrench"></i></a></td>
                         </tr>
                     @endforeach
                 </tbody>
