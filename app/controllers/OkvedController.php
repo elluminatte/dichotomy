@@ -64,7 +64,7 @@ class OkvedController extends BaseController {
         $parentId = Input::get('parent_id', 0);
 //        валидируем данные  по правилам
         $fields = ['name' => $name, 'okved_correspondence' => $okved_correspondence, 'parentId' => $parentId];
-        $rules = ['name' => array('required', 'min:10', 'alpha_spaces'), 'parentId' => array('integer')];
+        $rules = ['name' => array('required', 'min:10'), 'parentId' => array('integer')];
         $fieldNames = ['name' => 'Название', 'okved_correspondence' => 'Соответствие ОКВЭД', 'parentId' => 'Номер родительского раздела'];
         $validation = \Validator::make($fields, $rules, array(), $fieldNames);
         if ($validation->fails())
@@ -100,7 +100,7 @@ class OkvedController extends BaseController {
         $parentId = $this->okved->getSectionParentId($sectionId);
         //        валидируем данные  по правилам
         $fields = ['name' => $name, 'okved_correspondence' => $okved_correspondence, 'sectionId' => $sectionId];
-        $rules = ['name' => array('required', 'min:10', 'alpha_spaces'), 'sectionId' => array('integer')];
+        $rules = ['name' => array('required', 'min:10'), 'sectionId' => array('integer')];
         $fieldNames = ['name' => 'Название', 'okved_correspondence' => 'Соответствие ОКВЭД', 'parentId' => 'Номер раздела'];
         $validation = \Validator::make($fields, $rules, array(), $fieldNames);
         if ($validation->fails())

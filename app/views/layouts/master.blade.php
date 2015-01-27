@@ -13,6 +13,7 @@
     <!-- CSS are placed here -->
     {{ HTML::style('assets/bootstrap/css/bootstrap.css') }}
     {{ HTML::style('assets/css/font-awesome.min.css') }}
+    {{ HTML::style('assets/css/main.css') }}
 </head>
 
 <body>
@@ -32,7 +33,7 @@
         </div>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="{{ URL::route('okvedList') }}">ОКВЭД</a></li>
+                <li class="active"><a href="{{ URL::route('okvedList') }}">Каталог проблемных ситуаций</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <form class="navbar-form navbar-left">
