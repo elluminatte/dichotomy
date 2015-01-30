@@ -16,7 +16,7 @@ class Model extends Eloquent {
         return $this->belongsTo('Duration');
     }
 
-//    public function simplifiedOkved() {
-//        return $this->belongsTo('SimplifiedOkved');
-//    }
+    public function situation() {
+        return $this->belongsTo('Situation');
+    }
 }

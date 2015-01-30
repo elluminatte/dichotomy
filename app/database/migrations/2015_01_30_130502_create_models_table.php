@@ -15,7 +15,7 @@ class CreateModelsTable extends Migration {
 		//
 		Schema::create('models', function($table) {
 			$table->increments('id')->unsigned();
-			$table->integer('simplified_okved_id')->unsigned();
+			$table->integer('situation_id')->unsigned();
 			$table->string('name');
 			$table->text('comment')->nullable();
 			$table->text('titles');
@@ -25,7 +25,7 @@ class CreateModelsTable extends Migration {
 			$table->smallInteger('min_threshold')->unsigned();
 			$table->text('core_selection');
 			$table->text('oversampling')->nullable();
-			$table->foreign('simplified_okved_id')->references('id')->on('simplified_okved')
+			$table->foreign('situation_id')->references('id')->on('situations')
 				->onUpdate('cascade')->onDelete('cascade');
 			$table->foreign('durations_id')->references('id')->on('durations')
 				->onUpdate('cascade')->onDelete('cascade');
@@ -42,8 +42,8 @@ class CreateModelsTable extends Migration {
 		//
 		Schema::drop('models');
 		Schema::table('models', function (Blueprint $table) {
-			$table->dropForeign('models_durations_id_foreign');
-			$table->dropForeign('models_simplified_okved_id_foreign');
+//			$table->dropForeign('models_durations_id_foreign');
+//			$table->dropForeign('models_simplified_okved_id_foreign');
 		});
 	}
 
