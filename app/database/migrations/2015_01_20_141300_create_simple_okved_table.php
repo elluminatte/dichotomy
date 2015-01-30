@@ -31,6 +31,9 @@ class CreateSimpleOkvedTable extends Migration {
 	{
 		// удаляем таблицу ОКВЭД при откате миграции
 		Schema::drop('simplified_okved');
+		Schema::table('simplified_okved', function (Blueprint $table) {
+			$table->dropForeign('simplified_okved_parent_id_foreign');
+		});
 	}
 
 }
