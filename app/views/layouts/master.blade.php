@@ -33,7 +33,7 @@
         </div>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="{{ URL::route('okvedList') }}">Каталог проблемных ситуаций</a></li>
+                <li class="active"><a href="{{ URL::route('situations.list') }}">Каталог проблемных ситуаций</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <form class="navbar-form navbar-left">

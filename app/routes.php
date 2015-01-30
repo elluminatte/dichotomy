@@ -16,18 +16,12 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
-
-// для модуля ОКВЭД
-Route::get('okved/list/{sectionId?}', array('as' => 'okvedList', 'uses' => 'OkvedController@showTree'));
-Route::get('okved/delete/{sectionId?}', array('as' => 'delOkved', 'uses' => 'OkvedController@deleteSection'));
-Route::get('okved/add-form/{parentId?}', array('as' => 'addOkvedForm', 'uses' => 'OkvedController@showAddForm'));
-Route::post('okved/add', array('before' => 'csrf', 'as' => 'addOkved', 'uses' => 'OkvedController@addSection'));
-Route::get('okved/edit-form/{sectionId}', array('as' => 'editOkvedForm', 'uses' => 'OkvedController@showEditForm'));
-Route::post('okved/edit', array('before' => 'csrf', 'as' => 'editOkved', 'uses' => 'OkvedController@editSection'));
-
-//для модуля Модели
-Route::get('models/list/{sectionId}', array('as' => 'modelsList', 'uses' => 'ModelsController@showList'));
-Route::get('models/{modelId}', array('as' => 'modelDetail', 'uses' => 'ModelsController@showModel'));
+Route::get('situations/list/{iParentSituationId?}', array('as' => 'situations.list', 'uses' => 'SituationController@index'));
+Route::get('situations/create/{iParentSituationId?}', array('as' => 'situations.create', 'uses' => 'SituationController@create'));
+Route::post('situations/store', array('before' => 'csrf', 'as' => 'situations.store', 'uses' => 'SituationController@store'));
+Route::get('situations/edit/{iSituationId}', array('as' => 'situations.edit', 'uses' => 'SituationController@edit'));
+Route::post('situations/update', array('before' => 'csrf', 'as' => 'situations.update', 'uses' => 'SituationController@update'));
+Route::get('situations/destroy/{iSituationId}', array('as' => 'situations.destroy', 'uses' => 'SituationController@destroy'));
 
 // Confide routes
 Route::get('users/create', 'UsersController@create');

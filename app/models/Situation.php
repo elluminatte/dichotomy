@@ -5,34 +5,40 @@
  * Date: 20.01.15
  * Time: 15:45
  */
-class SimplifiedOkved extends Eloquent {
-
-
-    /**
-     * @var string - имя таблицы, так как оно не совпадает с множественным числом имени класса
-     */
-    protected $table = 'simplified_okved';
+class Situation extends Eloquent {
 
     /**
      * @var bool - не надо использовать поля "создана в" и "изменено в", которые включены по умолчанию
      */
     public $timestamps = false;
 
+    protected static $aFieldNames = ['id' => 'Идентификатор', 'name' => 'Название', 'okved_correspondence' => 'Соответствие ОКВЭД', 'parent_id' => 'Номер родительской ситуации'];
+
+    protected static $aValidRules = [
+        'id' => 'Integer',
+        'name' => 'Required|Min:5',
+        'parent_id' => 'Integer'
+    ];
+
     /** получает родителя записи (реализована рекурсивная связь)
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parent() {
-        return $this->belongsTo('SimplifiedOkved', 'parent_id');
+        return $this->belongsTo('Situation', 'parent_id', 'id');
     }
 
     /** получает наследников записи (реализована рекурсивная связь)
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function children() {
-        return $this->hasMany('SimplifiedOkved', 'parent_id');
+        return $this->hasMany('Situation', 'parent_id', 'id');
     }
 
     public function models() {
-        return $this->hasMany('Model', 'simplified_okved_id');
+        return $this->hasMany('Model');
+    }
+
+    public static function validate($input) {
+        return \Validator::make($input, self::$aValidRules, array(), self::$aFieldNames);
     }
 }

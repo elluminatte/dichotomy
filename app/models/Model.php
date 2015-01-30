@@ -5,7 +5,7 @@
  * Date: 27.01.15
  * Time: 15:11
  */
-class SimplifiedOkved extends Eloquent {
+class Model extends Eloquent {
 
     /**
      * @var bool - не надо использовать поля "создана в" и "изменено в", которые включены по умолчанию
@@ -16,7 +16,7 @@ class SimplifiedOkved extends Eloquent {
         return $this->belongsTo('Duration');
     }
 
-    public function simplifiedOkved() {
-        return $this->belongsTo('SimplifiedOkved');
-    }
+//    public function simplifiedOkved() {
+//        return $this->belongsTo('SimplifiedOkved');
+//    }
 }

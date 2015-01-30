@@ -5,11 +5,11 @@
  * Date: 23.01.15
  * Time: 13:08
  */
-Breadcrumbs::register('okvedList', function($breadcrumbs, $sectionTree, $mode = 'list') {
-    $breadcrumbs->push('Каталог проблемных ситуаций', route('okvedList'));
+Breadcrumbs::register('situations', function($breadcrumbs, $sectionTree, $mode = 'list') {
+    $breadcrumbs->push('Каталог проблемных ситуаций', route('situations.list'));
     if(is_array($sectionTree) && count($sectionTree))
         foreach($sectionTree as $section) {
-            $breadcrumbs->push($section['name'], URL::route('okvedList', array('parentId' => $section['id'])));
+            $breadcrumbs->push($section['name'], URL::route('situations.list', array('parentId' => $section['id'])));
         }
     switch($mode) {
         case 'list':
