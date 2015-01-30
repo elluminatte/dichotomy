@@ -8,6 +8,15 @@
             <div class="row">
                 <a title="Добавить задачу" href="{{ URL::route('addOkvedForm') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить задачу</a>
             </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>Название</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
     </div>
 @stop

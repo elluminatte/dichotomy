@@ -42,7 +42,7 @@
                             <td>{{ $section->okved_correspondence }}</td>
                             <td><a title="Редактировать реквизиты записи" href="{{ URL::route('editOkvedForm', array('sectionId' => $section->id)) }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                             <td><a title="Удалить запись" data-href="{{ URL::route('delOkved', array('sectionId' => $section->id)) }}" class="btn btn-primary" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></a></td>
-                            <td><a title="Решаемые задачи" href="{{ URL::route('modelsList', array('sectionId' => $section->id)) }}" class="btn btn-primary"><i class="fa fa-wrench"></i></a></td>
+                            <td><a title="Решаемые задачи" href="{{ URL::route('modelsList', array('sectionId' => $section->id)) }}" class="btn btn-warning"><i class="fa fa-question-circle"></i></a></td>
                         </tr>
                     @endforeach
                 </tbody>
