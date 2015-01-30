@@ -17,7 +17,7 @@ class CreateDurationsTable extends Migration {
 			$table->increments('id')->unsigned();
 			$table->string('name', 50);
 			//будем хранить в часах, а потом добавлять с помощью Carbon
-			$table->smallInteger('duration');
+			$table->smallInteger('duration')->unsigned();
 		});
 	}
 
