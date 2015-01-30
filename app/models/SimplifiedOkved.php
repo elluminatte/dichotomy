@@ -31,4 +31,8 @@ class SimplifiedOkved extends Eloquent {
     public function children() {
         return $this->hasMany('SimplifiedOkved', 'parent_id');
     }
+
+    public function models() {
+        return $this->hasMany('Model', 'simplified_okved_id');
+    }
 }

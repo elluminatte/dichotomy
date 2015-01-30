@@ -11,4 +11,12 @@ class SimplifiedOkved extends Eloquent {
      * @var bool - не надо использовать поля "создана в" и "изменено в", которые включены по умолчанию
      */
     public $timestamps = false;
+
+    public function duration() {
+        return $this->belongsTo('Duration');
+    }
+
+    public function simplifiedOkved() {
+        return $this->belongsTo('SimplifiedOkved');
+    }
 }
