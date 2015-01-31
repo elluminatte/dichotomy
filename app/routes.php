@@ -16,13 +16,19 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
-Route::get('situations/list/{iParentSituationId?}', array('as' => 'situations.list', 'uses' => 'SituationController@index'));
-Route::get('situations/create/{iParentSituationId?}', array('as' => 'situations.create', 'uses' => 'SituationController@create'));
-Route::post('situations/store', array('before' => 'csrf', 'as' => 'situations.store', 'uses' => 'SituationController@store'));
-Route::get('situations/edit/{iSituationId}', array('as' => 'situations.edit', 'uses' => 'SituationController@edit'));
-Route::post('situations/update', array('before' => 'csrf', 'as' => 'situations.update', 'uses' => 'SituationController@update'));
-Route::get('situations/destroy/{iSituationId}', array('as' => 'situations.destroy', 'uses' => 'SituationController@destroy'));
+Route::group(array('prefix' => 'admin'), function()
+{
+	// Маршруты проблемных ситуаций
+	Route::get('situations/list/{iParentSituationId?}', array('as' => 'situations.list', 'uses' => 'SituationController@index'));
+	Route::get('situations/create/{iParentSituationId?}', array('as' => 'situations.create', 'uses' => 'SituationController@create'));
+	Route::post('situations/store', array('before' => 'csrf', 'as' => 'situations.store', 'uses' => 'SituationController@store'));
+	Route::get('situations/edit/{iSituationId}', array('as' => 'situations.edit', 'uses' => 'SituationController@edit'));
+	Route::post('situations/update', array('before' => 'csrf', 'as' => 'situations.update', 'uses' => 'SituationController@update'));
+	Route::get('situations/destroy/{iSituationId}', array('as' => 'situations.destroy', 'uses' => 'SituationController@destroy'));
 
+	// Маршруты моделей
+
+});
 // Confide routes
 Route::get('users/create', 'UsersController@create');
 Route::post('users', 'UsersController@store');

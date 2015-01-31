@@ -93,3 +93,5 @@ App::missing(function($exception)
 {
 	return Response::view('errors.missing', array(), 404);
 });
+
+Entrust::routeNeedsRole( 'admin*', 'administrator', Redirect::to('users/login') );
