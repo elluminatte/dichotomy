@@ -73,13 +73,13 @@ class SituationController extends \BaseController
         ]);
         // если валидация провалилась, редеректим обратно с ошибками и заполненными полями
         if ($oValidation->fails())
-            return Redirect::route('situations.create')->withErrors($oValidation)->withInput();
+            return Redirect::route('situations.create', ['iParentSituationId' => $iParentId])->withErrors($oValidation)->withInput();
         $bResult = $this->oRepo->storeSituation($sName, $sOkvedCorrespondence, $iParentId);
         // магия - передает в вид переменную form_result - какой шаблон отрисовать в качестве результата добавления
         if ($bResult)
-            return Redirect::route('situations.list', array('iParentSituationId' => $iParentId))->withForm_result('addDone');
+            return Redirect::route('situations.list', ['iParentSituationId' => $iParentId])->withForm_result('addDone');
         else
-            return Redirect::route('situations.list', array('iParentSituationId' => $iParentId))->withForm_result('addFailed');
+            return Redirect::route('situations.list', ['iParentSituationId' => $iParentId])->withForm_result('addFailed');
     }
 
 
@@ -122,13 +122,13 @@ class SituationController extends \BaseController
         $iParentId = (int)Situation::find($iSituationId)->parent()->get()->first()->id;
         // если валидация провалилась, редеректим обратно с ошибками и заполненными полями
         if ($oValidation->fails())
-            return Redirect::route('situations.edit', array('iSituationId' => $iSituationId))->withErrors($oValidation)->withInput();
+            return Redirect::route('situations.edit', ['iSituationId' => $iSituationId])->withErrors($oValidation)->withInput();
         $bResult = $this->oRepo->updateSituation($iSituationId, $sName, $sOkvedCorrespondence);
         // магия - передает в вид переменную form_result - какой шаблон отрисовать в качестве результата добавления
         if ($bResult)
-            return Redirect::route('situations.list', array('iParentSituationId' => $iParentId))->withForm_result('editDone');
+            return Redirect::route('situations.list', ['iParentSituationId' => $iParentId])->withForm_result('editDone');
         else
-            return Redirect::route('situations.list', array('iParentSituationId' => $iParentId))->withForm_result('editFailed');
+            return Redirect::route('situations.list', ['iParentSituationId' => $iParentId])->withForm_result('editFailed');
     }
 
 
@@ -145,8 +145,8 @@ class SituationController extends \BaseController
         $bResult = $this->oRepo->destroySection($iSituationId);
         // магия - передает в вид переменную form_result - какой шаблон отрисовать в качестве результата удаления
         if ($bResult)
-            return Redirect::route('situations.list', array('iParentSituationId' => $iParentId))->withForm_result('delDone');
+            return Redirect::route('situations.list', ['iParentSituationId' => $iParentId])->withForm_result('delDone');
         else
-            return Redirect::route('situations.list', array('iParentSituationId' => $iParentId))->withForm_result('delFailed');
+            return Redirect::route('situations.list', ['iParentSituationId' => $iParentId])->withForm_result('delFailed');
     }
 }
