@@ -12,11 +12,35 @@ class Model extends Eloquent {
      */
     public $timestamps = false;
 
+    protected static $aFieldNames = [
+        'id' => 'Идентификатор',
+        'name' => 'Название',
+        'duration' => 'Время корректности решения',
+        'min_threshold' => 'Минимальный порог отсечения',
+        'comment' => 'Информация о задаче',
+        'train_file' => 'Файл обучающей выборки',
+        'situation_id' => 'Идентификатор проблемной ситуации'
+    ];
+
+    protected static $aValidRules = [
+        'id' => 'Integer',
+        'name' => 'Required|Min:5',
+        'duration' => 'Required|Integer',
+        'min_threshold' => 'Required|Between:0,100',
+        'situation_id' => 'Required|Integer',
+        'train_file' => 'Required|mimes:xls,xlsx'
+
+    ];
+
     public function duration() {
         return $this->belongsTo('Duration');
     }
 
     public function situation() {
         return $this->belongsTo('Situation');
+    }
+
+    public static function validate($input) {
+        return \Validator::make($input, self::$aValidRules, array(), self::$aFieldNames);
     }
 }

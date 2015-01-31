@@ -29,6 +29,7 @@ Route::group(array('prefix' => 'admin'), function()
 	// Маршруты моделей
 	Route::get('models/list/{iSituationId}', array('as' => 'models.list', 'uses' => 'ModelController@index'));
 	Route::get('models/create/{iSituationId}', array('as' => 'models.create', 'uses' => 'ModelController@create'));
+	Route::post('models/store', array('before' => 'csrf', 'as' => 'models.store', 'uses' => 'ModelController@store'));
 
 });
 // Confide routes

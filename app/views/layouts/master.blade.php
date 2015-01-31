@@ -14,22 +14,24 @@
     {{ HTML::style('assets/bootstrap/css/bootstrap.css') }}
     {{ HTML::style('assets/css/font-awesome.min.css') }}
     {{ HTML::style('assets/css/main.css') }}
+    @yield('styles')
+
 </head>
 
 <body>
 
 <header>
-    @include('partials.navbar')
+@include('partials.navbar')
 </header>
 
 <main>
-    <div class="container">
-        @yield('content')
-    </div>
+<div class="container">
+    @yield('content')
+</div>
 </main>
 
 <footer>
-    @include('partials.footer')
+@include('partials.footer')
 </footer>
 
 <!-- Scripts are placed here -->

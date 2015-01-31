@@ -17,7 +17,7 @@
                 {{ Breadcrumbs::render('situations', $parent_tree) }}
             </div>
             <div class="row">
-                <a title="Добавить ситуацию" href="{{ URL::route('situations.create', array('iParentSituationId' => $parent_situation)) }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить ситуацию</a>
+                <a title="Добавить ситуацию" href="{{ URL::route('situations.create', ['iParentSituationId' => $parent_situation]) }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить ситуацию</a>
             </div>
             <div style="margin-bottom: 20px"></div>
             <table class="table table-striped table-hover">
@@ -33,11 +33,11 @@
                 <tbody>
                 @foreach($situations as $situation)
                     <tr>
-                        <td><a href="{{ URL::route('situations.list', array('iParentSituationId' => $situation->id)) }}">{{ $situation->name }}</a></td>
+                        <td><a href="{{ URL::route('situations.list', ['iParentSituationId' => $situation->id]) }}">{{ $situation->name }}</a></td>
                         <td>{{ $situation->okved_correspondence }}</td>
-                        <td><a title="Редактировать реквизиты записи" href="{{ URL::route('situations.edit', array('iSituationId' => $situation->id)) }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
-                        <td><a title="Удалить запись" data-href="{{ URL::route('situations.destroy', array('iSituationId' => $situation->id)) }}" class="btn btn-primary" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></a></td>
-                        <td><a title="Решаемые задачи" href="{{ URL::route('models.list', array('iSituationId' => $situation->id)) }}" class="btn btn-warning"><i class="fa fa-question-circle"></i></a></td>
+                        <td><a title="Редактировать реквизиты записи" href="{{ URL::route('situations.edit', ['iSituationId' => $situation->id]) }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
+                        <td><a title="Удалить запись" data-href="{{ URL::route('situations.destroy', ['iSituationId' => $situation->id]) }}" class="btn btn-primary" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></a></td>
+                        <td><a title="Решаемые задачи" href="{{ URL::route('models.list', ['iSituationId' => $situation->id]) }}" class="btn btn-warning"><i class="fa fa-question-circle"></i></a></td>
                     </tr>
                 @endforeach
                 </tbody>

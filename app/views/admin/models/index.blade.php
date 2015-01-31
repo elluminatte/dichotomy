@@ -17,7 +17,7 @@
                 {{ Breadcrumbs::render('situations', $parent_tree) }}
             </div>
             <div class="row">
-                <a title="Добавить задачу" href="{{ URL::route('models.create', array('iSituationId' => $situation_id)) }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить задачу</a>
+                <a title="Добавить задачу" href="{{ URL::route('models.create', ['iSituationId' => $situation_id]) }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить задачу</a>
             </div>
             <div style="margin-bottom: 20px"></div>
             <table class="table table-striped table-hover">
