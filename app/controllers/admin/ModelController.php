@@ -17,12 +17,14 @@ class ModelController extends \BaseController {
 	{
 		//
 		$models = $this->oRepo->getModelsList($iSituationId);
-		$aParentTree = $this->oRepo->constructParentTree($iSituationId);
+		$oSituationRepo = new SituationRepository();
+		$aParentTree = $oSituationRepo->constructParentTree($iSituationId);
 		return View::make('admin.models.index', [
 			'models' => $models,
 			'situation_id' => $iSituationId,
 			'parent_tree' => $aParentTree
 		]);
+
 	}
 
 
@@ -31,18 +33,9 @@ class ModelController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function create($iSituationId)
+	public function create()
 	{
 		//
-		$iSituationId = (int)$iSituationId;
-		if(!$iSituationId || !Situation::find($iSituationId, ['id'])) App::abort(404);
-		$aParentTree = $this->oRepo->constructParentTree($iSituationId);
-		$durations = Duration::lists('name', 'id');
-		return View::make('admin.models.create', [
-			'situation_id' => $iSituationId,
-			'parent_tree' => $aParentTree,
-			'durations' => $durations
-		]);
 	}
 
 
@@ -54,26 +47,6 @@ class ModelController extends \BaseController {
 	public function store()
 	{
 		//
-		$iSituationId = (int)Input::get('situation_id');
-		if(!$iSituationId || !Situation::find($iSituationId, ['id'])) App::abort(404);
-		$sName = Input::get('name');
-		$iDuration = (int)Input::get('duration');
-		$iMinThresHold = (int)Input::get('min_threshold');
-		$sComment = Input::get('comment');
-		$fTrainFile = Input::file('train_file');
-		$oValidation = Model::validate([
-			'name' => $sName,
-			'duration' => $iDuration,
-			'min_threshold' => $iMinThresHold,
-			'comment' => $sComment,
-			'train_file' => $fTrainFile,
-			'situation_id' => $iSituationId
-		]);
-
-		// если валидация провалилась, редеректим обратно с ошибками и заполненными полями
-		if ($oValidation->fails())
-			return Redirect::route('models.create', ['iSituationId' => $iSituationId])->withErrors($oValidation)->withInput();
-
 	}
 
 
