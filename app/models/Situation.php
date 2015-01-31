@@ -12,7 +12,12 @@ class Situation extends Eloquent {
      */
     public $timestamps = false;
 
-    protected static $aFieldNames = ['id' => 'Идентификатор', 'name' => 'Название', 'okved_correspondence' => 'Соответствие ОКВЭД', 'parent_id' => 'Номер родительской ситуации'];
+    protected static $aFieldNames = [
+        'id' => 'Идентификатор',
+        'name' => 'Название',
+        'okved_correspondence' => 'Соответствие ОКВЭД',
+        'parent_id' => 'Номер родительской ситуации'
+    ];
 
     protected static $aValidRules = [
         'id' => 'Integer',
