@@ -2,14 +2,28 @@
 
 class ModelController extends \BaseController {
 
+	protected $oRepo;
+
+	public function __construct(ModelRepository $oRepo) {
+		$this->oRepo = $oRepo;
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
-	public function index($situationId)
+	public function index($iSituationId)
 	{
 		//
+		$models = $this->oRepo->getModelsList($iSituationId);
+		$oSituationRepo = new SituationRepository();
+		$aParentTree = $oSituationRepo->constructParentTree($iSituationId);
+		return View::make('admin.models.index', [
+			'models' => $models,
+			'situation_id' => $iSituationId,
+			'parent_tree' => $aParentTree
+		]);
 
 	}
 

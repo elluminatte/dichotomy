@@ -18,6 +18,15 @@ class NavbarComposer {
      * @param $view
      */
     public function compose($view) {
-
+        if(true) {
+            $view->with('test', [1]);
+            return;
+        }
+        if(true) {
+            $view->with('test', [5,6,7]);
+            return;
+        }
     }
+
+
 }

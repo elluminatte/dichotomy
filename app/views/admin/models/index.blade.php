@@ -11,33 +11,25 @@
     <div class="row">
         <div class="col-lg-10">
             <div class="page-header">
-                <h3><i class="fa fa-angle-double-down"></i> Каталог проблемных ситуаций</h3>
+                <h3><i class="fa fa-angle-double-down"></i> Список решаемых задач</h3>
             </div>
             <div class="row">
                 {{ Breadcrumbs::render('situations', $parent_tree) }}
             </div>
             <div class="row">
-                <a title="Добавить ситуацию" href="{{ URL::route('situations.create', array('iParentSituationId' => $parent_situation)) }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить ситуацию</a>
+                <a title="Добавить задачу" href="{{ URL::route('models.create', array('iSituationId' => $situation_id)) }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить задачу</a>
             </div>
             <div style="margin-bottom: 20px"></div>
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
                     <th>Название</th>
-                    <th>Соответствие ОКВЭД</th>
-                    <th>Редактировать реквизиты</th>
-                    <th>Удалить</th>
-                    <th>Решаемые задачи</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($situations as $situation)
+                @foreach($models as $model)
                     <tr>
-                        <td><a href="{{ URL::route('situations.list', array('iParentSituationId' => $situation->id)) }}">{{ $situation->name }}</a></td>
-                        <td>{{ $situation->okved_correspondence }}</td>
-                        <td><a title="Редактировать реквизиты записи" href="{{ URL::route('situations.edit', array('iSituationId' => $situation->id)) }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
-                        <td><a title="Удалить запись" data-href="{{ URL::route('situations.destroy', array('iSituationId' => $situation->id)) }}" class="btn btn-primary" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></a></td>
-                        <td><a title="Решаемые задачи" href="{{ URL::route('models.list', array('iSituationId' => $situation->id)) }}" class="btn btn-warning"><i class="fa fa-question-circle"></i></a></td>
+                        <td><a href="{{ URL::route('situations.list')}}">{{ $model->name }}</a></td>
                     </tr>
                 @endforeach
                 </tbody>

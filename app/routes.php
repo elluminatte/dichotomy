@@ -27,6 +27,8 @@ Route::group(array('prefix' => 'admin'), function()
 	Route::get('situations/destroy/{iSituationId}', array('as' => 'situations.destroy', 'uses' => 'SituationController@destroy'));
 
 	// Маршруты моделей
+	Route::get('models/list/{iSituationId}', array('as' => 'models.list', 'uses' => 'ModelController@index'));
+	Route::get('models/create/{iSituationId}', array('as' => 'models.create', 'uses' => 'ModelController@create'));
 
 });
 // Confide routes

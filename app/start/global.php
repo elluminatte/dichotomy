@@ -18,6 +18,7 @@ ClassLoader::addDirectories(array(
 	app_path().'/models',
 	app_path().'/database/seeds',
 	app_path().'/classes',
+	app_path().'/traits',
 ));
 
 /*
@@ -77,7 +78,8 @@ App::down(function()
 | definitions instead of putting them all in the main routes file.
 |
 */
-
 require app_path().'/filters.php';
+// подцепим наши правила валидации
 require app_path().'/validators.php';
+// подцепим наши составители шаблонов
 require app_path().'/composers.php';

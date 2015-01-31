@@ -7,6 +7,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+                @foreach($test as $situation)
+                    {{ $situation }}
+                @endforeach
                 <a class="navbar-brand" href="{{ URL::to('/') }}">Diagnostic</a>
             </div>
             <div class="navbar-collapse collapse navbar-responsive-collapse">
