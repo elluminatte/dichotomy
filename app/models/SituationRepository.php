@@ -39,7 +39,7 @@ class SituationRepository {
         $sName = (string)$sName;
         $sOkvedCorrespondence = (string)$sOkvedCorrespondence;
         $iParentId = (int)$iParentId;
-        if($iParentId!==0 && !Situation::find($iParentId. ['id'])) App::abort(404);
+        if($iParentId!==0 && !Situation::find($iParentId, ['id'])) App::abort(404);
         $oSituation = new Situation();
         $oSituation->name = $sName;
         $oSituation->okved_correspondence = $sOkvedCorrespondence;

@@ -107,7 +107,7 @@ class SituationController extends \BaseController {
 			'name' => $sName,
 			'id' => $iSituationId
 		]);
-		$iParentId = (int)Situation::find($iSituationId, ['id'])->parent_id;
+		$iParentId = (int)Situation::find($iSituationId)->parent()->get()->first()->id;
 		if ($oValidation->fails())
 //            если валидация провалилась, возвращаемся на форму и показываем ошибки, заполняем поля, чтоб пользователю не писать заново
 			return Redirect::route('situations.edit', array('iSituationId' => $iSituationId))->withErrors($oValidation)->withInput();
@@ -129,7 +129,7 @@ class SituationController extends \BaseController {
 	{
 		//
 		if(!$iSituationId || !Situation::find($iSituationId)) App::abort(404);
-		$iParentId = (int)Situation::find($iSituationId, ['id'])->parent_id;
+		$iParentId = (int)Situation::find($iSituationId)->parent()->get()->first()->id;
 		$bResult = $this->oRepo->destroySection($iSituationId);
 		// магия - передает в вид переменную form_result - какой шаблон отрисовать в качестве результата удаления
 		if($bResult)
