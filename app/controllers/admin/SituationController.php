@@ -119,7 +119,7 @@ class SituationController extends \BaseController
             'id' => $iSituationId
         ]);
         // получим родителя редктируемого раздела, чтобы знать куда вернуть пользователя при редиректе
-        $iParentId = (int)Situation::find($iSituationId)->parent()->get()->first()->id;
+        $iParentId = isset(Situation::find($iSituationId)->parent()->get()->first()->id) ? (int)Situation::find($iSituationId)->parent()->get()->first()->id : 0;
         // если валидация провалилась, редеректим обратно с ошибками и заполненными полями
         if ($oValidation->fails())
             return Redirect::route('situations.edit', ['iSituationId' => $iSituationId])->withErrors($oValidation)->withInput();
@@ -141,7 +141,7 @@ class SituationController extends \BaseController
         // если нас хотят обмануть или такой ситуации просто нет, отдаем 404 ошибку
         if (!$iSituationId || !Situation::find($iSituationId)) App::abort(404);
         // получим родителя удаляемого раздела, чтобы знать куда вернуть пользователя при редиректе
-        $iParentId = (int)Situation::find($iSituationId)->parent()->get()->first()->id;
+        $iParentId = isset(Situation::find($iSituationId)->parent()->get()->first()->id) ? (int)Situation::find($iSituationId)->parent()->get()->first()->id : 0;
         $bResult = $this->oRepo->destroySection($iSituationId);
         // магия - передает в вид переменную form_result - какой шаблон отрисовать в качестве результата удаления
         if ($bResult)
