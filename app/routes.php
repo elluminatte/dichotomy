@@ -30,7 +30,7 @@ Route::group(array('prefix' => 'admin'), function()
 	Route::get('models/list/{iSituationId}', array('as' => 'models.list', 'uses' => 'ModelController@index'));
 	Route::get('models/create/{iSituationId}', array('as' => 'models.create', 'uses' => 'ModelController@create'));
 	Route::post('models/store', array('before' => 'csrf', 'as' => 'models.store', 'uses' => 'ModelController@store'));
-
+	Route::get('models/destroy/{iModelId}', array('as' => 'models.destroy', 'uses' => 'ModelController@destroy'));
 });
 // Confide routes
 Route::get('users/create', 'UsersController@create');

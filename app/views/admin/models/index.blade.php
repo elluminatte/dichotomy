@@ -24,12 +24,16 @@
                 <thead>
                 <tr>
                     <th>Название</th>
+                    <th>Переобучить модель</th>
+                    <th>Удалить задачу</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($models as $model)
                     <tr>
                         <td><a href="{{ URL::route('situations.list')}}">{{ $model->name }}</a></td>
+                        <td><a title="Переобучить модель" href="{{ URL::route('models.create', ['iSituationId' => $situation_id]) }}" class="btn btn-primary"><i class="fa fa-wrench"></i></a></td>
+                        <td><a title="Удалить задачу" data-href="{{ URL::route('models.destroy', ['iModelId' => $model->id]) }}" class="btn btn-primary" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></a></td>
                     </tr>
                 @endforeach
                 </tbody>

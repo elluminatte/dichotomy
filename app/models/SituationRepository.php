@@ -21,7 +21,7 @@ class SituationRepository
         $iParentSituationId = (int)$iParentSituationId;
         // если это не верхний уровень и нет такого раздела, значит нас хотят обмануть
         // или просто такой раздел не сущесвует, отдадим 404 ошибку
-        if ($iParentSituationId !== 0 && !Situation::find($iParentSituationId, ['id'])) App::abort(404);
+        if ($iParentSituationId !== 0 && !Situation::find($iParentSituationId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
         // если верхний уровень, отдадим разделы, у которых родителя нет
         if (!$iParentSituationId)
             $oSituations = Situation::whereNull('parent_id')->get();
@@ -45,7 +45,7 @@ class SituationRepository
         $sOkvedCorrespondence = (string)$sOkvedCorrespondence;
         $iParentId = (int)$iParentId;
         // проверяем не хотят ли нас обмануть - существует ли такой раздел
-        if ($iParentId !== 0 && !Situation::find($iParentId, ['id'])) App::abort(404);
+        if ($iParentId !== 0 && !Situation::find($iParentId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
         // создаем сущность
         $oSituation = new Situation();
         // задаем ей атрибуты
@@ -68,7 +68,7 @@ class SituationRepository
     {
         $iSituationId = (int)$iSituationId;
         // проверяем не хотят ли нас обмануть - существует ли такой раздел
-        if (!$iSituationId || !Situation::find($iSituationId, ['id'])) App::abort(404);
+        if (!$iSituationId || !Situation::find($iSituationId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
         // кое-как обработали данные, внутри PDO, с экранированием заморачиваться не надо
         $sName = (string)$sName;
         $sOkvedCorrespondence = (string)$sOkvedCorrespondence;
@@ -90,7 +90,7 @@ class SituationRepository
     {
         $iSituationId = (int)$iSituationId;
         // проверяем не хотят ли нас обмануть - существует ли такой раздел
-        if (!$iSituationId || !Situation::find($iSituationId, ['id'])) App::abort(404);
+        if (!$iSituationId || !Situation::find($iSituationId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
         // удаляем сущность, о вложенных позаботиться СУБД с помощью внешних ключей
         return Situation::find($iSituationId)->delete();
     }

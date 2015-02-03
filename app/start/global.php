@@ -52,6 +52,12 @@ App::error(function(Exception $exception, $code)
 	Log::error($exception);
 });
 
+// свои исключения
+//App::error(function(\Elluminate\Exceptions\TestException $exception, $code)
+//{
+//	return View::make('errors.missing');
+//});
+
 /*
 |--------------------------------------------------------------------------
 | Maintenance Mode Handler
