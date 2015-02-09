@@ -31,7 +31,7 @@
 </main>
 
 <footer>
-@include('partials.footer')
+{{--@include('partials.footer')--}}
 </footer>
 
 <!-- Scripts are placed here -->

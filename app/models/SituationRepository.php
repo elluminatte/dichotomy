@@ -10,7 +10,7 @@ class SituationRepository
 {
 
     // используем общий трейт
-    use Elluminate\Repositories\HierarchicalRepository;
+    use Elluminate\Traits\HierarchicalRepository;
 
     /** получает список проблемных ситуаций
      * @param $iParentSituationId - id ситуации, наслдеников которой надо получить

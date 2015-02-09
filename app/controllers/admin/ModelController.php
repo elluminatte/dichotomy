@@ -69,9 +69,11 @@ class ModelController extends \BaseController {
 			'train_file' => $fTrainFile,
 			'situation_id' => $iSituationId
 		]);
+
 		// если валидация провалилась, редеректим обратно с ошибками и заполненными полями
 		if ($oValidation->fails())
 			return Redirect::route('models.create', ['iSituationId' => $iSituationId])->withErrors($oValidation)->withInput();
+		$bResult = $this->oRepo->storeModel($iSituationId, $sName, $iDuration, $iMinThreshold, $sComment, $fTrainFile);
 
 	}
 

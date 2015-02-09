@@ -24,7 +24,7 @@
         <div class="form-group">
             {{ Form::label('min_threshold', 'Минимальный порог отсечения', ['class' => 'col-lg-2 control-label']) }}
             <div class="col-lg-5">
-                <input class="js__range_slider" data-slider-id='threshold_slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="75"/>
+                <input class="js__range_slider" data-slider-id='threshold_slider' type="text" data-slider-min="50" data-slider-max="100" data-slider-step="1" data-slider-value="75"/>
             </div>
         </div>
         <div class="form-group">

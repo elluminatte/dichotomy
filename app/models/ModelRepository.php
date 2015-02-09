@@ -7,9 +7,15 @@
  */
 class ModelRepository {
 
-    use Elluminate\Repositories\HierarchicalRepository;
+    use Elluminate\Traits\HierarchicalRepository;
 
-    private $defaultMinThreshold = 75;
+    protected $defaultMinThreshold = 75;
+
+    protected $oModel;
+
+    public function __construct(\Elluminate\Math\LogisticRegression $oModel) {
+        $this->oModel = $oModel;
+    }
 
     public function getModelsList($iSituationId) {
         $iSituationId = (int)$iSituationId;
@@ -32,6 +38,38 @@ class ModelRepository {
         $iDuration = (int)$iDuration;
         $iMinThreshold = ($iMinThreshold <= 100 && $iMinThreshold >=0) ? (int)$iMinThreshold : $this->defaultMinThreshold;
         $sComment = (string)$sComment;
+        $aTrainingSet = $this->extractTrainingSetFromExcel($fTrainFile);
+        $this->oModel->setTrainingSet($aTrainingSet);
+        $this->oModel->trainModel();
 
+    }
+
+    protected function extractTrainingSetFromExcel($sFileName, $iOffset = 10, $iRowLimit = 0, $iColLimit = 0, $iSheetNumber = 0) {
+        $iOffset = (int)$iOffset;
+        $iRowLimit = (int)$iRowLimit;
+        $iColLimit = (int)$iColLimit;
+        $iSheetNumber = (int)$iSheetNumber;
+        $aTrainingSet = array();
+        try {
+            $oInputFileType = PHPExcel_IOFactory::identify($sFileName);
+            $oReader = PHPExcel_IOFactory::createReader($oInputFileType);
+//            видит непустую ячейку только там, где есть реальное значение, а не стиль и т.д.
+            $oReader->setReadDataOnly(true);
+            $oPHPExcel = $oReader->load($sFileName);
+        }
+        catch (\Exception $e) {
+            throw new \Elluminate\Exceptions\TrainSetFileException;
+        }
+        $oSheet = $oPHPExcel->getSheet($iSheetNumber);
+//        чтобы не считать ячейки, где есть, например, стиль. должно помочь вместе с setReadDataOnly
+//        если заданы ограничения, то читаем до них, иначе - читаем всё, что есть
+        $iHighestRow = $iRowLimit ? $iRowLimit : $oSheet->getHighestDataRow();
+        $iHighestColumn = $iColLimit ? $iColLimit : $oSheet->getHighestDataColumn();
+
+        for ($iRow = $iOffset; $iRow <= $iHighestRow; $iRow++) {
+            $aRowData = $oSheet->rangeToArray('A' . $iRow . ':' . $iHighestColumn . $iRow);
+            $aTrainingSet[] = $aRowData[0];
+        }
+        return $aTrainingSet;
     }
 }
