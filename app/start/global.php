@@ -53,10 +53,16 @@ App::error(function(Exception $exception, $code)
 });
 
 // свои исключения
-//App::error(function(\Elluminate\Exceptions\TestException $exception, $code)
-//{
-//	return View::make('errors.missing');
-//});
+App::error(function(\Elluminate\Exceptions\TrainSetFileException $exception, $code)
+{
+	return View::make('errors.train_set_error', ['message' => $exception->getMessage()]);
+});
+
+// свои исключения
+App::error(function(\Elluminate\Exceptions\DimensionException $exception, $code)
+{
+	return View::make('errors.dimension_error', ['message' => $exception->getMessage()]);
+});
 
 /*
 |--------------------------------------------------------------------------
