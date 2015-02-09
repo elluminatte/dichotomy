@@ -26,16 +26,18 @@ class EloquentRepository implements RepositoryInterface
     public $model;
 
     /**
+     * Create a new ConfideRepository
+     *
+     * @param \Illuminate\Foundation\Application $app Laravel application object
+     */
+
+    /**
      * используется для хранения имени роли зарегистрированного пользователя
      * чтобы назначать эту роль всем, кто подтвердил свой аккаунт по электронной почте
      */
     const USER_ROLE_NAME = 'user';
 
-    /**
-     * Create a new ConfideRepository
-     *
-     * @param \Illuminate\Foundation\Application $app Laravel application object
-     */
+
     public function __construct($app = null)
     {
         $this->app = $app ?: app();
@@ -72,17 +74,11 @@ class EloquentRepository implements RepositoryInterface
     {
         $user = $this->model();
 
-        $firstWhere = true;
-        foreach ($identity as $attribute => $value) {
-
-            if ($firstWhere) {
-                $user = $user->where($attribute, '=', $value);
-            } else {
+        $user = $user->where(function($user) use ($identity) {
+            foreach ($identity as $attribute => $value) {
                 $user = $user->orWhere($attribute, '=', $value);
             }
-
-            $firstWhere = false;
-        }
+        });
 
         $user = $user->get()->first();
 
