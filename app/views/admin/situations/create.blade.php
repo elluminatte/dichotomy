@@ -1,8 +1,6 @@
 @extends('layouts.master')
 @section('content')
-    <div class="row">
         {{ Breadcrumbs::render('situations', $parent_tree, 'add') }}
-    </div>
     {{ Form::open(['route' => 'situations.store', 'class' => 'form-horizontal']) }}
     <fieldset>
         <legend>Добавление ситуации</legend>

@@ -9,16 +9,12 @@
         </div>
     @endif
     <div class="row">
-        <div class="col-lg-10">
+        <div class="col-lg-12">
             <div class="page-header">
                 <h3><i class="fa fa-angle-double-down"></i> Список решаемых задач</h3>
             </div>
-            <div class="row">
                 {{ Breadcrumbs::render('situations', $parent_tree) }}
-            </div>
-            <div class="row">
                 <a title="Добавить задачу" href="{{ URL::route('models.create', ['iSituationId' => $situation_id]) }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить задачу</a>
-            </div>
             <div style="margin-bottom: 20px"></div>
             <table class="table table-striped table-hover">
                 <thead>
@@ -31,9 +27,9 @@
                 <tbody>
                 @foreach($models as $model)
                     <tr>
-                        <td><a href="{{ URL::route('situations.list')}}">{{ $model->name }}</a></td>
+                        <td class="td-align_left"><a href="{{ URL::route('situations.list')}}">{{ $model->name }}</a></td>
                         <td><a title="Переобучить модель" href="{{ URL::route('models.create', ['iSituationId' => $situation_id]) }}" class="btn btn-primary"><i class="fa fa-wrench"></i></a></td>
-                        <td><a title="Удалить задачу" data-href="{{ URL::route('models.destroy', ['iModelId' => $model->id]) }}" class="btn btn-primary" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></a></td>
+                        <td><a title="Удалить задачу" data-href="{{ URL::route('models.destroy', ['iModelId' => $model->id]) }}" class="btn btn-danger" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></a></td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -60,5 +56,5 @@
 @stop
 
 @section('scripts')
-    {{ HTML::script('assets/js/okved/okved.js') }}
+    {{ HTML::script('assets/js/list.js') }}
 @stop

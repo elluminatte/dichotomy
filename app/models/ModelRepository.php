@@ -13,8 +13,11 @@ class ModelRepository {
 
     protected $oModel;
 
-    public function __construct(\Elluminate\Math\LogisticRegression $oModel) {
+    protected $oQuality;
+
+    public function __construct(\Elluminate\Math\LogisticRegression $oModel, \Elluminate\Math\QualityAnalysis $oQuality) {
         $this->oModel = $oModel;
+        $this->oQuality = $oQuality;
     }
 
     public function getModelsList($iSituationId) {
@@ -41,6 +44,11 @@ class ModelRepository {
         $aTrainingSet = $this->extractTrainingSetFromExcel($fTrainFile);
         $this->oModel->setTrainingSet($aTrainingSet);
         $this->oModel->trainModel();
+        $this->oQuality->setModel($this->oModel);
+        $this->oQuality->getQualityAnalysis();
+        echo "<XMP>";
+        print_r(json_encode($this->oModel->aCoefficients));
+        echo "</XMP>";
 
     }
 

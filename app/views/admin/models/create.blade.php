@@ -3,9 +3,7 @@
     {{ HTML::style('assets/css/bootstrap-slider.css') }}
 @stop
 @section('content')
-    <div class="row">
         {{ Breadcrumbs::render('situations', $parent_tree, 'add') }}
-    </div>
     {{ Form::open(['route' => 'models.store', 'class' => 'form-horizontal', 'files' => true]) }}
     <fieldset>
         <legend>Добавление задачи</legend>

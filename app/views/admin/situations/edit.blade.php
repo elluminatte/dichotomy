@@ -1,8 +1,6 @@
 @extends('layouts.master')
 @section('content')
-    <div class="row">
         {{ Breadcrumbs::render('situations', $parent_tree, 'edit') }}
-    </div>
     {{ Form::model($situation, ['route' => ['situations.update'], 'class' => 'form-horizontal']) }}
     <fieldset>
         <legend>Изменение реквизитов ситуации</legend>

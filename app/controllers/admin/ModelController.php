@@ -15,7 +15,6 @@ class ModelController extends \BaseController {
 	 */
 	public function index($iSituationId)
 	{
-		//
 		$models = $this->oRepo->getModelsList($iSituationId);
 		$aParentTree = $this->oRepo->constructParentTree($iSituationId);
 		return View::make('admin.models.index', [

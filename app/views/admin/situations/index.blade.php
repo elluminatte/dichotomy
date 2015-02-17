@@ -8,18 +8,12 @@
             @include('admin.forms.'.Session::get('form_result'))
         </div>
     @endif
-    <div class="row">
-        <div class="col-lg-10">
+        <div class="col-lg-12">
             <div class="page-header">
                 <h3><i class="fa fa-angle-double-down"></i> Каталог проблемных ситуаций</h3>
             </div>
-            <div class="row">
                 {{ Breadcrumbs::render('situations', $parent_tree) }}
-            </div>
-            <div class="row">
                 <a title="Добавить ситуацию" href="{{ URL::route('situations.create', ['iParentSituationId' => $parent_situation]) }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить ситуацию</a>
-            </div>
-            <div style="margin-bottom: 20px"></div>
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
@@ -33,17 +27,16 @@
                 <tbody>
                 @foreach($situations as $situation)
                     <tr>
-                        <td><a href="{{ URL::route('situations.list', ['iParentSituationId' => $situation->id]) }}">{{ $situation->name }}</a></td>
+                        <td class="td-align_left"><a href="{{ URL::route('situations.list', ['iParentSituationId' => $situation->id]) }}">{{ $situation->name }}</a></td>
                         <td>{{ $situation->okved_correspondence }}</td>
                         <td><a title="Редактировать реквизиты записи" href="{{ URL::route('situations.edit', ['iSituationId' => $situation->id]) }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
-                        <td><a title="Удалить запись" data-href="{{ URL::route('situations.destroy', ['iSituationId' => $situation->id]) }}" class="btn btn-primary" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></a></td>
+                        <td><a title="Удалить запись" data-href="{{ URL::route('situations.destroy', ['iSituationId' => $situation->id]) }}" class="btn btn-danger" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></a></td>
                         <td><a title="Решаемые задачи" href="{{ URL::route('models.list', ['iSituationId' => $situation->id]) }}" class="btn btn-warning"><i class="fa fa-question-circle"></i></a></td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
         </div>
-    </div>
     <div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -64,5 +57,5 @@
 @stop
 
 @section('scripts')
-    {{ HTML::script('assets/js/okved/okved.js') }}
+    {{ HTML::script('assets/js/list.js') }}
 @stop
