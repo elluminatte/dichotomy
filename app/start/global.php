@@ -59,7 +59,7 @@ App::error(function(\Elluminate\Exceptions\TrainSetFileException $exception, $co
 });
 
 // свои исключения
-App::error(function(\Elluminate\Exceptions\DimensionException $exception, $code)
+App::error(function(\Elluminate\Exceptions\MathException $exception, $code)
 {
 	return View::make('errors.dimension_error', ['message' => $exception->getMessage()]);
 });
