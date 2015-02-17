@@ -124,6 +124,7 @@ return array(
 		'Zizaco\Confide\ServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
 		'DaveJamesMiller\Breadcrumbs\ServiceProvider',
+		'Lavary\Menu\ServiceProvider',
 
 	),
 
@@ -193,7 +194,8 @@ return array(
 		'View'              => 'Illuminate\Support\Facades\View',
 		'Confide'    		=> 'Zizaco\Confide\Facade',
 		'Entrust'    		=> 'Zizaco\Entrust\EntrustFacade',
-		'Breadcrumbs' => 'DaveJamesMiller\Breadcrumbs\Facade',
+		'Breadcrumbs' 		=> 'DaveJamesMiller\Breadcrumbs\Facade',
+		'Menu'      	 	=> 'Lavary\Menu\Facade',
 
 	),
 
