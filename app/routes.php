@@ -34,7 +34,7 @@ Route::group(array('prefix' => 'admin'), function()
 });
 
 Route::group(array('prefix' => 'client'), function() {
-
+//	Route::get('problems/list/')
 });
 
 // Confide routes
@@ -70,7 +70,11 @@ Menu::make('adminNavBar', function($menu) {
 	if(\Entrust::hasRole('administrator')) {
 		// назначим ему id, чтобы потом добавлять внутрь его, текстовые id почему-то не поддерживаются, придется так
 		$menu->add('<i class="fa fa-cogs"></i> Управление', ['id' => 1]);
-		$menu->find(1)->add('<i class="fa fa-folder-open"></i> Каталог проблемных ситуаций</a>', ['route'  => 'situations.list']);
+		$menu->find(1)->add('<i class="fa fa-folder-open"></i> Каталог проблемных ситуаций</a>', ['route'  => 'situations.list', 'id' => 2]);
+		if(\Request::is('/admin*'))
+			$menu->find(1)->active();
+		if(\Route::is('situations.list') || \Route::is('models.list'))
+			$menu->find(2)->active();
 	}
 });
 
@@ -78,7 +82,10 @@ Menu::make('adminNavBar', function($menu) {
 Menu::make('userNavBar', function($menu) {
 	// проверим, есть ли у пользователя роли юзера
 	if(\Entrust::hasRole('user')) {
-		$menu->add('<i class="fa fa-hand-o-right"></i> Решение задач классификации', ['id' => 1]);
-		$menu->find(1)->add('<i class="fa fa-magic"></i> Поиск и решение задачи', ['route' => 'situations.list']);
+		$menu->add('<i class="fa fa-check"></i> Решение задач классификации', ['id' => 1]);
+		$menu->find(1)->add('<i class="fa fa-magic"></i> Поиск и решение задачи', ['route' => 'situations.list',' id' => 2]);
+		$menu->find(1)->add('<i class="fa fa-reply"></i> Подтверждение решения (обратная связь)', ['route' => 'situations.list', 'id' => 3]);
+		if(\Request::is('/client*'))
+			$menu->find(1)->active();
 	}
 });
