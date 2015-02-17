@@ -7,3 +7,12 @@
 #threshold_slider .slider-selection {
     background: #BABABA;
 }
+.table .td-align_left {
+    text-align: left;
+}
+.page-header {
+    margin: 0 0 21px;
+}
+.menu-raw {
+    display: block !important;
+}
