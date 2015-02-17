@@ -18,10 +18,10 @@ class CreateModelsTable extends Migration {
 			$table->integer('situation_id')->unsigned();
 			$table->string('name');
 			$table->text('comment')->nullable();
-			$table->text('titles');
+			$table->text('cov_names');
+			$table->text('cov_comments');
 			$table->text('coefficients');
 			$table->smallInteger('durations_id')->unsigned();
-			$table->smallInteger('threshold')->unsigned();
 			$table->smallInteger('min_threshold')->unsigned();
 			$table->text('core_selection');
 			$table->text('oversampling')->nullable();
@@ -40,11 +40,12 @@ class CreateModelsTable extends Migration {
 	public function down()
 	{
 		//
-		Schema::drop('models');
 		Schema::table('models', function (Blueprint $table) {
-//			$table->dropForeign('models_durations_id_foreign');
-//			$table->dropForeign('models_simplified_okved_id_foreign');
+			$table->dropForeign('models_durations_id_foreign');
+			$table->dropForeign('models_situation_id_foreign');
 		});
+		Schema::drop('models');
+
 	}
 
 }
