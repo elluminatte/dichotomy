@@ -25,6 +25,10 @@ class CreateModelsTable extends Migration {
 			$table->smallInteger('min_threshold')->unsigned();
 			$table->text('core_selection');
 			$table->text('oversampling')->nullable();
+			$table->integer('threshold')->unsigned();
+			$table->text('std_coeff');
+			$table->text('elastic_coeff');
+			$table->float('curve_area')->unsigned();
 			$table->foreign('situation_id')->references('id')->on('situations')
 				->onUpdate('cascade')->onDelete('cascade');
 			$table->foreign('durations_id')->references('id')->on('durations')
