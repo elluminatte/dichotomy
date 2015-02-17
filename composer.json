@@ -9,7 +9,8 @@
 	  	"zizaco/confide": "~4.0@dev",
 	  	"zizaco/entrust": "1.2.*@dev",
 		"davejamesmiller/laravel-breadcrumbs": "~2.3",
-	  	"phpoffice/phpexcel": "dev-master"
+	  	"phpoffice/phpexcel": "dev-master",
+	  	"lavary/laravel-menu": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
