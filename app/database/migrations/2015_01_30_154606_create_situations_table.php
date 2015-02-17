@@ -32,7 +32,7 @@ class CreateSituationsTable extends Migration {
 //		 удаляем таблицу ОКВЭД при откате миграции
 		Schema::drop('situations');
 		Schema::table('situations', function (Blueprint $table) {
-			$table->dropForeign('simplified_okved_parent_id_foreign');
+			$table->dropForeign('situations_parent_id_foreign');
 		});
 	}
 }
