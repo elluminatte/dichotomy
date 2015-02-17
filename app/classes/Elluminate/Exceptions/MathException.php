@@ -7,4 +7,4 @@
  */
 namespace Elluminate\Exceptions;
 
-class DimensionException extends \Exception {}
+class MathException extends \Exception {}
