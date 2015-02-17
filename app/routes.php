@@ -68,8 +68,9 @@ Menu::make('authNavBar', function($menu){
 Menu::make('adminNavBar', function($menu) {
 	// проверим, есть ли у пользователя роль администратора
 	if(\Entrust::hasRole('administrator')) {
-		$menu->add('<i class="fa fa-cogs"></i> Управление')
-			->add('<i class="fa fa-folder-open"></i> Каталог проблемных ситуаций</a>', array('route'  => 'situations.list'));
+		// назначим ему id, чтобы потом добавлять внутрь его, текстовые id почему-то не поддерживаются, придется так
+		$menu->add('<i class="fa fa-cogs"></i> Управление', ['id' => 1]);
+		$menu->find(1)->add('<i class="fa fa-folder-open"></i> Каталог проблемных ситуаций</a>', ['route'  => 'situations.list']);
 	}
 });
 
@@ -77,6 +78,7 @@ Menu::make('adminNavBar', function($menu) {
 Menu::make('userNavBar', function($menu) {
 	// проверим, есть ли у пользователя роли юзера
 	if(\Entrust::hasRole('user')) {
-
+		$menu->add('<i class="fa fa-hand-o-right"></i> Решение задач классификации', ['id' => 1]);
+		$menu->find(1)->add('<i class="fa fa-magic"></i> Поиск и решение задачи', ['route' => 'situations.list']);
 	}
 });
