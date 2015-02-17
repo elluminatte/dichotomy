@@ -95,4 +95,7 @@ App::missing(function($exception)
 });
 
 // закрываем все маршруты после admin, если нет роли администратора, переадресовываем на авторизацию
-//Entrust::routeNeedsRole( 'admin*', 'administrator', Redirect::to('users/login') );
+\Entrust::routeNeedsRole( 'admin*', 'administrator', Redirect::to('users/login') );
+
+// закрываем все маршруты после admin, если нет роли администратора, переадресовываем на авторизацию
+\Entrust::routeNeedsRole( 'client*', 'user', Redirect::to('users/login') );
