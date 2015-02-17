@@ -13,6 +13,9 @@
                 <ul class="nav navbar-nav">
                     @include(Config::get('laravel-menu::views.bootstrap-items'), array('items' => $adminNavBar->roots()))
                 </ul>
+                <ul class="nav navbar-nav">
+                    @include(Config::get('laravel-menu::views.bootstrap-items'), array('items' => $userNavBar->roots()))
+                </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @include(Config::get('laravel-menu::views.bootstrap-items'), array('items' => $authNavBar->roots()))
                     <form class="navbar-form navbar-left">
