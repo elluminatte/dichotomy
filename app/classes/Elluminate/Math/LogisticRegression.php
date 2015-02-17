@@ -179,7 +179,7 @@ class LogisticRegression {
 
     private function constructNextCoeffVector($aCoeffVector, $aCovMatrix, $aRegVector, $aActualRegVector) {
         $aTranspCovMatrix = $this->oMath->matrixTranspose($aCovMatrix);
-        $a = $this->oMath->computeXtilde($aActualRegVector, $aCovMatrix);
+        $a = $this->computeXtilde($aActualRegVector, $aCovMatrix);
         $b = $this->oMath->matrixProduct($aTranspCovMatrix, $a);
         $c = $this->oMath->matrixInverse($b);
         if(!$c) return false;
@@ -223,6 +223,19 @@ class LogisticRegression {
         if( $this->iExperimentsNum < $this->iCovariatesNum*self::EXPERIMENTS_COVERAGE || $this->iExperimentsNum > self::MAX_EXPERIMENTS_NUM )
             throw new \Elluminate\Exceptions\TrainSetFileException("Количество опытов должно быть не меньше ".$this->iCovariatesNum*self::EXPERIMENTS_COVERAGE." и не больше ".self::MAX_EXPERIMENTS_NUM);
         return true;
+    }
+
+    private function computeXtilde($aActualRegVector, $aCovMatrix) {
+        $pRows = count($aActualRegVector);
+        $xRows = count($aCovMatrix);
+        $xCols = count($aCovMatrix[0]);
+        if ($pRows != $xRows)
+            throw new \Elluminate\Exceptions\DimensionException("Несоответствие размерностей матриц при попытке построить X`");
+        $result = $this->oMath->constructMatrix($pRows, $xCols);
+        for ($i = 0; $i < $pRows; ++$i)
+            for ($j = 0; $j < $xCols; ++$j)
+                $result[$i][$j] = $aActualRegVector[$i] * (1 - $aActualRegVector[$i]) * $aCovMatrix[$i][$j];
+        return $result;
     }
 
 
