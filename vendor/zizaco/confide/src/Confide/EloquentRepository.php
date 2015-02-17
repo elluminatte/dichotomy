@@ -37,7 +37,6 @@ class EloquentRepository implements RepositoryInterface
      */
     const USER_ROLE_NAME = 'user';
 
-
     public function __construct($app = null)
     {
         $this->app = $app ?: app();
@@ -146,6 +145,7 @@ class EloquentRepository implements RepositoryInterface
     protected function confirmUser($user)
     {
         $user->confirmed = true;
+
 
         // назначение роли зарегистрированного пользователя при подтверждении через email
 
