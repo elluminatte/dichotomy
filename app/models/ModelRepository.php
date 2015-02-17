@@ -46,10 +46,24 @@ class ModelRepository {
         $this->oModel->trainModel();
         $this->oQuality->setModel($this->oModel);
         $this->oQuality->getQualityAnalysis();
+        $oModel = new Model();
+        $oModel->situation_id = $iSituationId;
+        $oModel->name = $sName;
+        $oModel->comment = $sComment;
+        $oModel->cov_names = json_encode('');
+        $oModel->cov_comments = json_encode('');
+        $oModel->coefficients = json_encode($this->oModel->getCoefficients());
+        $oModel->duration_id = $iDuration;
+        $oModel->min_threshold = $iMinThreshold;
+        $oModel->core_selection = json_encode('');
+        $oModel->threshold = $this->oQuality->getThreshold();
+        $oModel->std_coeff = json_encode($this->oQuality->getStdCoeff());
+        $oModel->elastic_coeff = json_encode($this->oQuality->getElasticCoeff());
+        $oModel->curve_area = $this->oQuality->getCurveArea();
         echo "<XMP>";
-        print_r(json_encode($this->oModel->aCoefficients));
+        print_r($oModel);
         echo "</XMP>";
-
+//        return $oModel->save();
     }
 
     protected function extractTrainingSetFromExcel($sFileName, $iOffset = 10, $iRowLimit = 0, $iColLimit = 0, $iSheetNumber = 0) {
