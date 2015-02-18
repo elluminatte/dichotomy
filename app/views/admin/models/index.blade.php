@@ -1,14 +1,11 @@
 @extends('layouts.master')
 @section('content')
-    <div class="row">
-    </div>
     {{--немного магии, взяли из сессии имя шаблона результата операции (удаление, изменение, добавление) и отрисовали его вот тут--}}
     @if ( Session::get('form_result') )
         <div class="row">
             @include('admin.forms.'.Session::get('form_result'))
         </div>
     @endif
-    <div class="row">
         <div class="col-lg-12">
             <div class="page-header">
                 <h3><i class="fa fa-angle-double-down"></i> Список решаемых задач</h3>
@@ -35,7 +32,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
     <div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

@@ -27,7 +27,7 @@
                 <tbody>
                 @foreach($situations as $situation)
                     <tr>
-                        <td class="td-align_left"><a href="{{ URL::route('situations.list', ['iParentSituationId' => $situation->id]) }}">{{ $situation->name }}</a></td>
+                        <td class="td-align_left"><a href="{{ URL::route('situations.list', ['iParentSituationId' => $situation->id]) }}"><i class="fa fa-level-down"></i> {{ $situation->name }}</a></td>
                         <td>{{ $situation->okved_correspondence }}</td>
                         <td><a title="Редактировать реквизиты записи" href="{{ URL::route('situations.edit', ['iSituationId' => $situation->id]) }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                         <td><a title="Удалить запись" data-href="{{ URL::route('situations.destroy', ['iSituationId' => $situation->id]) }}" class="btn btn-danger" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></a></td>
