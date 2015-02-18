@@ -63,6 +63,8 @@ class ModelRepository {
         echo "<XMP>";
         print_r($oModel);
         echo "</XMP>";
+        unset($this->oModel);
+        unset($this->oQuality);
 //        return $oModel->save();
     }
 
