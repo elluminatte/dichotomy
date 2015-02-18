@@ -18,9 +18,9 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @include(Config::get('laravel-menu::views.bootstrap-items'), array('items' => $authNavBar->roots()))
-                    <form class="navbar-form navbar-left">
-                        <input type="text" class="form-control col-lg-8" placeholder='Поиск (не работает)'>
-                    </form>
+                    {{ Form::open(['route' => 'search', 'class' => 'navbar-form navbar-left']) }}
+                    {{ Form::text('search_text', null, ['id' => 'search_text', 'class' => 'form-control col-lg-6', 'placeholder' => 'Поиск']) }}
+                    {{ Form::close() }}
                 </ul>
             </div>
         </div>

@@ -34,7 +34,10 @@ Route::group(array('prefix' => 'admin'), function()
 });
 
 Route::group(array('prefix' => 'client'), function() {
-	Route::get('problems/list/{iParentProblemId?}', ['as' => 'problems.list', 'uses' => 'ClientSituationController@index']);
+	Route::get('problems/list/{iParentSituationId?}', ['as' => 'problems.list', 'uses' => 'ClientSituationController@index']);
+	Route::get('tasks/list/{iSituationId}', array('as' => 'tasks.list', 'uses' => 'ClientModelController@index'));
+	Route::get('tasks/{iTaskId}', array('as' => 'task.detail', 'uses' => 'ClientModelController@index'));
+	Route::post('/search/', array('before' => 'csrf', 'as' => 'search', 'uses' => 'SearchController@index'));
 });
 
 // Confide routes

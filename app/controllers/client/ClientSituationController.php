@@ -22,7 +22,7 @@ class ClientSituationController extends \BaseController {
 		// собираем дерево родителей для хлебных крошек
 //		$aParentTree = $this->oRepo->constructParentTree($iParentSituationId);
 		// отдаем данные в вид и рисуем его
-		return View::make('client.problems.index', [
+		return View::make('client.situations.index', [
 			'situations' => $oSituations,
 //			'parent_situation' => $iParentSituationId,
 //			'parent_tree' => $aParentTree

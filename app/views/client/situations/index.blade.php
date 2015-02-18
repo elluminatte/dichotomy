@@ -9,6 +9,7 @@
                 <thead>
                 <tr>
                     <th>Название</th>
+                    <th>Соответствие ОКВЭД</th>
                     <th>Решаемые задачи</th>
                 </tr>
                 </thead>
@@ -16,13 +17,14 @@
                 @foreach($situations as $situation)
                     <tr>
                         @if( isset($situation->children) && count($situation->children))
-                            <td class="td-align_left"><a href="{{ URL::route('problems.list', ['iParentProblemId' => $situation->id])}}"><i class="fa fa-level-down"></i> {{ $situation->name }}</a></td>
+                            <td class="td-align_left"><a href="{{ URL::route('problems.list', ['iParentSituationId' => $situation->id])}}"><i class="fa fa-level-down"></i> {{ $situation->name }}</a></td>
                         @else
                             <td class="td-align_left">{{ $situation->name }}</td>
                         @endif
+                        <td>{{ $situation->okved_correspondence }}</td>
                         <td>
                         @if( isset($situation->modelsId) && count($situation->modelsId))
-                        <a title="Решаемые задачи" href="{{ URL::route('models.list', ['iSituationId' => $situation->id]) }}" class="btn btn-primary"><i class="fa fa-share"></i></a>
+                        <a title="Решаемые задачи" href="{{ URL::route('tasks.list', ['iSituationId' => $situation->id]) }}" class="btn btn-primary"><i class="fa fa-share"></i></a>
                             @else
                                 <span class="btn btn-default disabled"><i class="fa fa-times-circle"></i></span>
                         @endif
