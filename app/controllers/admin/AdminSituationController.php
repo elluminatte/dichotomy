@@ -1,9 +1,9 @@
 <?php
 
 /** контроллер проблемных ситуаций
- * Class SituationController
+ * Class AdminSituationController
  */
-class SituationController extends \BaseController
+class AdminSituationController extends \BaseController
 {
 
     /**

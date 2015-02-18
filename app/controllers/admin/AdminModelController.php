@@ -1,6 +1,6 @@
 <?php
 
-class ModelController extends \BaseController {
+class AdminModelController extends \BaseController {
 
 	protected $oRepo;
 
