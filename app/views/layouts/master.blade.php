@@ -37,6 +37,7 @@
 <!-- Scripts are placed here -->
 {{ HTML::script('assets/js/jquery-1.11.1.min.js') }}
 {{ HTML::script('assets/bootstrap/js/bootstrap.min.js') }}
+{{ HTML::script('assets/js/search.js') }}
 
 @yield('scripts')
 

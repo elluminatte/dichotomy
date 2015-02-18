@@ -18,9 +18,11 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @include(Config::get('laravel-menu::views.bootstrap-items'), array('items' => $authNavBar->roots()))
-                    {{ Form::open(['route' => 'search', 'class' => 'navbar-form navbar-left']) }}
-                    {{ Form::text('search_text', null, ['id' => 'search_text', 'class' => 'form-control col-lg-6', 'placeholder' => 'Поиск']) }}
-                    {{ Form::close() }}
+                    @if( \Auth::user() && \Entrust::hasRole('user'))
+                        {{ Form::open(['route' => 'search', 'class' => 'navbar-form navbar-left']) }}
+                        {{ Form::text('search_text', null, ['id' => 'search_text', 'class' => 'form-control col-lg-6', 'placeholder' => 'Поиск','rel'=>"tooltip", 'title' => 'Введите сюда код ОКВЭД, название проблемной ситуации или название задачи для решения и нажмите Enter', 'data-toggle'=>"tooltip", 'data-placement'=>'bottom']) }}
+                        {{ Form::close() }}
+                    @endif
                 </ul>
             </div>
         </div>
