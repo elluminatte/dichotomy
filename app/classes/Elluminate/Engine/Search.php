@@ -109,7 +109,7 @@ class Search {
     private function findByOkvedCode() {
         $iCount = \Situation::where('okved_correspondence', 'LIKE', "%$this->sSearchText%")->count('id');
         if($iCount > self::GROUP_LIMIT)
-            $this->bSituationNameOverlimit = true;
-        return \Situation::where('okved_correspondence', 'LIKE', "%$this->sSearchText%")->get();
+            $this->bOkvedCodeOverlimit = true;
+        return \Situation::where('okved_correspondence', 'LIKE', "%$this->sSearchText%")->take(self::GROUP_LIMIT)->get();
     }
 }
