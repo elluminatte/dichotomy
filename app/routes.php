@@ -19,22 +19,22 @@ Route::get('/', function()
 Route::group(array('prefix' => 'admin'), function()
 {
 	// Маршруты проблемных ситуаций
-	Route::get('situations/list/{iParentSituationId?}', array('as' => 'situations.list', 'uses' => 'SituationController@index'));
-	Route::get('situations/create/{iParentSituationId?}', array('as' => 'situations.create', 'uses' => 'SituationController@create'));
-	Route::post('situations/store', array('before' => 'csrf', 'as' => 'situations.store', 'uses' => 'SituationController@store'));
-	Route::get('situations/edit/{iSituationId}', array('as' => 'situations.edit', 'uses' => 'SituationController@edit'));
-	Route::post('situations/update', array('before' => 'csrf', 'as' => 'situations.update', 'uses' => 'SituationController@update'));
-	Route::get('situations/destroy/{iSituationId}', array('as' => 'situations.destroy', 'uses' => 'SituationController@destroy'));
+	Route::get('situations/list/{iParentSituationId?}', array('as' => 'situations.list', 'uses' => 'AdminSituationController@index'));
+	Route::get('situations/create/{iParentSituationId?}', array('as' => 'situations.create', 'uses' => 'AdminSituationController@create'));
+	Route::post('situations/store', array('before' => 'csrf', 'as' => 'situations.store', 'uses' => 'AdminSituationController@store'));
+	Route::get('situations/edit/{iSituationId}', array('as' => 'situations.edit', 'uses' => 'AdminSituationController@edit'));
+	Route::post('situations/update', array('before' => 'csrf', 'as' => 'situations.update', 'uses' => 'AdminSituationController@update'));
+	Route::get('situations/destroy/{iSituationId}', array('as' => 'situations.destroy', 'uses' => 'AdminSituationController@destroy'));
 
 	// Маршруты моделей
-	Route::get('models/list/{iSituationId}', array('as' => 'models.list', 'uses' => 'ModelController@index'));
-	Route::get('models/create/{iSituationId}', array('as' => 'models.create', 'uses' => 'ModelController@create'));
-	Route::post('models/store', array('before' => 'csrf', 'as' => 'models.store', 'uses' => 'ModelController@store'));
-	Route::get('models/destroy/{iModelId}', array('as' => 'models.destroy', 'uses' => 'ModelController@destroy'));
+	Route::get('models/list/{iSituationId}', array('as' => 'models.list', 'uses' => 'AdminModelController@index'));
+	Route::get('models/create/{iSituationId}', array('as' => 'models.create', 'uses' => 'AdminModelController@create'));
+	Route::post('models/store', array('before' => 'csrf', 'as' => 'models.store', 'uses' => 'AdminModelController@store'));
+	Route::get('models/destroy/{iModelId}', array('as' => 'models.destroy', 'uses' => 'AdminModelController@destroy'));
 });
 
 Route::group(array('prefix' => 'client'), function() {
-//	Route::get('problems/list/')
+	Route::get('problems/list/{iParentProblemId?}', ['as' => 'problems.list', 'uses' => 'ClientSituationController@index']);
 });
 
 // Confide routes
@@ -83,7 +83,7 @@ Menu::make('userNavBar', function($menu) {
 	// проверим, есть ли у пользователя роли юзера
 	if(\Entrust::hasRole('user')) {
 		$menu->add('<i class="fa fa-check"></i> Решение задач классификации', ['id' => 1]);
-		$menu->find(1)->add('<i class="fa fa-magic"></i> Поиск и решение задачи', ['route' => 'situations.list',' id' => 2]);
+		$menu->find(1)->add('<i class="fa fa-magic"></i> Поиск и решение задачи', ['route' => 'problems.list',' id' => 2]);
 		$menu->find(1)->add('<i class="fa fa-reply"></i> Подтверждение решения (обратная связь)', ['route' => 'situations.list', 'id' => 3]);
 		if(\Request::is('/client*'))
 			$menu->find(1)->active();
