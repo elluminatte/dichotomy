@@ -16,7 +16,7 @@ class SituationRepository
      * @param $iParentSituationId - id ситуации, наслдеников которой надо получить
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function getSituationsList($iParentSituationId)
+    public function getSituationsList($iParentSituationId, $needModels = false, $needChildren = false)
     {
         $iParentSituationId = (int)$iParentSituationId;
         // если это не верхний уровень и нет такого раздела, значит нас хотят обмануть
@@ -28,6 +28,10 @@ class SituationRepository
         // иначе найдем наследников
         else
             $oSituations = Situation::find($iParentSituationId)->children()->get();
+        if($needModels)
+            $oSituations->load('modelsId');
+        if($needChildren)
+            $oSituations->load('children');
         return $oSituations;
     }
 
