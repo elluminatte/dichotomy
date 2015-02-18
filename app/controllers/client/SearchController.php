@@ -14,15 +14,18 @@ class SearchController extends BaseController {
     }
 
     public function index() {
+        // получим поисковую фразу
         $sSearchText = Input::get('search_text', '');
         $this->oSearch->setSearchText($sSearchText);
         $this->oSearch->startSearch();
+        // возьмем все нужные результаты поиска
         $aOkvedCodeResult = $this->oSearch->getOkvedCodeResult();
         $aSituationNameResult = $this->oSearch->getSituationNameResult();
         $aModelNameResult = $this->oSearch->getModelNameResult();
         $bCodeOverlimit = $this->oSearch->getOkvedCodeOverlimit();
         $bSitNameOverlimit = $this->oSearch->getSituationNameOverlimit();
         $bModelNameOverlimit = $this->oSearch->getModelNameOverLimit();
+        // и отдадим в вид
         return View::make('client.search.index',[
             'okved_code' => $aOkvedCodeResult,
             'code_overlimit' => $bCodeOverlimit,
