@@ -43,6 +43,19 @@ class Situation extends Eloquent {
         return $this->hasMany('Model');
     }
 
+
+    public function modelsId() {
+        return $this->modelsReqFields(['id', 'situation_id']);
+    }
+
+    // иногда не нужно тащить всю модель за собой, там же огромные массивы
+    public function modelsReqFields($reqFields = []) {
+        if(!is_array($reqFields) || !count($reqFields))
+            return $this->models();
+        else
+            return $this->hasMany('Model')->select($reqFields);
+    }
+
     public static function validate($input) {
         return \Validator::make($input, self::$aValidRules, array(), self::$aFieldNames);
     }
