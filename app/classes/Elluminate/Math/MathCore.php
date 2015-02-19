@@ -339,5 +339,16 @@ class MathCore
         return pow($x - $mean, 2);
     }
 
+    public static function logisticRegression($aCovariates, $aCoefficients) {
+        if(!is_array($aCovariates) || !is_array($aCoefficients) || !count($aCovariates) || !count($aCoefficients)) throw new \Elluminate\Exceptions\MathException("Ошибка при расчете значения логистической регрессии");
+        if(count($aCovariates) != count($aCoefficients)-1) throw new \Elluminate\Exceptions\MathException("Количество коэффициентов не соответствует количеству регрессоров");
+        $z = 0;
+        array_unshift($aCovariates, 1);
+        for ($j = 0; $j < count($aCovariates); ++$j)
+            $z += $aCovariates[$j] * $aCoefficients[$j];
+        $fResult = 1 / (1 + exp(-$z));
+        return $fResult;
+    }
+
 
 }

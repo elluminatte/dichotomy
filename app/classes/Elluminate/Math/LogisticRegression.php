@@ -291,7 +291,7 @@ class LogisticRegression
     {
         $aResult = $this->oMath->constructVector($this->iExperimentsNum);
         for ($i = 0; $i < $this->iExperimentsNum; ++$i) {
-            $z = 0.0;
+            $z = 0;
             for ($j = 0; $j < $this->iCovariatesNum + 1; ++$j)
                 $z += $aCovMatrix[$i][$j] * $aCoeffVector[$j];
             $p = 1 / (1 + exp(-$z));
