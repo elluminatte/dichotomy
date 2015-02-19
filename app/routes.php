@@ -36,7 +36,8 @@ Route::group(array('prefix' => 'admin'), function()
 Route::group(array('prefix' => 'client'), function() {
 	Route::get('problems/list/{iParentSituationId?}', ['as' => 'problems.list', 'uses' => 'ClientSituationController@index']);
 	Route::get('tasks/list/{iSituationId}', array('as' => 'tasks.list', 'uses' => 'ClientModelController@index'));
-	Route::get('tasks/{iTaskId}', array('as' => 'task.detail', 'uses' => 'ClientModelController@index'));
+	Route::get('tasks/detail/{iModelId}', array('as' => 'tasks.detail', 'uses' => 'ClientModelController@apply'));
+	Route::post('tasks/compute', ['before' => 'csrf', 'as' => 'tasks.compute', 'uses' => 'ClientModelController@compute']);
 	Route::post('/search/', array('before' => 'csrf', 'as' => 'search', 'uses' => 'SearchController@index'));
 });
 
