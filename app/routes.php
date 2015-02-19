@@ -13,6 +13,12 @@
 
 Route::get('/', function()
 {
+////	var_dump(\Carbon\Carbon::now()->addHours(8760) < \Carbon\Carbon::now());
+//	$test = Evaluation::find(1);
+//	$t = $test->expired_moment;
+//	var_dump(new \Carbon\Carbon($t));
+
+//	Queue::push('\Elluminate\Workers\Test', ['name' => 'worker', 'duration' => 1111]);
 	return View::make('hello');
 });
 
