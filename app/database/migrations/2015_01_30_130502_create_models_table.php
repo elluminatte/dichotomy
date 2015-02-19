@@ -20,6 +20,8 @@ class CreateModelsTable extends Migration {
 			$table->text('comment')->nullable();
 			$table->text('cov_names');
 			$table->text('cov_comments');
+			$table->string('reg_name');
+			$table->string('reg_comment');
 			$table->text('coefficients');
 			$table->smallInteger('durations_id')->unsigned();
 			$table->smallInteger('min_threshold')->unsigned();
