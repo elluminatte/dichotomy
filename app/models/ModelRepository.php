@@ -27,6 +27,70 @@ class ModelRepository {
         return $oModels;
     }
 
+    public function getModel($iModelId, $aFields = ['*']) {
+        $iModelId = (int)$iModelId;
+        if(!$iModelId || !Model::find($iModelId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+        $oModel = Model::find($iModelId)->first()->get($aFields);
+        if(isset($oModel[0]))
+            return $oModel[0];
+        return $oModel;
+    }
+
+    public function computeResult($aInput) {
+        $iModelId = $aInput['model_id'];
+        $iModelId = (int)$iModelId;
+        if(!$iModelId || !Model::find($iModelId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+        unset($aInput['model_id']);
+        unset($aInput['_token']);
+        $aCovValues = [];
+        foreach($aInput as $value) {
+            array_push($aCovValues, $value);
+        }
+        $aFields = ['id', 'coefficients'];
+        $oModel = $this->getModel($iModelId, $aFields);
+        $aCoefficients = json_decode($oModel->coefficients);
+        $fResult = \Elluminate\Math\MathCore::logisticRegression($aCovValues, $aCoefficients);
+        return $fResult;
+    }
+
+    public function validateUserInput($aInput) {
+        $iModelId = (int)$aInput['model_id'];
+        if(!$iModelId || !Model::find($iModelId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+        $oForm = $this->getApplyingForm($iModelId);
+        $aRulesAndNames = $this->getUserValidRulesAndNames($oForm);
+        $aValidRules = $aRulesAndNames['rules'];
+        $aFieldNames = $aRulesAndNames['names'];
+        return \Validator::make($aInput, $aValidRules, array(), $aFieldNames);
+    }
+
+    private function getUserValidRulesAndNames($oForm) {
+        $aValidRules = [];
+        $aNames = [];
+        foreach($oForm as $aField) {
+            $aValidRules[$aField['tech_name']] = 'Required|Numeric';
+            $aNames[$aField['tech_name']] = $aField['name'];
+        }
+        return ['names' => $aNames, 'rules' => $aValidRules];
+    }
+
+    public function getApplyingForm($iModelId) {
+        $iModelId = (int)$iModelId;
+        if(!$iModelId || !Model::find($iModelId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+        $aFields = ['id', 'cov_names', 'cov_comments'];
+        $oModel = $this->getModel($iModelId, $aFields);
+        $aNames = json_decode($oModel->cov_names);
+        $aComments = json_decode($oModel->cov_comments);
+        $aForm = [];
+        foreach($aNames as $key => $value) {
+            $sName = $value;
+            $sComment = isset($aComments[$key]) ? $aComments[$key] : '';
+            array_push($aForm, ['tech_name' => \Elluminate\Engine\E::transliterate($sName), 'name' => $sName, 'comment' => $sComment]);
+        }
+        unset($aNames);
+        unset($aComments);
+        return $aForm;
+    }
+
     public function destroyModel($iModelId) {
         $iModelId = (int)$iModelId;
         // проверяем не хотят ли нас обмануть - существует ли такая модель
