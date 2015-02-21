@@ -6,9 +6,8 @@
  * Time: 16:53
  */
 namespace Elluminate\Workers;
-class Test {
+class Test1 {
     public function fire($job, $data) {
-        sleep(60*2);
         $duration = new \Duration();
         $duration->name = $data['name'];
         $duration->duration = $data['duration'];
