@@ -12,7 +12,7 @@
         <legend>Введите значения параметров для решения задачи</legend>
         @foreach($form as $field)
             <div class="form-group">
-                {{ Form::label($field['tech_name'], $field['name'], ['class' => 'col-lg-1 control-label']) }}
+                {{ Form::label($field['tech_name'], $field['name'], ['class' => 'col-lg-2 control-label']) }}
                 <div class="col-lg-5">
                     {{Form::number($field['tech_name'], null, ['id' => $field['tech_name'], 'class' => 'form-control', 'placeholder' => $field['comment']]);}}
                     <span class="help-block">{{$field['comment']}}</span>
