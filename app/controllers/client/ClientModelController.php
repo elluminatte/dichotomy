@@ -38,7 +38,7 @@ class ClientModelController extends \BaseController {
         $aInput = Input::all();
         $oValidation = $this->oRepo->validateUserInput($aInput);
         if ($oValidation->fails())
-            return Redirect::route('tasks.detail', ['iModelId' => '1'])->withErrors($oValidation)->withInput();
+            return Redirect::route('tasks.detail', ['iModelId' => $aInput['model_id']])->withErrors($oValidation)->withInput();
         $fResult = $this->oRepo->computeResult($aInput);
     }
 }
