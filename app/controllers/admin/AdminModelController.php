@@ -73,7 +73,10 @@ class AdminModelController extends \BaseController {
 		if ($oValidation->fails())
 			return Redirect::route('models.create', ['iSituationId' => $iSituationId])->withErrors($oValidation)->withInput();
 		$bResult = $this->oRepo->storeModel($iSituationId, $sName, $iDuration, $iMinThreshold, $sComment, $fTrainFile);
-
+		if ($bResult)
+			return Redirect::route('models.list', ['iSituationId' => $iSituationId])->withForm_result('addDone');
+		else
+			return Redirect::route('models.list', ['iSituationId' => $iSituationId])->withForm_result('addFailed');
 	}
 
 
