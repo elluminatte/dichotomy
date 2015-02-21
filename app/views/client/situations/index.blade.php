@@ -24,7 +24,7 @@
                         <td>{{ $situation->okved_correspondence }}</td>
                         <td>
                         @if( isset($situation->modelsId) && count($situation->modelsId))
-                        <a title="Решаемые задачи" href="{{ URL::route('tasks.list', ['iSituationId' => $situation->id]) }}" class="btn btn-primary"><i class="fa fa-share"></i></a>
+                        <a title="Решаемые задачи" href="{{ URL::route('tasks.list', ['iSituationId' => $situation->id]) }}" class="btn btn-primary"> <span class="badge">{{ count($situation->modelsId) }}</span></a>
                             @else
                                 <span class="btn btn-default disabled"><i class="fa fa-times-circle"></i></span>
                         @endif
