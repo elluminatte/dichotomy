@@ -173,7 +173,7 @@ class QualityAnalysis
         // найдем разность векторов чувствительности и 100 - Специфичность
         $aDifference = $this->oMath->matrixDiff($this->oMath->vectorNumberSubtraction($this->aSpecificity, 100), $this->aSensitivity);
         // найдем минимум модуля разности
-        $iSill = $this->oMath->findVectorMinimum($aDifference);
+        $iSill = $this->oMath->findVectorMinimumPos($aDifference);
         unset($aDifference);
         // возьмем минимальное из двух значений, чтобы обеспечить качество, не ниже заявленного
         return min($this->oMath->vectorNumberSubtraction($this->aSpecificity, 100)[$iSill], $this->aSensitivity[$iSill]);
