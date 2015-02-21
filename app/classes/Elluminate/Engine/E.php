@@ -61,6 +61,10 @@ class E {
         if($die) exit;
     }
 
+    /** транслитирирует строку
+     * @param $string - входная строка
+     * @return mixed|string - результат транслитерации, кирилл. символы => латинские, пробелы => _
+     */
     public static function transliterate($string) {
         $string = (string)$string;
         //массив альтернатив
@@ -69,6 +73,23 @@ class E {
         //заменяем русские английскими
         $string = str_replace($rus, $eng, $string);
         return $string;
+    }
+
+    /** возвращает букву по ее позиции в алфавите
+     * сейчас работает только для англ. алфавита и с позицией не больше, чем кол-во символов алфавита
+     * мне больше и не нужно
+     * @param $iPos - позиция буквы
+     * @return string - буква алфавита
+     */
+    public static function findLetterByPos($iPos) {
+        $iPos = (int)$iPos;
+        // начальная позиция - начало алвафита
+        if(!$iPos) return 'A';
+        $sLetter = 'A';
+        // сдвинем ее на позицию нужной буквы
+        for($i=1; $i <= $iPos; $i++)
+            $sLetter++;
+        return $sLetter;
     }
 
 
