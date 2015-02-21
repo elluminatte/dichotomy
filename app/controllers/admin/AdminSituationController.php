@@ -26,7 +26,7 @@ class AdminSituationController extends \BaseController
     public function index($iParentSituationId = 0)
     {
         // собираем список разделов
-        $oSituations = $this->oRepo->getSituationsList($iParentSituationId);
+        $oSituations = $this->oRepo->getSituationsList($iParentSituationId, true);
         // собираем дерево родителей для хлебных крошек
         $aParentTree = $this->oRepo->constructParentTree($iParentSituationId);
         // отдаем данные в вид и рисуем его

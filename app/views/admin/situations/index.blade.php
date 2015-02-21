@@ -31,7 +31,15 @@
                         <td>{{ $situation->okved_correspondence }}</td>
                         <td><a title="Редактировать реквизиты записи" href="{{ URL::route('situations.edit', ['iSituationId' => $situation->id]) }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                         <td><a title="Удалить запись" data-href="{{ URL::route('situations.destroy', ['iSituationId' => $situation->id]) }}" class="btn btn-danger" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></a></td>
-                        <td><a title="Решаемые задачи" href="{{ URL::route('models.list', ['iSituationId' => $situation->id]) }}" class="btn btn-warning"><i class="fa fa-question-circle"></i></a></td>
+                        <td><a title="Решаемые задачи" href="{{ URL::route('models.list', ['iSituationId' => $situation->id]) }}" class="btn btn-warning">
+                                @if( isset($situation->modelsId) && count($situation->modelsId))
+                                    <span class="badge">{{ count($situation->modelsId) }}</span>
+                                @else
+                                    <span class="badge">0</span>
+                                @endif
+                            </a>
+
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
