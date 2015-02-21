@@ -295,12 +295,12 @@ class MathCore
         return $result;
     }
 
-    /** ищет минимум вектора
+    /** ищет позицию минимума вектора
      * @param $matrix - вектор
      * @return mixed - минимальное значение
      * @throws \Elluminate\Exceptions\MathException
      */
-    public static function findVectorMinimum($matrix)
+    public static function findVectorMinimumPos($matrix)
     {
         if (!is_array($matrix) || !count($matrix)) throw new \Elluminate\Exceptions\MathException("Ошибка поиска минимума в матрице");
         $result = array_keys($matrix, min($matrix));
