@@ -17,8 +17,10 @@ Route::get('/', function()
 //	$test = Evaluation::find(1);
 //	$t = $test->expired_moment;
 //	var_dump(new \Carbon\Carbon($t));
-
-//	Queue::push('\Elluminate\Workers\Test', ['name' => 'worker', 'duration' => 1111]);
+//
+//	$date = \Carbon\Carbon::now()->addMinutes(1);
+//	Queue::push('\Elluminate\Workers\Test', ['name' => 'worker1', 'duration' => 1111]);
+//	Queue::push('\Elluminate\Workers\Test1', ['name' => 'worker2', 'duration' => 22222]);
 	return View::make('hello');
 });
 
