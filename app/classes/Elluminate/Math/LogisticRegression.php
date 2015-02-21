@@ -57,6 +57,11 @@ class LogisticRegression
     const JUMP_VALUE = 1000;
 
     /**
+     * минимальный порог отсечения по умолчанию
+     */
+    const DEFAULT_MIN_THRESHOLD = 75;
+
+    /**
      * @var MathCore - математическое ядро
      */
     protected $oMath;
