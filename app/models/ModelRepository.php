@@ -66,7 +66,7 @@ class ModelRepository {
         $aFields = ['id', 'coefficients'];
         $oModel = $this->getModel($iModelId, $aFields);
         $aCoefficients = json_decode($oModel->coefficients);
-        $fResult = \Elluminate\Math\MathCore::logisticRegression($aCovValues, $aCoefficients);
+        $fResult = round(\Elluminate\Math\MathCore::logisticRegression($aCovValues, $aCoefficients), 2);
         return $fResult;
     }
 

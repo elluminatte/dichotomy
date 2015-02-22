@@ -40,5 +40,13 @@ class ClientModelController extends \BaseController {
         if ($oValidation->fails())
             return Redirect::route('tasks.detail', ['iModelId' => $aInput['model_id']])->withErrors($oValidation)->withInput();
         $fResult = $this->oRepo->computeResult($aInput);
+        $oModel = $this->oRepo->getModel($aInput['model_id'], ['id', 'reg_name', 'comment']);
+        $sRegName = isset($oModel->reg_name) ? $oModel->reg_name : '';
+        $sComment = isset($oModel->comment) ? $oModel->comment : '';
+        return View::make('client.models.result', [
+           'result' => $fResult,
+            'reg_name' => $sRegName,
+            'comment' => $sComment
+        ]);
     }
 }
