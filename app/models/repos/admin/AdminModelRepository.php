@@ -2,112 +2,36 @@
 /**
  * Created by PhpStorm.
  * User: elluminate
- * Date: 31.01.15
- * Time: 16:36
+ * Date: 25.02.15
+ * Time: 12:13
  */
-class ModelRepository {
+class AdminModelRepository extends ModelRepository {
 
-    use Elluminate\Traits\HierarchicalRepository;
-
-    /** математическая модель
-     * @var \Elluminate\Math\LogisticRegression
-     */
-    protected $oModel;
-
-    /** анализатор качества модели
-     * @var \Elluminate\Math\QualityAnalysis
-     */
-    protected $oQuality;
-
-    public function __construct(\Elluminate\Math\LogisticRegression $oModel, \Elluminate\Math\QualityAnalysis $oQuality) {
-        $this->oModel = $oModel;
-        $this->oQuality = $oQuality;
-    }
-
-    /** получает список моделей по id проблемной ситуации
-     * @param $iSituationId - id прблемной ситуации
-     * @return mixed - список моделей
-     */
-    public function getModelsList($iSituationId) {
-        $iSituationId = (int)$iSituationId;
-        // проверим есть ли такая ситуация
-        if(!$iSituationId || !Situation::find($iSituationId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-        // отдадим список связанных моделей
-        $oModels = Situation::find($iSituationId)->models()->get(['id', 'name']);
-        return $oModels;
-    }
-
-    /** получает модель по id
+    /** получает модель и информацию о ней
      * @param $iModelId - id модели
-     * @param array $aFields - список необходимых для выборки полей
-     * @return \Illuminate\Support\Collection|mixed|null|static - модель
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Support\Collection|null|static
      */
-    public function getModel($iModelId, $aFields = ['*']) {
+    public function getModelDetail($iModelId) {
         $iModelId = (int)$iModelId;
-        // проверим есть ли такая модель
         if(!$iModelId || !Model::find($iModelId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-        // найдем ее и вернем
-        $oModel = Model::find($iModelId, $aFields);
-        if(isset($oModel[0]))
-            return $oModel[0];
+        // возьмем все поля, которые интересуют администратора
+        $aFileds = ['id', 'name', 'comment', 'cov_names', 'cov_comments', 'reg_name', 'reg_comment', 'coefficients', 'min_threshold', 'threshold', 'std_coeff', 'elastic_coeff', 'curve_area', 'durations_id', 'situation_id'];
+        // это типа join
+        $oModel = Model::with('duration')->find($iModelId, $aFileds);
+        // преобразуем в массивы
+        $oModel->cov_names = json_decode($oModel->cov_names);
+        $oModel->cov_comments = json_decode($oModel->cov_comments);
+        $oModel->coefficients = json_decode($oModel->coefficients);
+        $oModel->std_coeff = json_decode($oModel->std_coeff);
+        $oModel->elastic_coeff = json_decode($oModel->elastic_coeff);
         return $oModel;
     }
 
-    public function computeResult($aInput) {
-        $iModelId = $aInput['model_id'];
-        $iModelId = (int)$iModelId;
-        if(!$iModelId || !Model::find($iModelId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-        unset($aInput['model_id']);
-        unset($aInput['_token']);
-        $aCovValues = [];
-        foreach($aInput as $value) {
-            array_push($aCovValues, $value);
-        }
-        $aFields = ['id', 'coefficients'];
-        $oModel = $this->getModel($iModelId, $aFields);
-        $aCoefficients = json_decode($oModel->coefficients);
-        $fResult = round(\Elluminate\Math\MathCore::logisticRegression($aCovValues, $aCoefficients), 2);
-        return $fResult;
-    }
-
-    public function validateUserInput($aInput) {
-        $iModelId = (int)$aInput['model_id'];
-        if(!$iModelId || !Model::find($iModelId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-        $oForm = $this->getApplyingForm($iModelId);
-        $aRulesAndNames = $this->getUserValidRulesAndNames($oForm);
-        $aValidRules = $aRulesAndNames['rules'];
-        $aFieldNames = $aRulesAndNames['names'];
-        return \Validator::make($aInput, $aValidRules, array(), $aFieldNames);
-    }
-
-    private function getUserValidRulesAndNames($oForm) {
-        $aValidRules = [];
-        $aNames = [];
-        foreach($oForm as $aField) {
-            $aValidRules[$aField['tech_name']] = 'Required|Numeric';
-            $aNames[$aField['tech_name']] = $aField['name'];
-        }
-        return ['names' => $aNames, 'rules' => $aValidRules];
-    }
-
-    public function getApplyingForm($iModelId) {
-        $iModelId = (int)$iModelId;
-        if(!$iModelId || !Model::find($iModelId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-        $aFields = ['id', 'cov_names', 'cov_comments'];
-        $oModel = $this->getModel($iModelId, $aFields);
-        $aNames = json_decode($oModel->cov_names);
-        $aComments = json_decode($oModel->cov_comments);
-        $aForm = [];
-        foreach($aNames as $key => $value) {
-            $sName = $value;
-            $sComment = isset($aComments[$key]) ? $aComments[$key] : '';
-            array_push($aForm, ['tech_name' => \Elluminate\Engine\E::transliterate($sName), 'name' => $sName, 'comment' => $sComment]);
-        }
-        unset($aNames);
-        unset($aComments);
-        return $aForm;
-    }
-
+    /** удаляет модель
+     * @param $iModelId - id модели
+     * @return bool|null - результат удаления
+     * @throws Exception
+     */
     public function destroyModel($iModelId) {
         $iModelId = (int)$iModelId;
         // проверяем не хотят ли нас обмануть - существует ли такая модель
@@ -116,28 +40,53 @@ class ModelRepository {
         return Model::find($iModelId)->delete();
     }
 
+    /** сохраняет новую модель
+     * @param $iSituationId - id родительской ситуации
+     * @param $sName - название
+     * @param $iDuration - время корректности решения
+     * @param $iMinThreshold - минимальный порог отсечения
+     * @param $sComment - комментарий
+     * @param $fTrainFile - файл с обучающей выборкой
+     * @return bool
+     * @throws \Elluminate\Exceptions\InstanceException
+     * @throws \Elluminate\Exceptions\TrainSetFileException
+     */
     public function storeModel($iSituationId, $sName, $iDuration, $iMinThreshold, $sComment, $fTrainFile) {
         $iSituationId = (int)$iSituationId;
+        if(!$iSituationId || !Situation::find($iSituationId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
         $sName = (string)$sName;
         $iDuration = (int)$iDuration;
         $iMinThreshold = ($iMinThreshold <= 100 && $iMinThreshold >=50) ? (int)$iMinThreshold : \Elluminate\Math\LogisticRegression::DEFAULT_MIN_THRESHOLD;
         $sComment = (string)$sComment;
-        $aFileContent = $this->extractTrainingSetFromExcel($fTrainFile);
+        // получим из файла все, что нам нужно
+        $aFileContent = $this->extractDataFromExcel($fTrainFile);
+        // преобразуем содержимое в нужную форму
         $this->prepareFileContent($aFileContent);
-        $aTrainigSet = array_slice($aFileContent, 2);
+        // заберем оттуда саму выборку
+        $aTrainingSet = array_slice($aFileContent, 2);
+        // возьмем название регрессии
         $aRegName = $aFileContent[0][0];
+        // единицы измерения регрессии
         $aRegComment = $aFileContent[1][0];
+        // названия регрессоров
         $aCovNames = array_slice($aFileContent[0], 1);
+        // единицы измерения регрессоров
         $aCovComments = array_slice($aFileContent[1], 1);
         unset($aFileContent);
-        $this->oModel->setTrainingSet($aTrainigSet);
+        // зададим ввыборку для модели
+        $this->oModel->setTrainingSet($aTrainingSet);
+        // обучим модель
         $this->oModel->trainModel();
+        // зададим модель для анализа качества
         $this->oQuality->setModel($this->oModel);
+        // проведем анализ качества
         $this->oQuality->getQualityAnalysis();
+        // создадим новую сущность БД и забьем атрибуты
         $oModel = new Model();
         $oModel->situation_id = $iSituationId;
         $oModel->name = $sName;
         $oModel->comment = $sComment;
+        // нам не надо экранировать символы юникода, это только увеличит размер поля
         $oModel->cov_names = json_encode($aCovNames, JSON_UNESCAPED_UNICODE);
         $oModel->cov_comments = json_encode($aCovComments, JSON_UNESCAPED_UNICODE);
         $oModel->reg_name = $aRegName;
@@ -145,14 +94,20 @@ class ModelRepository {
         $oModel->coefficients = json_encode($this->oModel->getCoefficients());
         $oModel->durations_id = $iDuration;
         $oModel->min_threshold = $iMinThreshold;
-        $oModel->core_selection = json_encode($aTrainigSet);
+        $oModel->core_selection = json_encode($aTrainingSet);
         $oModel->threshold = $this->oQuality->getThreshold();
         $oModel->std_coeff = json_encode($this->oQuality->getStdCoeff());
         $oModel->elastic_coeff = json_encode($this->oQuality->getElasticCoeff());
         $oModel->curve_area = $this->oQuality->getCurveArea();
+        $oModel->sill = $this->oQuality->getSill();
+        // сохраним новую сущность
         return $oModel->save();
     }
 
+    /** приводит содержимое файла обучающей выборки в нужный нам вид
+     * @param $aFileContent - содержимое файла обучаюзей выборки
+     * @throws \Elluminate\Exceptions\TrainSetFileException
+     */
     private function prepareFileContent(&$aFileContent) {
         // проверим, что в массиве что-то есть
         if(!is_array($aFileContent) || !count($aFileContent)) throw new \Elluminate\Exceptions\TrainSetFileException("Ошибка при считывании обучающей выборки");
@@ -162,6 +117,10 @@ class ModelRepository {
         $this->removeExcessColsAndIncomplRows($aFileContent, $iLastCol);
     }
 
+    /** удаляет лишние столбцы и строчки из файла обучающей выборки
+     * @param $aFileContent
+     * @param $iOffset
+     */
     private function removeExcessColsAndIncomplRows(&$aFileContent, $iOffset) {
         // пройдем по строкам
         foreach($aFileContent as $rowKey => &$aRow) {
@@ -181,6 +140,10 @@ class ModelRepository {
         $aFileContent = array_values($aFileContent);
     }
 
+    /** ищет номер последней значащей колонки в файле
+     * @param $aFileContent - содержимое файла
+     * @return mixed - номер последней значащей колонки
+     */
     private function findLastCol($aFileContent) {
         $aEmpty = [];
         // пройдем по первым двум строкам - если нет имени регрессора или названия, то мы его брать не будем - это бессмысленно
@@ -199,7 +162,17 @@ class ModelRepository {
         return min($aEmpty);
     }
 
-    protected function extractTrainingSetFromExcel($sFileName, $iOffset = 12, $iRowLimit = 0, $iColLimit = 0, $iSheetNumber = 0) {
+    /** получает данные из файла Excel
+     * @param $sFileName - путь к файлу
+     * @param int $iOffset - сколько строчек сверху пропускать
+     * @param int $iRowLimit - сколько строк прочесть
+     * @param int $iColLimit - сколько столбцов прочесть
+     * @param int $iSheetNumber - номер листа
+     * @return array - данные из файла
+     * @throws PHPExcel_Exception
+     * @throws \Elluminate\Exceptions\TrainSetFileException
+     */
+    protected function extractDataFromExcel($sFileName, $iOffset = 12, $iRowLimit = 0, $iColLimit = 0, $iSheetNumber = 0) {
         $iOffset = (int)$iOffset;
         $iRowLimit = (int)$iRowLimit;
         $iColLimit = (int)$iColLimit;
@@ -228,4 +201,7 @@ class ModelRepository {
         }
         return $aTrainingSet;
     }
+
+
+
 }

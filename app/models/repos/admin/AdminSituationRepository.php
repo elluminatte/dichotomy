@@ -1,41 +1,11 @@
 <?php
-
 /**
  * Created by PhpStorm.
  * User: elluminate
- * Date: 30.01.15
- * Time: 15:34
+ * Date: 25.02.15
+ * Time: 12:23
  */
-class SituationRepository
-{
-
-    // используем общий трейт
-    use Elluminate\Traits\HierarchicalRepository;
-
-    /** получает список проблемных ситуаций
-     * @param $iParentSituationId - id ситуации, наслдеников которой надо получить
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
-     */
-    public function getSituationsList($iParentSituationId, $needModels = false, $needChildren = false)
-    {
-        $iParentSituationId = (int)$iParentSituationId;
-        // если это не верхний уровень и нет такого раздела, значит нас хотят обмануть
-        // или просто такой раздел не сущесвует, отдадим 404 ошибку
-        if ($iParentSituationId !== 0 && !Situation::find($iParentSituationId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-        // если верхний уровень, отдадим разделы, у которых родителя нет
-        if (!$iParentSituationId)
-            $oSituations = Situation::whereNull('parent_id')->get();
-        // иначе найдем наследников
-        else
-            $oSituations = Situation::find($iParentSituationId)->children()->get();
-        if($needModels)
-            $oSituations->load('modelsId');
-        if($needChildren)
-            $oSituations->load('children');
-        return $oSituations;
-    }
-
-
+class AdminSituationRepository extends SituationRepository {
     /** добавляет новую ситуацию
      * @param $sName - название
      * @param $sOkvedCorrespondence - соответствие ОКВЭД
@@ -62,6 +32,20 @@ class SituationRepository
         return $oSituation->save();
     }
 
+    /** удаляет проблемную ситуацию
+     * @param $iSituationId - id ситуации, которую будем удалять
+     * @return bool|null
+     * @throws Exception
+     */
+    public function destroySection($iSituationId)
+    {
+        $iSituationId = (int)$iSituationId;
+        // проверяем не хотят ли нас обмануть - существует ли такой раздел
+        if (!$iSituationId || !Situation::find($iSituationId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+        // удаляем сущность, о вложенных позаботиться СУБД с помощью внешних ключей
+        return Situation::find($iSituationId)->delete();
+    }
+
     /** обновляет данные о проблемной ситуации
      * @param $iSituationId - id ситуации, которую обновляем
      * @param $sName - название
@@ -85,19 +69,7 @@ class SituationRepository
         return $oSituation->save();
     }
 
-    /** удаляет проблемную ситуацию
-     * @param $iSituationId - id ситуации, которую будем удалять
-     * @return bool|null
-     * @throws Exception
-     */
-    public function destroySection($iSituationId)
-    {
-        $iSituationId = (int)$iSituationId;
-        // проверяем не хотят ли нас обмануть - существует ли такой раздел
-        if (!$iSituationId || !Situation::find($iSituationId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-        // удаляем сущность, о вложенных позаботиться СУБД с помощью внешних ключей
-        return Situation::find($iSituationId)->delete();
-    }
+
 
 
 }
