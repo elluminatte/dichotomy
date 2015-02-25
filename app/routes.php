@@ -13,14 +13,21 @@
 
 Route::get('/', function()
 {
-////	var_dump(\Carbon\Carbon::now()->addHours(8760) < \Carbon\Carbon::now());
+//	var_dump(\Carbon\Carbon::now()->formatLocalized('%d %B %Y %H:%M'));
 //	$test = Evaluation::find(1);
 //	$t = $test->expired_moment;
-//	var_dump(new \Carbon\Carbon($t));
+//	var_dump(new \Carbon\Carbon($t)->format);
 //
 //	$date = \Carbon\Carbon::now()->addMinutes(1);
 //	Queue::push('\Elluminate\Workers\Test', ['name' => 'worker1', 'duration' => 1111]);
 //	Queue::push('\Elluminate\Workers\Test1', ['name' => 'worker2', 'duration' => 22222]);
+//	$oEvaluation = \Evaluation::find(3);
+//	$iRealResult = $oEvaluation->real_result;
+//	$aCovariates = json_decode($oEvaluation->covariates);
+//	$aRow = array_unshift($aCovariates, $iRealResult);
+//	echo "<XMP>";
+////	print_r($aCovariates);
+//	echo "</XMP>";
 	return View::make('hello');
 });
 
@@ -36,6 +43,7 @@ Route::group(array('prefix' => 'admin'), function()
 
 	// Маршруты моделей
 	Route::get('models/list/{iSituationId}', array('as' => 'models.list', 'uses' => 'AdminModelController@index'));
+	Route::get('models/detail/{iModelId}', array('as' => 'models.detail', 'uses' => 'AdminModelController@show'));
 	Route::get('models/create/{iSituationId}', array('as' => 'models.create', 'uses' => 'AdminModelController@create'));
 	Route::post('models/store', array('before' => 'csrf', 'as' => 'models.store', 'uses' => 'AdminModelController@store'));
 	Route::get('models/destroy/{iModelId}', array('as' => 'models.destroy', 'uses' => 'AdminModelController@destroy'));
@@ -44,10 +52,14 @@ Route::group(array('prefix' => 'admin'), function()
 Route::group(array('prefix' => 'client'), function() {
 	Route::get('problems/list/{iParentSituationId?}', ['as' => 'problems.list', 'uses' => 'ClientSituationController@index']);
 	Route::get('tasks/list/{iSituationId}', array('as' => 'tasks.list', 'uses' => 'ClientModelController@index'));
-	Route::get('tasks/detail/{iModelId}', array('as' => 'tasks.detail', 'uses' => 'ClientModelController@apply'));
+	Route::get('tasks/detail/{iModelId}', array('as' => 'tasks.detail', 'uses' => 'ClientModelController@showModelForm'));
 	Route::post('tasks/compute', ['before' => 'csrf', 'as' => 'tasks.compute', 'uses' => 'ClientModelController@compute']);
 	Route::post('/search/', array('before' => 'csrf', 'as' => 'search', 'uses' => 'SearchController@index'));
+	Route::get('evaluations/list', array('as' => 'evaluations.list', 'uses' => 'EvaluationController@index'));
+	Route::get('evaluations/detail/{iEvaluationId}', array('as' => 'evaluations.detail', 'uses' => 'EvaluationController@show'));
+	Route::post('evaluations/confirm', ['before' => 'csrf', 'as' => 'evaluations.confirm', 'uses' => 'EvaluationController@confirm']);
 });
+Route::get('test', ['as' => 'test.ajax', 'uses' => 'HomeController@test']);
 
 // Confide routes
 Route::get('users/create', 'UsersController@create');
@@ -66,7 +78,7 @@ Route::get('users/logout', 'UsersController@logout');
 Menu::make('authNavBar', function($menu){
 	// если пользователь залогинился, то покажем кто он и кнопку на выхож
 	if(\Auth::user()) {
-		$menu->add('<i class="fa fa-user"></i>  Вы вошли как '.\Auth::user()->email);
+		$menu->add('<i class="fa fa-user"></i>  Вы вошли как '.\Auth::user()->username);
 		$menu->add('<i class="fa fa-sign-out"></i> Выйти', 'users/logout');
 	}
 	// иначе предложим войти или зарегистрироваться
@@ -96,8 +108,9 @@ Menu::make('userNavBar', function($menu) {
 	if(\Entrust::hasRole('user')) {
 		$menu->add('<i class="fa fa-check"></i> Решение задач классификации', ['id' => 1]);
 		$menu->find(1)->add('<i class="fa fa-magic"></i> Поиск и решение задачи', ['route' => 'problems.list',' id' => 2]);
-		$menu->find(1)->add('<i class="fa fa-reply"></i> Подтверждение решения (обратная связь)', ['route' => 'situations.list', 'id' => 3]);
+		$menu->find(1)->add('<i class="fa fa-send-o"></i> Подтверждение решения (обратная связь)', ['route' => 'evaluations.list', 'id' => 3]);
 		if(\Request::is('/client*'))
 			$menu->find(1)->active();
+		EvaluationRepository::getNotifications();
 	}
 });
