@@ -16,7 +16,7 @@ class CreateEvaluationsTable extends Migration {
 		Schema::create('evaluations', function($table) {
 			$table->increments('id')->unsigned();
 			$table->smallInteger('estimated_result')->unsigned();
-			$table->smallInteger('real_result')->unsigned();
+			$table->smallInteger('real_result')->unsigned()->nullable;
 			$table->text('covariates');
 			$table->dateTime('expired_moment');
 			$table->integer('user_id')->unsigned();
