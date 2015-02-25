@@ -52,7 +52,7 @@ class E {
      * @param bool $die - закончить ли выполнение программы после вывода значения
      */
     public static function _dumpContent($content, $die = true) {
-        if (is_array($content)) {
+        if (is_array($content) || is_object($content)) {
             echo "<XMP>";
             print_r($content);
             echo "</XMP>";
@@ -90,6 +90,27 @@ class E {
         for($i=1; $i <= $iPos; $i++)
             $sLetter++;
         return $sLetter;
+    }
+
+    /** собирает иерархическое дерево проблемных ситуаций в цепочку
+     * @param $iSituationId - id нижней ситуации
+     * @return array - иерархия
+     */
+    public static function buildHierarchy($iSituationId) {
+        $iSituationId = (int)$iSituationId;
+        if(!$iSituationId) return [];
+        $aHierarchy = [];
+        $oSituation = \Situation::find($iSituationId);
+        if(!$oSituation) return [];
+        // сначала запихнем сам этот раздел
+        array_push($aHierarchy, ['id' => $oSituation->id, 'name' => $oSituation->name]);
+        // пока есть предки будем собирать их в цепочку
+        while($oSituation->parent()->get()->first()) {
+            $oParent = $oSituation->parent()->get()->first();
+            array_unshift($aHierarchy, ['id' => $oParent->id, 'name' => $oParent->name]);
+            $oSituation = $oParent;
+        }
+        return $aHierarchy;
     }
 
 
