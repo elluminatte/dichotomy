@@ -199,4 +199,6 @@ return array(
 
 	),
 
+	'admin_email' => 'elluminate@mail.ru'
+
 );
