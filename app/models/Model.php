@@ -33,7 +33,7 @@ class Model extends Eloquent {
     ];
 
     public function duration() {
-        return $this->belongsTo('Duration');
+        return $this->belongsTo('Duration', 'durations_id');
     }
 
     public function situation() {
