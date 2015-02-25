@@ -51,6 +51,11 @@ class QualityAnalysis
     private $fThreshold;
 
     /**
+     * @var - порог отсечения
+     */
+    private $fSill;
+
+    /**
      * @var - площадь под ROC-кривой
      */
     private $fCurveArea;
@@ -76,7 +81,11 @@ class QualityAnalysis
      */
     public function getThreshold()
     {
-        return round($this->fThreshold, 2);
+        return $this->fThreshold;
+    }
+
+    public function getSill() {
+        return $this->fSill;
     }
 
     /** геттер значения площади под ROC-кривой
@@ -174,6 +183,7 @@ class QualityAnalysis
         $aDifference = $this->oMath->matrixDiff($this->oMath->vectorNumberSubtraction($this->aSpecificity, 100), $this->aSensitivity);
         // найдем минимум модуля разности
         $iSill = $this->oMath->findVectorMinimumPos($aDifference);
+        $this->fSill = $iSill/1000;
         unset($aDifference);
         // возьмем минимальное из двух значений, чтобы обеспечить качество, не ниже заявленного
         return min($this->oMath->vectorNumberSubtraction($this->aSpecificity, 100)[$iSill], $this->aSensitivity[$iSill]);
