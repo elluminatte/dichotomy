@@ -7,23 +7,88 @@
  */
 // тут будем хранить механизмы генерации хлебных крошек для разных модулей приложения
 
-// крошки для проблемных ситуаций
-Breadcrumbs::register('situations', function($breadcrumbs, $sectionTree, $mode = 'list') {
+// крошки для проблемных ситуаций админу
+Breadcrumbs::register('admin.situations', function($oBreadcrumbs, $aHierarchy, $sMode) {
+    $oBreadcrumbs->push('Главная', url('/'));
     // первый уровень-заглушка
-    $breadcrumbs->push('Каталог проблемных ситуаций', route('situations.list'));
-    if(is_array($sectionTree) && count($sectionTree))
-        foreach($sectionTree as $section) {
-            $breadcrumbs->push($section['name'], URL::route('situations.list', array('parentId' => $section['id'])));
+    $oBreadcrumbs->push('Каталог проблемных ситуаций', route('situations.list'));
+    if(is_array($aHierarchy) && count($aHierarchy))
+        foreach($aHierarchy as $section) {
+            $oBreadcrumbs->push($section['name'], URL::route('situations.list', array('iParentSituationId' => $section['id'])));
         }
-    switch($mode) {
+    switch($sMode) {
         case 'list':
             break;
         // если показали форму редактирования, то надо добавить заглушку
         case 'edit':
-            $breadcrumbs->push('Редактирование реквизитов');
+            $oBreadcrumbs->push('Редактирование реквизитов');
             break;
         // аналогично редактированию
-        case 'add':
-            $breadcrumbs->push('Добавление ситуации');
+        case 'create':
+            $oBreadcrumbs->push('Добавление ситуации');
+    }
+});
+// крошки для задач классификации админу
+Breadcrumbs::register('admin.models', function($oBreadcrumbs, $aHierarchy, $sMode, $iModelId = null) {
+    $oBreadcrumbs->push('Главная', url('/'));
+    // первый уровень-заглушка
+    $oBreadcrumbs->push('Каталог проблемных ситуаций', route('situations.list'));
+    if(is_array($aHierarchy) && count($aHierarchy))
+        foreach($aHierarchy as $section) {
+            $oBreadcrumbs->push($section['name'], URL::route('situations.list', array('iParentSituationId' => $section['id'])));
+        }
+    switch($sMode) {
+        case 'list':
+            break;
+        case 'detail':
+            if(!is_null($iModelId) && \Model::find($iModelId, ['id']))
+                $oBreadcrumbs->push(\Model::find($iModelId, ['name'])->name);
+            break;
+        case 'create':
+            $oBreadcrumbs->push('Добавление задачи');
+            break;
+    }
+});
+
+// крошки для проблемных ситуаций пользователю
+Breadcrumbs::register('client.situations', function($oBreadcrumbs, $aHierarchy) {
+    $oBreadcrumbs->push('Главная', url('/'));
+    // первый уровень-заглушка
+    $oBreadcrumbs->push('Каталог проблемных ситуаций', route('problems.list'));
+    if(is_array($aHierarchy) && count($aHierarchy))
+        foreach($aHierarchy as $section) {
+            $oBreadcrumbs->push($section['name'], URL::route('problems.list', array('iParentSituationId' => $section['id'])));
+        }
+});
+
+// крошки для задач классификации пользователю
+Breadcrumbs::register('client.models', function($oBreadcrumbs, $aHierarchy, $sMode, $iModelId = null) {
+    $oBreadcrumbs->push('Главная', url('/'));
+    // первый уровень-заглушка
+    $oBreadcrumbs->push('Каталог проблемных ситуаций', route('problems.list'));
+    if(is_array($aHierarchy) && count($aHierarchy))
+        foreach($aHierarchy as $section) {
+            $oBreadcrumbs->push($section['name'], URL::route('problems.list', array('iParentSituationId' => $section['id'])));
+        }
+    switch($sMode) {
+        case 'list':
+            break;
+        case 'detail':
+            if(!is_null($iModelId) && \Model::find($iModelId, ['id']))
+                $oBreadcrumbs->push(\Model::find($iModelId, ['name'])->name);
+            break;
+    }
+});
+
+Breadcrumbs::register('evaluations', function($oBreadcrumbs, $sMode, $iModelId = null) {
+    $oBreadcrumbs->push('Главная', url('/'));
+    $oBreadcrumbs->push('Обратная связь', route('evaluations.list'));
+    switch($sMode) {
+        case 'list':
+            break;
+        case 'detail':
+            if(!is_null($iModelId) && \Model::find($iModelId, ['id']))
+                $oBreadcrumbs->push(\Model::find($iModelId, ['name'])->name);
+            break;
     }
 });
