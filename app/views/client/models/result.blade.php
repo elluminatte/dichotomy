@@ -1,5 +1,6 @@
 @extends('layouts.master')
 @section('content')
+    {{ Breadcrumbs::render('client.models', $hierarchy, 'detail', $model_id) }}
     <div>{{ $comment }}</div>
     <div>{{ $reg_name }}</div>
     <div class="col-lg-5">

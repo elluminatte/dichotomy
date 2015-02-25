@@ -12,7 +12,7 @@
             <div class="page-header">
                 <h3><i class="fa fa-angle-double-down"></i> Каталог проблемных ситуаций</h3>
             </div>
-                {{ Breadcrumbs::render('situations', $parent_tree) }}
+                {{ Breadcrumbs::render('admin.situations', $hierarchy, 'list') }}
                 <a title="Добавить ситуацию" href="{{ URL::route('situations.create', ['iParentSituationId' => $parent_situation]) }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить ситуацию</a>
             <table class="table table-striped table-hover">
                 <thead>
@@ -25,6 +25,7 @@
                 </tr>
                 </thead>
                 <tbody>
+                @if(!$situations->isEmpty())
                 @foreach($situations as $situation)
                     <tr>
                         <td class="td-align_left"><a href="{{ URL::route('situations.list', ['iParentSituationId' => $situation->id]) }}"><i class="fa fa-level-down"></i> {{ $situation->name }}</a></td>
@@ -42,6 +43,7 @@
                         </td>
                     </tr>
                 @endforeach
+                @endif
                 </tbody>
             </table>
         </div>

@@ -26,6 +26,20 @@
 
 <main>
 <div class="container">
+    <div class="col-lg-offset-8">
+        <span class="notifications">
+             @if ( Session::get('waiting_evaluations') )
+                    @include('client.notifications.waiting_evaluations')
+            @endif
+        </span>
+    </div>
+    <div class="col-lg-offset-8">
+        <span class="notifications">
+             @if ( Session::get('expired_evaluations') )
+                @include('client.notifications.expired_evaluations')
+            @endif
+        </span>
+    </div>
     @yield('content')
 </div>
 </main>

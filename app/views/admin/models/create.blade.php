@@ -3,7 +3,7 @@
     {{ HTML::style('assets/css/bootstrap-slider.css') }}
 @stop
 @section('content')
-        {{ Breadcrumbs::render('situations', $parent_tree, 'add') }}
+        {{ Breadcrumbs::render('admin.models', $hierarchy, 'create') }}
     {{ Form::open(['route' => 'models.store', 'class' => 'form-horizontal', 'files' => true]) }}
     <fieldset>
         <legend>Добавление задачи</legend>
@@ -61,4 +61,5 @@
 @section('scripts')
     {{ HTML::script('assets/js/bootstrap-slider.js') }}
     {{ HTML::script('assets/js/slider.js') }}
+    {{--{{ HTML::script('assets/js/checkFile.js') }}--}}
 @stop

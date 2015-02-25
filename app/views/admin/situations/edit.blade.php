@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-        {{ Breadcrumbs::render('situations', $parent_tree, 'edit') }}
+        {{ Breadcrumbs::render('admin.situations', $hierarchy, 'edit') }}
     {{ Form::model($situation, ['route' => ['situations.update'], 'class' => 'form-horizontal']) }}
     <fieldset>
         <legend>Изменение реквизитов ситуации</legend>

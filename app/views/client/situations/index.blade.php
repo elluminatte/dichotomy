@@ -4,7 +4,7 @@
             <div class="page-header">
                 <h3><i class="fa fa-angle-double-down"></i> Каталог проблемных ситуаций</h3>
             </div>
-{{--            {{ Breadcrumbs::render('situations', $parent_tree) }}--}}
+            {{ Breadcrumbs::render('client.situations', $hierarchy) }}
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
@@ -14,6 +14,7 @@
                 </tr>
                 </thead>
                 <tbody>
+                @if(!$situations->isEmpty())
                 @foreach($situations as $situation)
                     <tr>
                         @if( isset($situation->children) && count($situation->children))
@@ -31,6 +32,7 @@
                         </td>
                     </tr>
                 @endforeach
+                @endif
                 </tbody>
             </table>
         </div>

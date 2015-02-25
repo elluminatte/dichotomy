@@ -1,5 +1,6 @@
 @extends('layouts.master')
 @section('content')
+    {{ Breadcrumbs::render('client.models', $hierarchy, 'detail', $model->id) }}
 <div class="col-lg-row">
     <blockquote>
         <p>{{ $model->name }}</p>
@@ -10,6 +11,7 @@
     {{ Form::open(array('route' => 'tasks.compute', 'class' => 'form-horizontal')) }}
     <fieldset>
         <legend>Введите значения параметров для решения задачи</legend>
+        @if(!empty($form))
         @foreach($form as $field)
             <div class="form-group">
                 {{ Form::label($field['tech_name'], $field['name'], ['class' => 'col-lg-2 control-label']) }}
@@ -19,6 +21,7 @@
                 </div>
             </div>
         @endforeach
+        @endif
             {{ Form::hidden('model_id', $model->id) }}
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-1">

@@ -10,25 +10,25 @@
             <div class="page-header">
                 <h3><i class="fa fa-angle-double-down"></i> Список решаемых задач</h3>
             </div>
-                {{ Breadcrumbs::render('situations', $parent_tree) }}
+                {{ Breadcrumbs::render('admin.models', $hierarchy, 'list') }}
                 <a title="Добавить задачу" href="{{ URL::route('models.create', ['iSituationId' => $situation_id]) }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить задачу</a>
             <div style="margin-bottom: 20px"></div>
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
                     <th>Название</th>
-                    <th>Переобучить модель</th>
                     <th>Удалить задачу</th>
                 </tr>
                 </thead>
                 <tbody>
+                @if(!$models->isEmpty())
                 @foreach($models as $model)
                     <tr>
-                        <td class="td-align_left"><a href="{{ URL::route('situations.list')}}">{{ $model->name }}</a></td>
-                        <td><a title="Переобучить модель" href="{{ URL::route('models.create', ['iSituationId' => $situation_id]) }}" class="btn btn-primary"><i class="fa fa-wrench"></i></a></td>
+                        <td class="td-align_left"><a href="{{ URL::route('models.detail', ['iModelId' => $model->id])}}">{{ $model->name }}</a></td>
                         <td><a title="Удалить задачу" data-href="{{ URL::route('models.destroy', ['iModelId' => $model->id]) }}" class="btn btn-danger" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></a></td>
                     </tr>
                 @endforeach
+                @endif
                 </tbody>
             </table>
         </div>
