@@ -11,7 +11,7 @@ class AdminSituationController extends \BaseController
      */
     protected $oRepo;
 
-    public function __construct(SituationRepository $oRepo)
+    public function __construct(AdminSituationRepository $oRepo)
     {
         // внедряем зависимость - репозиторий
         $this->oRepo = $oRepo;
@@ -28,12 +28,12 @@ class AdminSituationController extends \BaseController
         // собираем список разделов
         $oSituations = $this->oRepo->getSituationsList($iParentSituationId, true);
         // собираем дерево родителей для хлебных крошек
-        $aParentTree = $this->oRepo->constructParentTree($iParentSituationId);
+        $aHierarchy = \Elluminate\Engine\E::buildHierarchy($iParentSituationId);
         // отдаем данные в вид и рисуем его
         return View::make('admin.situations.index', [
             'situations' => $oSituations,
             'parent_situation' => $iParentSituationId,
-            'parent_tree' => $aParentTree
+            'hierarchy' => $aHierarchy
         ]);
     }
 
@@ -47,11 +47,11 @@ class AdminSituationController extends \BaseController
     {
         $iParentSituationId = (int)$iParentSituationId;
         // собираем дерево родителей для хлебных крошек
-        $aParentTree = $this->oRepo->constructParentTree($iParentSituationId);
+        $aHierarchy = \Elluminate\Engine\E::buildHierarchy($iParentSituationId);
         // отдаем данные в вид и рисуем его
         return View::make('admin.situations.create', [
             'parent_situation_id' => $iParentSituationId,
-            'parent_tree' => $aParentTree
+            'hierarchy' => $aHierarchy
         ]);
     }
 
@@ -93,12 +93,12 @@ class AdminSituationController extends \BaseController
         // если нас хотят обмануть или такой ситуации просто нет, отдаем 404 ошибку
         if (!$iSituationId || !Situation::find($iSituationId, ['id'])) App::abort(404);
         // собираем дерево родителей для хлебных крошек
-        $aParentTree = $this->oRepo->constructParentTree($iSituationId);
+        $aHierarchy = \Elluminate\Engine\E::buildHierarchy($iSituationId);
         // находим нужную сущность (физически - строка таблицы)
         $oSituation = Situation::find($iSituationId);
         // рисуем вид
         return View::make('admin.situations.edit', [
-            'parent_tree' => $aParentTree,
+            'hierarchy' => $aHierarchy,
             'situation' => $oSituation
         ]);
     }
