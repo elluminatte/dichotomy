@@ -91,13 +91,13 @@ class AdminModelRepository extends ModelRepository {
         $oModel->cov_comments = json_encode($aCovComments, JSON_UNESCAPED_UNICODE);
         $oModel->reg_name = $aRegName;
         $oModel->reg_comment = $aRegComment;
-        $oModel->coefficients = json_encode($this->oModel->getCoefficients());
+        $oModel->coefficients = json_encode($this->oModel->getCoefficients(), JSON_NUMERIC_CHECK);
         $oModel->durations_id = $iDuration;
         $oModel->min_threshold = $iMinThreshold;
-        $oModel->core_selection = json_encode($aTrainingSet);
+        $oModel->core_selection = json_encode($aTrainingSet, JSON_NUMERIC_CHECK);
         $oModel->threshold = $this->oQuality->getThreshold();
-        $oModel->std_coeff = json_encode($this->oQuality->getStdCoeff());
-        $oModel->elastic_coeff = json_encode($this->oQuality->getElasticCoeff());
+        $oModel->std_coeff = json_encode($this->oQuality->getStdCoeff(), JSON_NUMERIC_CHECK);
+        $oModel->elastic_coeff = json_encode($this->oQuality->getElasticCoeff(), JSON_NUMERIC_CHECK);
         $oModel->curve_area = $this->oQuality->getCurveArea();
         $oModel->sill = $this->oQuality->getSill();
         // сохраним новую сущность

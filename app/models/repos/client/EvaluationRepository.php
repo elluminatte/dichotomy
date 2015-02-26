@@ -42,7 +42,7 @@ class EvaluationRepository
         $oEvaluation = new Evaluation();
         // граница между Да и Нет находится не в 0,5, а в абсциссе порога отсечения
         $oEvaluation->estimated_result = $fEstimatedResult <= $fSill ? 0 : 1;
-        $oEvaluation->covariates = json_encode($aCovariates);
+        $oEvaluation->covariates = json_encode($aCovariates, JSON_NUMERIC_CHECK);
         // добавим к текущему времени интервал корректности решения
         $oEvaluation->expired_moment = \Carbon\Carbon::now()->addHours($iDuration);
         $oEvaluation->user_id = $iUserId;
