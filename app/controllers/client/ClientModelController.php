@@ -39,7 +39,8 @@ class ClientModelController extends \BaseController
      */
     public function showModelForm($iModelId)
     {
-        $oModel = $this->oRepo->getModel($iModelId, ['id', 'name', 'comment', 'situation_id']);
+        $oModel = $this->oRepo->getModel($iModelId, ['id', 'name', 'comment', 'situation_id', 'min_threshold', 'threshold']);
+        if($oModel->threshold < $oModel->min_threshold) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
         $iSituationId = $oModel->situation_id;
         $oForm = $this->oRepo->getApplyingForm($iModelId);
         $aHierarchy = \Elluminate\Engine\E::buildHierarchy($iSituationId);
