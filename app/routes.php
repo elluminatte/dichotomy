@@ -49,6 +49,7 @@ Route::group(array('prefix' => 'admin'), function()
 	Route::get('models/destroy/{iModelId}', array('as' => 'models.destroy', 'uses' => 'AdminModelController@destroy'));
 	Route::get('models/template/', array('as' => 'models.template', 'uses' => 'AdminModelController@downloadTemplate'));
 	Route::get('models/inactive/', array('as' => 'models.inactive', 'uses' => 'AdminModelController@inactiveModels'));
+	Route::get('models/dump/{iModelId}', array('as' => 'models.dump', 'uses' => 'AdminModelController@dump'));
 });
 
 Route::group(array('prefix' => 'client'), function() {

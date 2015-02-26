@@ -133,5 +133,15 @@ class AdminModelController extends \BaseController
         ]);
     }
 
+    /** отдает на скачивание файл основной обучающей выборки
+     * @param $iModelId - id модели
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @throws \Elluminate\Exceptions\DumpSelectionException
+     */
+    public function dump($iModelId) {
+        $dumpName = $this->oRepo->dumpSelectionToFile($iModelId);
+        return Response::download(public_path().$dumpName);
+    }
+
 
 }

@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('content')
     {{ Breadcrumbs::render('admin.models', $hierarchy, 'detail', $model->id) }}
+    <a href="{{ URL::route('models.dump', ['iModelId' => $model->id]) }}">Скачать основную обучающую выборку</a>
     <blockquote>
         <p>{{ $model->name }}</p>
         <small>{{ $model->comment }}</small>

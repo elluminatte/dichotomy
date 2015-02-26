@@ -209,6 +209,49 @@ class AdminModelRepository extends ModelRepository {
         return $aTrainingSet;
     }
 
+    /** пишет основную обучающую выборку в файл
+     * @param $iModelId - id модели
+     * @return string - путь к файлу
+     * @throws \Elluminate\Exceptions\DumpSelectionException
+     */
+    public function dumpSelectionToFile($iModelId) {
+        // получим всё, что нужно для модели
+        $oModel = $this->getModel($iModelId, ['id', 'name', 'cov_names', 'cov_comments', 'reg_name', 'core_selection']);
+        // преобразуем имя в валидное для имени файла
+        $sName = \Elluminate\Engine\E::transliterate($oModel->name);
+        try {
+            // загрузим шаблон
+            $objPHPExcel = PHPExcel_IOFactory::load(public_path() . '/files/dump.xls');
+            // будем писать в первый лист
+            $objPHPExcel->setActiveSheetIndex(0);
+            // запишем имя функции
+            $objPHPExcel->getActiveSheet()->SetCellValue('A12', $oModel->reg_name);
+            // сформируем массив X1..Xn
+            $aCovNums = [];
+            $iCovCount = count(json_decode($oModel->cov_names));
+            for($i = 1; $i<=$iCovCount; ++$i) {
+                array_push($aCovNums, 'X'.$i);
+            }
+            // запишем строчку X1...Xn
+            $objPHPExcel->getActiveSheet()->fromArray($aCovNums, ' ', 'B11');
+            // запишем строчку имен регрессоров
+            $objPHPExcel->getActiveSheet()->fromArray(json_decode($oModel->cov_names), ' ', 'B12');
+            // запишем строчку единиц измерения регрессоров
+            $objPHPExcel->getActiveSheet()->fromArray(json_decode($oModel->cov_comments), ' ', 'B13');
+            // начнем писать основную обучающую выборку
+            $objPHPExcel->getActiveSheet()->fromArray(json_decode($oModel->core_selection), null, 'A14', true);
+            $objWriter = new PHPExcel_Writer_Excel5($objPHPExcel);
+            // создадим новый файл по имени функции + текущее дата/время
+            $dumpName = '/files/' . $sName . '-' . date("Y-m-d-H-i-s") . '.xls';
+            // сохраним всё, что записали в физический файл на диске
+            $objWriter->save(public_path() . $dumpName);
+            return $dumpName;
+        }
+        catch(\Exception $e) {
+            throw new \Elluminate\Exceptions\DumpSelectionException("Ошибка при попытке выгрузить основную обучающую выборку");
+        }
+    }
+
 
 
 }
