@@ -111,6 +111,57 @@ class AdminModelRepository extends ModelRepository {
         return $oModel->save();
     }
 
+    public function updateModel($iModelId, $sName, $iDuration, $iMinThreshold, $sComment, $fTrainFile) {
+        $iModelId = (int)$iModelId;
+        if(!$iModelId || !Model::find($iModelId)) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+        $oModel = Model::find($iModelId);
+        $oModel->name = $sName;
+        $oModel->durations_id = $iDuration;
+        $oModel->min_threshold = $iMinThreshold;
+        $oModel->comment = $sComment;
+        if(!is_null($fTrainFile)) {
+            // получим из файла все, что нам нужно
+            $aFileContent = $this->extractDataFromExcel($fTrainFile);
+            // преобразуем содержимое в нужную форму
+            $this->prepareFileContent($aFileContent);
+            // заберем оттуда саму выборку
+            $aTrainingSet = array_slice($aFileContent, 2);
+            // возьмем название регрессии
+            $aRegName = $aFileContent[0][0];
+            // единицы измерения регрессии
+            $aRegComment = $aFileContent[1][0];
+            // названия регрессоров
+            $aCovNames = array_slice($aFileContent[0], 1);
+            // единицы измерения регрессоров
+            $aCovComments = array_slice($aFileContent[1], 1);
+            unset($aFileContent);
+            // зададим ввыборку для модели
+            $this->oModel->setTrainingSet($aTrainingSet);
+            // обучим модель
+            $this->oModel->trainModel();
+            // зададим модель для анализа качества
+            $this->oQuality->setModel($this->oModel);
+            // проведем анализ качества
+            $this->oQuality->getQualityAnalysis();
+            $oModel->cov_names = json_encode($aCovNames, JSON_UNESCAPED_UNICODE);
+            $oModel->cov_comments = json_encode($aCovComments, JSON_UNESCAPED_UNICODE);
+            $oModel->reg_name = $aRegName;
+            $oModel->reg_comment = $aRegComment;
+            $oModel->coefficients = json_encode($this->oModel->getCoefficients(), JSON_NUMERIC_CHECK);
+            $oModel->durations_id = $iDuration;
+            $oModel->min_threshold = $iMinThreshold;
+            $oModel->core_selection = json_encode($aTrainingSet, JSON_NUMERIC_CHECK);
+            $oModel->threshold = $this->oQuality->getThreshold();
+            $oModel->std_coeff = json_encode($this->oQuality->getStdCoeff(), JSON_NUMERIC_CHECK);
+            $oModel->elastic_coeff = json_encode($this->oQuality->getElasticCoeff(), JSON_NUMERIC_CHECK);
+            $oModel->curve_area = $this->oQuality->getCurveArea();
+            $oModel->sill = $this->oQuality->getSill();
+            $oModel->oversampling = '';
+            Evaluation::where('model_id', '=', $iModelId)->delete();
+        }
+        return $oModel->save();
+    }
+
     /** приводит содержимое файла обучающей выборки в нужный нам вид
      * @param $aFileContent - содержимое файла обучаюзей выборки
      * @throws \Elluminate\Exceptions\TrainSetFileException

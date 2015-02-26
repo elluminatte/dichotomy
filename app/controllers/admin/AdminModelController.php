@@ -116,6 +116,45 @@ class AdminModelController extends \BaseController
             return Redirect::route('models.list', ['iSituationId' => $iSituationId])->withForm_result('delFailed');
     }
 
+    public function edit($iModelId) {
+        $oModel = $this->oRepo->getModel($iModelId, ['id', 'situation_id', 'name', 'comment', 'durations_id', 'min_threshold']);
+        // собираем дерево родителей для хлебных крошек
+        $aHierarchy = \Elluminate\Engine\E::buildHierarchy($oModel->situation_id);
+        $oDurations = Duration::lists('name', 'id');
+        // рисуем вид
+        return View::make('admin.models.edit', [
+            'hierarchy' => $aHierarchy,
+            'model' => $oModel,
+            'durations' => $oDurations
+        ]);
+    }
+
+    public function update() {
+        $iModelId = Input::get('model_id');
+        if(!$iModelId || !Model::find($iModelId)) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+        $sName = Input::get('name');
+        $iDuration = (int)Input::get('duration');
+        $iMinThreshold = (int)Input::get('min_threshold');
+        $sComment = Input::get('comment');
+        $fTrainFile = Input::file('train_file');
+        $oValidation = Model::validate([
+            'id' => $iModelId,
+            'name' => $sName,
+            'duration' => $iDuration,
+            'min_threshold' => $iMinThreshold,
+            'comment' => $sComment,
+            'train_file' => $fTrainFile
+        ]);
+        // если валидация провалилась, редеректим обратно с ошибками и заполненными полями
+        if ($oValidation->fails())
+            return Redirect::route('models.edit', ['iModelId' => $iModelId])->withErrors($oValidation)->withInput();
+        $bResult = $this->oRepo->updateModel($iModelId, $sName, $iDuration, $iMinThreshold, $sComment, $fTrainFile);
+        if ($bResult)
+            return Redirect::route('models.detail', ['iModelId' => $iModelId])->withForm_result('editDone');
+        else
+            return Redirect::route('models.detail', ['iModelId' => $iModelId])->withForm_result('editFailed');
+    }
+
     /** отдает на скачивание файл шаблона обучающей выборки
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */

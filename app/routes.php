@@ -46,6 +46,8 @@ Route::group(array('prefix' => 'admin'), function()
 	Route::get('models/detail/{iModelId}', array('as' => 'models.detail', 'uses' => 'AdminModelController@show'));
 	Route::get('models/create/{iSituationId}', array('as' => 'models.create', 'uses' => 'AdminModelController@create'));
 	Route::post('models/store', array('before' => 'csrf', 'as' => 'models.store', 'uses' => 'AdminModelController@store'));
+	Route::get('models/edit/{iModelId}', array('as' => 'models.edit', 'uses' => 'AdminModelController@edit'));
+	Route::post('models/update', array('before' => 'csrf', 'as' => 'models.update', 'uses' => 'AdminModelController@update'));
 	Route::get('models/destroy/{iModelId}', array('as' => 'models.destroy', 'uses' => 'AdminModelController@destroy'));
 	Route::get('models/template/', array('as' => 'models.template', 'uses' => 'AdminModelController@downloadTemplate'));
 	Route::get('models/inactive/', array('as' => 'models.inactive', 'uses' => 'AdminModelController@inactiveModels'));

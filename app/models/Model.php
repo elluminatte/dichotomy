@@ -27,8 +27,8 @@ class Model extends Eloquent {
         'name' => 'Required|Min:5',
         'duration' => 'Required|Integer',
         'min_threshold' => 'Required|Between:0,100',
-        'situation_id' => 'Required|Integer',
-        'train_file' => 'Required|mimes:xls,xlsx'
+        'situation_id' => 'Required_without:id|Integer',
+        'train_file' => 'Required_without:id|mimes:xls,xlsx'
 
     ];
 

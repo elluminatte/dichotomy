@@ -17,6 +17,7 @@
                 <thead>
                 <tr>
                     <th>Название</th>
+                    <th>Редактирование параметров</th>
                     <th>Удалить задачу</th>
                 </tr>
                 </thead>
@@ -25,6 +26,7 @@
                 @foreach($models as $model)
                     <tr>
                         <td class="td-align_left">@if($model->threshold < $model->min_threshold)<i class="fa fa-lock"></i>@endif <a href="{{ URL::route('models.detail', ['iModelId' => $model->id])}}">{{ $model->name }}</a></td>
+                        <td><a title="Редактировать параметры" href="{{ URL::route('models.edit', ['iModelId' => $model->id]) }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                         <td><a title="Удалить задачу" data-href="{{ URL::route('models.destroy', ['iModelId' => $model->id]) }}" class="btn btn-danger" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></a></td>
                     </tr>
                 @endforeach

@@ -91,7 +91,7 @@ class AdminSituationController extends \BaseController
     {
         $iSituationId = (int)$iSituationId;
         // если нас хотят обмануть или такой ситуации просто нет, отдаем 404 ошибку
-        if (!$iSituationId || !Situation::find($iSituationId, ['id'])) App::abort(404);
+        if (!$iSituationId || !Situation::find($iSituationId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
         // собираем дерево родителей для хлебных крошек
         $aHierarchy = \Elluminate\Engine\E::buildHierarchy($iSituationId);
         // находим нужную сущность (физически - строка таблицы)
@@ -139,7 +139,7 @@ class AdminSituationController extends \BaseController
     public function destroy($iSituationId)
     {
         // если нас хотят обмануть или такой ситуации просто нет, отдаем 404 ошибку
-        if (!$iSituationId || !Situation::find($iSituationId)) App::abort(404);
+        if (!$iSituationId || !Situation::find($iSituationId)) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
         // получим родителя удаляемого раздела, чтобы знать куда вернуть пользователя при редиректе
         $iParentId = isset(Situation::find($iSituationId)->parent()->get()->first()->id) ? (int)Situation::find($iSituationId)->parent()->get()->first()->id : 0;
         $bResult = $this->oRepo->destroySection($iSituationId);

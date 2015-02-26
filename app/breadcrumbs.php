@@ -47,6 +47,11 @@ Breadcrumbs::register('admin.models', function($oBreadcrumbs, $aHierarchy, $sMod
         case 'create':
             $oBreadcrumbs->push('Добавление задачи');
             break;
+        case 'edit':
+            if(!is_null($iModelId) && \Model::find($iModelId, ['id']))
+                $oBreadcrumbs->push(\Model::find($iModelId, ['name'])->name, URL::route('models.detail', ['iModelId' => $iModelId]));
+            $oBreadcrumbs->push('Редактирование параметров');
+            break;
     }
 });
 
