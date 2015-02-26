@@ -139,8 +139,7 @@ class AdminModelController extends \BaseController
      * @throws \Elluminate\Exceptions\DumpSelectionException
      */
     public function dump($iModelId) {
-        $dumpName = $this->oRepo->dumpSelectionToFile($iModelId);
-        return Response::download(public_path().$dumpName);
+        $this->oRepo->dumpSelectionToFile($iModelId);
     }
 
 

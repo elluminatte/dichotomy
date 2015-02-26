@@ -242,10 +242,13 @@ class AdminModelRepository extends ModelRepository {
             $objPHPExcel->getActiveSheet()->fromArray(json_decode($oModel->core_selection), null, 'A14', true);
             $objWriter = new PHPExcel_Writer_Excel5($objPHPExcel);
             // создадим новый файл по имени функции + текущее дата/время
-            $dumpName = '/files/' . $sName . '-' . date("Y-m-d-H-i-s") . '.xls';
-            // сохраним всё, что записали в физический файл на диске
-            $objWriter->save(public_path() . $dumpName);
-            return $dumpName;
+            $dumpName = $sName . '-' . date("Y-m-d-H-i-s") . '.xls';
+            // отдадим всё, что записали в стандартный поток вывода
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="'.$dumpName.'"');
+            header('Cache-Control: max-age=0');
+            $objWriter->save('php://output');
+            return true;
         }
         catch(\Exception $e) {
             throw new \Elluminate\Exceptions\DumpSelectionException("Ошибка при попытке выгрузить основную обучающую выборку");
