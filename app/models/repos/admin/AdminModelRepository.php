@@ -27,6 +27,13 @@ class AdminModelRepository extends ModelRepository {
         return $oModel;
     }
 
+    /** получает неактивные по порогу отсечения модели
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getInactiveModels() {
+        return Model::where('threshold', '<', DB::raw('min_threshold'))->get(['id', 'name', 'situation_id']);
+    }
+
     /** удаляет модель
      * @param $iModelId - id модели
      * @return bool|null - результат удаления

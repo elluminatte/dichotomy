@@ -34,7 +34,7 @@ class ModelRepository {
         if($bActiveModels)
             $oModels = Situation::find($iSituationId)->models()->get(['id', 'name']);
         else
-            $oModels = Situation::find($iSituationId)->models()->get(['id', 'name']);
+            $oModels = Situation::find($iSituationId)->models()->get(['id', 'name', 'threshold', 'min_threshold']);
         return $oModels;
     }
 

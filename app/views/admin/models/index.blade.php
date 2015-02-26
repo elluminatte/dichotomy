@@ -24,7 +24,7 @@
                 @if(!$models->isEmpty())
                 @foreach($models as $model)
                     <tr>
-                        <td class="td-align_left"><a href="{{ URL::route('models.detail', ['iModelId' => $model->id])}}">{{ $model->name }}</a></td>
+                        <td class="td-align_left">@if($model->threshold < $model->min_threshold)<i class="fa fa-lock"></i>@endif <a href="{{ URL::route('models.detail', ['iModelId' => $model->id])}}">{{ $model->name }}</a></td>
                         <td><a title="Удалить задачу" data-href="{{ URL::route('models.destroy', ['iModelId' => $model->id]) }}" class="btn btn-danger" type="button" data-toggle="modal" data-target="#delModal"><i class="fa fa-times"></i></a></td>
                     </tr>
                 @endforeach

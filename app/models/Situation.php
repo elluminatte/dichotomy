@@ -44,7 +44,7 @@ class Situation extends Eloquent {
     }
 
     public function activeModels() {
-        return $this->hasMany('Model')->where('min_threshold', '<', DB::raw('threshold'));
+        return $this->hasMany('Model')->where('threshold', '<', DB::raw('min_threshold'));
     }
 
 

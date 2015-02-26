@@ -48,6 +48,7 @@ Route::group(array('prefix' => 'admin'), function()
 	Route::post('models/store', array('before' => 'csrf', 'as' => 'models.store', 'uses' => 'AdminModelController@store'));
 	Route::get('models/destroy/{iModelId}', array('as' => 'models.destroy', 'uses' => 'AdminModelController@destroy'));
 	Route::get('models/template/', array('as' => 'models.template', 'uses' => 'AdminModelController@downloadTemplate'));
+	Route::get('models/inactive/', array('as' => 'models.inactive', 'uses' => 'AdminModelController@inactiveModels'));
 });
 
 Route::group(array('prefix' => 'client'), function() {
@@ -96,6 +97,7 @@ Menu::make('adminNavBar', function($menu) {
 		// назначим ему id, чтобы потом добавлять внутрь его, текстовые id почему-то не поддерживаются, придется так
 		$menu->add('<i class="fa fa-cogs"></i> Управление', ['id' => 1]);
 		$menu->find(1)->add('<i class="fa fa-folder-open"></i> Каталог проблемных ситуаций</a>', ['route'  => 'situations.list', 'id' => 2]);
+		$menu->find(1)->add('<i class="fa fa-lock"></i> Неактивные задачи</a>', ['route'  => 'models.inactive', 'id' => 3]);
 		if(\Request::is('/admin*'))
 			$menu->find(1)->active();
 		if(\Route::is('situations.list') || \Route::is('models.list'))

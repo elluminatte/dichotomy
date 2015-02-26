@@ -123,5 +123,15 @@ class AdminModelController extends \BaseController
         return Response::download(public_path().'/files/template.xlt');
     }
 
+    /** неактивные по порогу отсечения модели
+     * @return \Illuminate\View\View
+     */
+    public function inactiveModels() {
+        $oModels = $this->oRepo->getInactiveModels();
+        return View::make('admin.models.inactive', [
+            'models' => $oModels
+        ]);
+    }
+
 
 }

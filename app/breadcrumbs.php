@@ -92,3 +92,9 @@ Breadcrumbs::register('evaluations', function($oBreadcrumbs, $sMode, $iModelId =
             break;
     }
 });
+
+Breadcrumbs::register('models.inactive', function($oBreadcrumbs) {
+    $oBreadcrumbs->push('Главная', url('/'));
+    $oBreadcrumbs->push('Неактивные задачи', route('models.inactive'));
+});
+
