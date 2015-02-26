@@ -32,7 +32,7 @@ class ModelRepository {
         if(!$iSituationId || !Situation::find($iSituationId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
         // отдадим список связанных моделей
         if($bActiveModels)
-            $oModels = Situation::find($iSituationId)->activeModels()->get(['id', 'name']);
+            $oModels = Situation::find($iSituationId)->models()->get(['id', 'name']);
         else
             $oModels = Situation::find($iSituationId)->models()->get(['id', 'name']);
         return $oModels;
