@@ -47,6 +47,7 @@ Route::group(array('prefix' => 'admin'), function()
 	Route::get('models/create/{iSituationId}', array('as' => 'models.create', 'uses' => 'AdminModelController@create'));
 	Route::post('models/store', array('before' => 'csrf', 'as' => 'models.store', 'uses' => 'AdminModelController@store'));
 	Route::get('models/destroy/{iModelId}', array('as' => 'models.destroy', 'uses' => 'AdminModelController@destroy'));
+	Route::get('models/template/', array('as' => 'models.template', 'uses' => 'AdminModelController@downloadTemplate'));
 });
 
 Route::group(array('prefix' => 'client'), function() {

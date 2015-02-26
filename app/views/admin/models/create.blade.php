@@ -4,6 +4,7 @@
 @stop
 @section('content')
         {{ Breadcrumbs::render('admin.models', $hierarchy, 'create') }}
+        <div><a href="{{ URL::route('models.template') }}">Скачать шаблон файла обучающей выборки</a></div>
     {{ Form::open(['route' => 'models.store', 'class' => 'form-horizontal', 'files' => true]) }}
     <fieldset>
         <legend>Добавление задачи</legend>
