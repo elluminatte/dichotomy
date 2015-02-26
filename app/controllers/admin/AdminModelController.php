@@ -116,5 +116,12 @@ class AdminModelController extends \BaseController
             return Redirect::route('models.list', ['iSituationId' => $iSituationId])->withForm_result('delFailed');
     }
 
+    /** отдает на скачивание файл шаблона обучающей выборки
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function downloadTemplate() {
+        return Response::download(public_path().'/files/template.xlt');
+    }
+
 
 }
