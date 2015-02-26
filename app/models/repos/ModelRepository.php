@@ -26,12 +26,15 @@ class ModelRepository {
      * @param $iSituationId - id прблемной ситуации
      * @return mixed - список моделей
      */
-    public function getModelsList($iSituationId) {
+    public function getModelsList($iSituationId, $bActiveModels = false) {
         $iSituationId = (int)$iSituationId;
         // проверим есть ли такая ситуация
         if(!$iSituationId || !Situation::find($iSituationId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
         // отдадим список связанных моделей
-        $oModels = Situation::find($iSituationId)->models()->get(['id', 'name']);
+        if($bActiveModels)
+            $oModels = Situation::find($iSituationId)->activeModels()->get(['id', 'name']);
+        else
+            $oModels = Situation::find($iSituationId)->models()->get(['id', 'name']);
         return $oModels;
     }
 

@@ -43,6 +43,10 @@ class Situation extends Eloquent {
         return $this->hasMany('Model');
     }
 
+    public function activeModels() {
+        return $this->hasMany('Model')->where('min_threshold', '<', DB::raw('threshold'));
+    }
+
 
     public function modelsId() {
         return $this->modelsReqFields(['id', 'situation_id']);

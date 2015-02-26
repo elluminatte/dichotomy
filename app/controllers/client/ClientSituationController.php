@@ -24,7 +24,7 @@ class ClientSituationController extends \BaseController
     public function index($iParentSituationId = 0)
     {
         // собираем список разделов с моделями
-        $oSituations = $this->oRepo->getSituationsList($iParentSituationId, true, true);
+        $oSituations = $this->oRepo->getSituationsList($iParentSituationId, true, true, true);
         // собираем дерево родителей для хлебных крошек
         $aHierarchy = \Elluminate\Engine\E::buildHierarchy($iParentSituationId);
         // отдаем данные в вид и рисуем его

@@ -25,7 +25,7 @@ class ClientModelController extends \BaseController
      */
     public function index($iSituationId)
     {
-        $oModels = $this->oRepo->getModelsList($iSituationId);
+        $oModels = $this->oRepo->getModelsList($iSituationId, true);
         $aHierarchy = \Elluminate\Engine\E::buildHierarchy($iSituationId);
         return View::make('client.models.index', [
             'models' => $oModels,
