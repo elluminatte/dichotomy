@@ -55,7 +55,6 @@ class AdminModelRepository extends ModelRepository {
      * @param $sComment - комментарий
      * @param $fTrainFile - файл с обучающей выборкой
      * @return bool
-     * @throws \Elluminate\Exceptions\InstanceException
      * @throws \Elluminate\Exceptions\TrainSetFileException
      */
     public function storeModel($iSituationId, $sName, $iDuration, $iMinThreshold, $sComment, $fTrainFile) {
@@ -245,7 +244,7 @@ class AdminModelRepository extends ModelRepository {
             $oPHPExcel = $oReader->load($sFileName);
         }
         catch (\Exception $e) {
-            throw new \Elluminate\Exceptions\TrainSetFileException;
+            throw new \Elluminate\Exceptions\TrainSetFileException("Ошибка при попытке считать данные из файла обучающей выборки");
         }
         $oSheet = $oPHPExcel->getSheet($iSheetNumber);
 //        чтобы не считать ячейки, где есть, например, стиль. должно помочь вместе с setReadDataOnly

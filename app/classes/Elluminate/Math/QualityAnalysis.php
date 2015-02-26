@@ -98,20 +98,16 @@ class QualityAnalysis
 
     public function __construct(MathCore $oMath)
     {
-        if ($oMath instanceof \Elluminate\Math\MathCore)
-            $this->oMath = $oMath;
-        else throw new \Elluminate\Exceptions\InstanceException("Предоставляемые математические инструменты должны быть математическим ядром");
+        $this->oMath = $oMath;
     }
 
     /** сеттер для модели
      * @param $oModel
-     * @throws \Elluminate\Exceptions\InstanceException
      */
     public function setModel($oModel)
     {
-        if ($oModel instanceof \Elluminate\Math\LogisticRegression)
-            $this->oModel = $oModel;
-        else throw new \Elluminate\Exceptions\InstanceException("Модель, качество которой анализируется, должна быть логистической регрессией");
+        $this->oModel = $oModel;
+
     }
 
     /** анализирует кач-во предоставленной модели

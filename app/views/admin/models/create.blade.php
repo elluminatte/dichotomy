@@ -6,8 +6,8 @@
     Администрирование. Добавление решаемой задачи
 @stop
 @section('content')
-        {{ Breadcrumbs::render('admin.models', $hierarchy, 'create') }}
-        <div><a href="{{ URL::route('models.template') }}">Скачать шаблон файла обучающей выборки</a></div>
+    {{ Breadcrumbs::render('admin.models', $hierarchy, 'create') }}
+    <div><a href="{{ URL::route('models.template') }}">Скачать шаблон файла обучающей выборки</a></div>
     {{ Form::open(['route' => 'models.store', 'class' => 'form-horizontal', 'files' => true]) }}
     <fieldset>
         <legend>Добавление задачи</legend>
@@ -26,7 +26,8 @@
         <div class="form-group">
             {{ Form::label('min_threshold', 'Минимальный порог отсечения', ['class' => 'col-lg-2 control-label']) }}
             <div class="col-lg-5">
-                <input name="min_threshold" class="js__range_slider" data-slider-id='threshold_slider' type="text" data-slider-min="50" data-slider-max="100" data-slider-step="1" data-slider-value="75"/>
+                <input name="min_threshold" class="js__range_slider" data-slider-id='threshold_slider' type="text"
+                       data-slider-min="50" data-slider-max="100" data-slider-step="1" data-slider-value="75"/>
             </div>
         </div>
         <div class="form-group">

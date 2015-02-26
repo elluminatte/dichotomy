@@ -193,7 +193,7 @@ class LogisticRegression
             // посчситаем новый вектор коэффициентов
             $aNextCoeffVector = $this->constructNextCoeffVector($aCoeffVector, $this->aCovariates, $this->aRegression, $aActualRegVector);
             // там может не найтись обратной матрицы, тогда обучение не удалось, так может случиться в редких случаях
-            if (!$aNextCoeffVector) throw new \Elluminate\Exceptions\SingularException;
+            if (!$aNextCoeffVector) throw new \Elluminate\Exceptions\SingularException("Определитель матрицы равен 0, поиск коэффциеинтов невозможен. Так бывает при наличии зависимости между регрессорами. Проверьте обучающую выьорку и повторите ошибку");
             // если на последующем шаге коэффициенты не изменились с заданной точностью, то считаем, что нашли лучшие
             if (!$this->checkChanging($aCoeffVector, $aNextCoeffVector)) return $aFinalCoeffVector;
             // если произошел прыжок, то метод начал расходиться, отдадим коэффициенты, которые получили до расхождения, они получше должны быть

@@ -13,21 +13,6 @@
 
 Route::get('/', function()
 {
-//	var_dump(\Carbon\Carbon::now()->formatLocalized('%d %B %Y %H:%M'));
-//	$test = Evaluation::find(1);
-//	$t = $test->expired_moment;
-//	var_dump(new \Carbon\Carbon($t)->format);
-//
-//	$date = \Carbon\Carbon::now()->addMinutes(1);
-//	Queue::push('\Elluminate\Workers\Test', ['name' => 'worker1', 'duration' => 1111]);
-//	Queue::push('\Elluminate\Workers\Test1', ['name' => 'worker2', 'duration' => 22222]);
-//	$oEvaluation = \Evaluation::find(3);
-//	$iRealResult = $oEvaluation->real_result;
-//	$aCovariates = json_decode($oEvaluation->covariates);
-//	$aRow = array_unshift($aCovariates, $iRealResult);
-//	echo "<XMP>";
-////	print_r($aCovariates);
-//	echo "</XMP>";
 	return View::make('hello');
 });
 

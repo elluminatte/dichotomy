@@ -106,7 +106,6 @@ class ClientModelRepository extends ModelRepository {
     }
     /** переобучает модель с учетом дополнительной выборки
      * @param $iModelId - id модели, которую надо переобучить
-     * @throws \Elluminate\Exceptions\InstanceException
      */
     public function retrainModel($iModelId) {
         $iModelId = (int)$iModelId;

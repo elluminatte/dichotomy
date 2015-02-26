@@ -50,19 +50,41 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 App::error(function(Exception $exception, $code)
 {
 	Log::error($exception);
+//	ToDo: раскомментировать на production
+//	return Response::view('errors.uncaught', array(), 500);
 });
 
 // свои исключения
 App::error(function(\Elluminate\Exceptions\TrainSetFileException $exception, $code)
 {
-	return View::make('errors.train_set_error', ['message' => $exception->getMessage()]);
+	Log::error($exception);
+	return View::make('errors.exception', ['message' => $exception->getMessage()]);
 });
 
-// свои исключения
 App::error(function(\Elluminate\Exceptions\MathException $exception, $code)
 {
-	return View::make('errors.dimension_error', ['message' => $exception->getMessage()]);
+	Log::error($exception);
+	return View::make('errors.exception', ['message' => $exception->getMessage()]);
 });
+
+App::error(function(\Elluminate\Exceptions\DumpSelectionException $exception, $code)
+{
+	Log::error($exception);
+	return View::make('errors.exception', ['message' => $exception->getMessage()]);
+});
+
+App::error(function(\Elluminate\Exceptions\EvaluationException $exception, $code)
+{
+	Log::error($exception);
+	return View::make('errors.exception', ['message' => $exception->getMessage()]);
+});
+
+App::error(function(\Elluminate\Exceptions\SingularException $exception, $code)
+{
+	Log::error($exception);
+	return View::make('errors.exception', ['message' => $exception->getMessage()]);
+});
+
 
 /*
 |--------------------------------------------------------------------------
