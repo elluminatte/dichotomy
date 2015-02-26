@@ -3,7 +3,7 @@
     {{ Breadcrumbs::render('admin.models', $hierarchy, 'detail', $model->id) }}
     <a href="{{ URL::route('models.dump', ['iModelId' => $model->id]) }}">Скачать основную обучающую выборку</a>
     <blockquote>
-        <p>{{ $model->name }}</p>
+        <p>@if($model->threshold < $model->min_threshold)<i class="fa fa-lock"></i>@endif {{ $model->name }}</p>
         <small>{{ $model->comment }}</small>
         <small>Результат - {{ $model->reg_name }} ({{ $model->reg_comment }})</small>
     </blockquote>
