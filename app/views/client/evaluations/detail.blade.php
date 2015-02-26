@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@section('title')
+    Обратная связь
+@stop
 @section('content')
 {{--<div class="col-lg-row">--}}
     {{--<blockquote>--}}

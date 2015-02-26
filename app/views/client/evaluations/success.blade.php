@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@section('title')
+    Результат обратной связи
+@stop
 @section('content')
     <div class="col-lg-10">
         <div class="alert alert-dismissible alert-success">

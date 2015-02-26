@@ -2,6 +2,9 @@
 @section('styles')
     {{ HTML::style('assets/css/bootstrap-slider.css') }}
 @stop
+@section('title')
+    Администрирование. Добавление решаемой задачи
+@stop
 @section('content')
         {{ Breadcrumbs::render('admin.models', $hierarchy, 'create') }}
         <div><a href="{{ URL::route('models.template') }}">Скачать шаблон файла обучающей выборки</a></div>

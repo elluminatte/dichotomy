@@ -11,6 +11,9 @@
             </div>
             <div class="navbar-collapse collapse navbar-responsive-collapse">
                 <ul class="nav navbar-nav">
+                    <li><a href="{{ URL::to('/') }}">Главная</a></li>
+                </ul>
+                <ul class="nav navbar-nav">
                     @include(Config::get('laravel-menu::views.bootstrap-items'), array('items' => $adminNavBar->roots()))
                 </ul>
                 <ul class="nav navbar-nav">

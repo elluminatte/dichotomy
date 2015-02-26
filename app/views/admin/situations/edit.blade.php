@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@section('title')
+    Администрирование. Редактирование проблемной ситуации - {{ $situation->name }}
+@stop
 @section('content')
         {{ Breadcrumbs::render('admin.situations', $hierarchy, 'edit') }}
     {{ Form::model($situation, ['route' => ['situations.update'], 'class' => 'form-horizontal']) }}

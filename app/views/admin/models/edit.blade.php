@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@section('title')
+    Администрирование. Редактирование задачи {{ $model->name }}
+@stop
 @section('styles')
     {{ HTML::style('assets/css/bootstrap-slider.css') }}
 @stop

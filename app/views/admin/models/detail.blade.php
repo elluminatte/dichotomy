@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@section('title')
+    Администрирование. Задача {{ $model->name }}
+@stop
 @section('content')
     {{ Breadcrumbs::render('admin.models', $hierarchy, 'detail', $model->id) }}
     <a href="{{ URL::route('models.dump', ['iModelId' => $model->id]) }}">Скачать основную обучающую выборку</a>

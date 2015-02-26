@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@section('title')
+    Администрирование. Список неактивных задач
+@stop
 @section('content')
     {{ Breadcrumbs::render('models.inactive') }}
     <div class="col-lg-12">

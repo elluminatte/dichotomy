@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@section('title')
+    Решаемая задача {{ $model->name }}
+@stop
 @section('content')
     {{ Breadcrumbs::render('client.models', $hierarchy, 'detail', $model->id) }}
 <div class="col-lg-row">

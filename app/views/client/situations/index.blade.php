@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@section('title')
+    Список проблемных ситуаций
+@stop
 @section('content')
         <div class="col-md-12">
             <div class="page-header">

@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@section('title')
+    Результаты решения
+@stop
 @section('content')
     {{ Breadcrumbs::render('client.models', $hierarchy, 'detail', $model_id) }}
     <div>{{ $comment }}</div>

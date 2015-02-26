@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@section('title')
+    Результаты поиска
+@stop    
 @section('content')
     <div class="col-lg-12">
         <h4 class="page-header">Совпадения по коду ОКВЭД</h4>

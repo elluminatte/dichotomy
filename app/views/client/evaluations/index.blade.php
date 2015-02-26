@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@section('title')
+    Задачи, ожидающие обратной связи
+@stop
 @section('content')
     {{ Breadcrumbs::render('evaluations', 'list') }}
     <div class="col-lg-10">

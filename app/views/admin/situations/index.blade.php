@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@section('title')
+    Администрирование. Список проблемных ситуаций
+@stop
 @section('content')
     <div class="row">
     </div>

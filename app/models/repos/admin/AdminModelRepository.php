@@ -61,10 +61,18 @@ class AdminModelRepository extends ModelRepository {
     public function storeModel($iSituationId, $sName, $iDuration, $iMinThreshold, $sComment, $fTrainFile) {
         $iSituationId = (int)$iSituationId;
         if(!$iSituationId || !Situation::find($iSituationId, ['id'])) throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-        $sName = (string)$sName;
-        $iDuration = (int)$iDuration;
-        $iMinThreshold = ($iMinThreshold <= 100 && $iMinThreshold >=50) ? (int)$iMinThreshold : \Elluminate\Math\LogisticRegression::DEFAULT_MIN_THRESHOLD;
-        $sComment = (string)$sComment;
+        $oModel = $this->constructModel(null, $sName, $sComment, $fTrainFile, $iDuration, $iMinThreshold);
+        // сохраним новую сущность
+        return $oModel->save();
+    }
+
+    private function constructModel($iModelId = null, $sName, $sComment, $fTrainFile, $iDuration, $iMinThreshold) {
+        if(is_null($iModelId)) $oModel = new Model();
+        else $oModel = Model::find($iModelId);
+        $oModel->name = $sName;
+        $oModel->durations_id = $iDuration;
+        $oModel->min_threshold = $iMinThreshold;
+        $oModel->comment = $sComment;
         // получим из файла все, что нам нужно
         $aFileContent = $this->extractDataFromExcel($fTrainFile);
         // преобразуем содержимое в нужную форму
@@ -88,12 +96,6 @@ class AdminModelRepository extends ModelRepository {
         $this->oQuality->setModel($this->oModel);
         // проведем анализ качества
         $this->oQuality->getQualityAnalysis();
-        // создадим новую сущность БД и забьем атрибуты
-        $oModel = new Model();
-        $oModel->situation_id = $iSituationId;
-        $oModel->name = $sName;
-        $oModel->comment = $sComment;
-        // нам не надо экранировать символы юникода, это только увеличит размер поля
         $oModel->cov_names = json_encode($aCovNames, JSON_UNESCAPED_UNICODE);
         $oModel->cov_comments = json_encode($aCovComments, JSON_UNESCAPED_UNICODE);
         $oModel->reg_name = $aRegName;
@@ -107,8 +109,7 @@ class AdminModelRepository extends ModelRepository {
         $oModel->elastic_coeff = json_encode($this->oQuality->getElasticCoeff(), JSON_NUMERIC_CHECK);
         $oModel->curve_area = $this->oQuality->getCurveArea();
         $oModel->sill = $this->oQuality->getSill();
-        // сохраним новую сущность
-        return $oModel->save();
+        return $oModel;
     }
 
     public function updateModel($iModelId, $sName, $iDuration, $iMinThreshold, $sComment, $fTrainFile) {

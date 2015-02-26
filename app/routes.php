@@ -103,8 +103,10 @@ Menu::make('adminNavBar', function($menu) {
 		$menu->find(1)->add('<i class="fa fa-lock"></i> Неактивные задачи</a>', ['route'  => 'models.inactive', 'id' => 3]);
 		if(\Request::is('/admin*'))
 			$menu->find(1)->active();
-		if(\Route::is('situations.list') || \Route::is('models.list'))
+		if(\Route::is('situations.*') || \Route::is('models.*'))
 			$menu->find(2)->active();
+		if(\Route::is('models.inactive'))
+			$menu->find(3)->active();
 	}
 });
 

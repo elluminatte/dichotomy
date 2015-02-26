@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@section('title')
+    Администрирование. Добавление проблемной ситуации
+@stop
 @section('content')
         {{ Breadcrumbs::render('admin.situations', $hierarchy, 'create') }}
     {{ Form::open(['route' => 'situations.store', 'class' => 'form-horizontal']) }}
