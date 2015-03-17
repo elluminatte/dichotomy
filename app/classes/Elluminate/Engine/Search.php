@@ -140,7 +140,7 @@ class Search
         // если больше, чем надо для вывода, установим флаг
         if ($iCount > self::GROUP_LIMIT)
             $this->bModelNameOverLimit = true;
-        return \Model::where('name', 'LIKE', "%$this->sSearchText%")->take(self::GROUP_LIMIT)->get(['id', 'name']);
+        return \Model::where('name', 'LIKE', "%$this->sSearchText%")->where('threshold', '>=', \DB::raw('min_threshold'))->take(self::GROUP_LIMIT)->get(['id', 'name']);
     }
 
     /** ищет по названию проблемной ситуации

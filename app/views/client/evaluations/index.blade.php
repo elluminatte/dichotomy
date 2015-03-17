@@ -11,7 +11,7 @@
         <table class="table table-striped table-hover">
             <thead>
             <tr>
-                <th>Модель</th>
+                <th>Задача</th>
                 <th>Окончание времени корректности решения</th>
                 <th>Перейти к обратной связи</th>
             </tr>

@@ -4,13 +4,11 @@
 @stop
 @section('content')
     {{ Breadcrumbs::render('client.models', $hierarchy, 'detail', $model->id) }}
-<div class="col-lg-row">
     <blockquote>
         <p>{{ $model->name }}</p>
         <small>{{ $model->comment }}</small>
+        <small>Время корректности решения: {{ $duration }}</small>
     </blockquote>
-</div>
-<div class="row">
     {{ Form::open(array('route' => 'tasks.compute', 'class' => 'form-horizontal')) }}
     <fieldset>
         <legend>Введите значения параметров для решения задачи</legend>
@@ -34,7 +32,6 @@
             </div>
     </fieldset>
     {{ Form::close() }}
-    </div>
 @if ( !$errors->isEmpty() )
     @foreach($errors->all() as $error)
         <div class="col-lg-5">

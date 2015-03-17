@@ -4,7 +4,6 @@
 @stop
 @section('content')
     {{ Breadcrumbs::render('models.inactive') }}
-    <div class="col-lg-12">
         <div class="page-header">
             <h3><i class="fa fa-angle-double-down"></i> Список неактивных задач</h3>
         </div>
@@ -25,5 +24,4 @@
             @endif
             </tbody>
         </table>
-    </div>
 @stop

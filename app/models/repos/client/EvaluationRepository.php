@@ -74,8 +74,11 @@ class EvaluationRepository
         if (!$iUserId || !User::find($iUserId, ['id'])) return;
         $oEvaluations = Evaluation::where('user_id', '=', $iUserId)->whereNull('real_result')->where('expired_moment', '<', 'NOW()')->get();
         // если такие сущности нашлись, то запишем в сессию флажок
-        if (!$oEvaluations->isEmpty())
+        if (!$oEvaluations->isEmpty()) {
             Session::flash('expired_evaluations', 1);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -92,8 +95,11 @@ class EvaluationRepository
         // найдем для этого пользователя сущности с незаполненным реальным результатмом
         $oEvaluations = Evaluation::where('user_id', '=', $iUserId)->whereNull('real_result')->get();
         // если такие есть, то запишем флажок в сессию
-        if (!$oEvaluations->isEmpty())
+        if (!$oEvaluations->isEmpty()) {
             Session::flash('waiting_evaluations', 1);
+            return true;
+        }
+        return false;
     }
 
     /** собирает точно такую же форму, как заполнил ее пользователь

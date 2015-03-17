@@ -3,7 +3,6 @@
     Список проблемных ситуаций
 @stop
 @section('content')
-        <div class="col-md-12">
             <div class="page-header">
                 <h3><i class="fa fa-angle-double-down"></i> Каталог проблемных ситуаций</h3>
             </div>
@@ -38,5 +37,4 @@
                 @endif
                 </tbody>
             </table>
-        </div>
 @stop

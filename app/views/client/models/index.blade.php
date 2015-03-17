@@ -4,7 +4,6 @@
 @stop
 @section('content')
     {{ Breadcrumbs::render('client.models', $hierarchy, 'list') }}
-    <div class="col-lg-12">
         <div class="page-header">
             <h3><i class="fa fa-angle-double-down"></i> Список решаемых задач</h3>
         </div>
@@ -24,5 +23,4 @@
             @endif
             </tbody>
         </table>
-    </div>
 @stop

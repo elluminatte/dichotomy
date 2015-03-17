@@ -42,7 +42,7 @@ Route::group(array('prefix' => 'admin'), function()
 Route::group(array('prefix' => 'client'), function() {
 	Route::get('problems/list/{iParentSituationId?}', ['as' => 'problems.list', 'uses' => 'ClientSituationController@index']);
 	Route::get('tasks/list/{iSituationId}', array('as' => 'tasks.list', 'uses' => 'ClientModelController@index'));
-	Route::get('tasks/detail/{iModelId}', array('as' => 'tasks.detail', 'uses' => 'ClientModelController@showModelForm'));
+	Route::get('tasks/detail/{iModelId}', array('before' => 'expiredTasks', 'as' => 'tasks.detail', 'uses' => 'ClientModelController@showModelForm'));
 	Route::post('tasks/compute', ['before' => 'csrf', 'as' => 'tasks.compute', 'uses' => 'ClientModelController@compute']);
 	Route::post('/search/', array('before' => 'csrf', 'as' => 'search', 'uses' => 'SearchController@index'));
 	Route::get('evaluations/list', array('as' => 'evaluations.list', 'uses' => 'EvaluationController@index'));
@@ -100,7 +100,12 @@ Menu::make('userNavBar', function($menu) {
 	// проверим, есть ли у пользователя роли юзера
 	if(\Entrust::hasRole('user')) {
 		$menu->add('<i class="fa fa-check"></i> Решение задач классификации', ['id' => 1]);
-		$menu->find(1)->add('<i class="fa fa-magic"></i> Поиск и решение задачи', ['route' => 'problems.list',' id' => 2]);
+		$bExpired = false;
+		if(!\Entrust::hasRole('administrator')) {
+			$bExpired = EvaluationRepository::checkExpiredEvaluations();
+		}
+		if(!$bExpired)
+			$menu->find(1)->add('<i class="fa fa-magic"></i> Поиск и решение задачи', ['route' => 'problems.list',' id' => 2]);
 		$menu->find(1)->add('<i class="fa fa-send-o"></i> Подтверждение решения (обратная связь)', ['route' => 'evaluations.list', 'id' => 3]);
 		if(\Request::is('/client*'))
 			$menu->find(1)->active();

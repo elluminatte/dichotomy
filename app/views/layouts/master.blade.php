@@ -7,50 +7,50 @@
     <title>
         @yield('title')
     </title>
-
-    <!-- CSS are placed here -->
     {{ HTML::style('assets/bootstrap/css/bootstrap.css') }}
     {{ HTML::style('assets/css/font-awesome.min.css') }}
     {{ HTML::style('assets/css/main.css') }}
+
     @yield('styles')
 
 </head>
-
 <body>
-
 <header>
-@include('partials.navbar')
-</header>
 
+@include('partials.navbar')
+
+</header>
 <main>
 <div class="container">
-    <div class="col-lg-offset-8">
-        <span class="notifications">
-             @if ( Session::get('waiting_evaluations') )
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-5">
+                @if ( Session::get('waiting_evaluations') )
                     @include('client.notifications.waiting_evaluations')
-            @endif
-        </span>
-    </div>
-    <div class="col-lg-offset-8">
-        <span class="notifications">
-             @if ( Session::get('expired_evaluations') )
-                @include('client.notifications.expired_evaluations')
-            @endif
-        </span>
-    </div>
-    @yield('content')
+                @endif
+                @if ( Session::get('expired_evaluations') )
+                    @include('client.notifications.expired_evaluations')
+                @endif
+            </div>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                        @yield('content')
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 </div>
 </main>
-
 <footer>
 {{--@include('partials.footer')--}}
 </footer>
 
-<!-- Scripts are placed here -->
 {{ HTML::script('assets/js/jquery-1.11.1.min.js') }}
 {{ HTML::script('assets/bootstrap/js/bootstrap.min.js') }}
 {{ HTML::script('assets/js/search.js') }}
-
 @yield('scripts')
 
 </body>

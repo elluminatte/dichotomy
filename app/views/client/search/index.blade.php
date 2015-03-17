@@ -3,7 +3,6 @@
     Результаты поиска
 @stop    
 @section('content')
-    <div class="col-lg-12">
         <h4 class="page-header">Совпадения по коду ОКВЭД</h4>
         @if($okved_code->isEmpty())
             <div class="row">
@@ -80,7 +79,7 @@
             <ul class="list-group">
                 @foreach($model_name as $value)
                     <li class="list-group-item">
-                        <a href="{{ URL::route('task.detail', ['iTaskId' => $value->id]) }}">{{$value->name}}</a>
+                        <a href="{{ URL::route('tasks.detail', ['iTaskId' => $value->id]) }}">{{$value->name}}</a>
                     </li>
                 @endforeach
             </ul>
@@ -96,5 +95,4 @@
                 </div>
             </div>
         @endif
-    </div>
 @stop

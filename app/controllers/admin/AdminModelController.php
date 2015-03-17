@@ -148,7 +148,7 @@ class AdminModelController extends \BaseController
         // если валидация провалилась, редеректим обратно с ошибками и заполненными полями
         if ($oValidation->fails())
             return Redirect::route('models.edit', ['iModelId' => $iModelId])->withErrors($oValidation)->withInput();
-        $bResult = $this->oRepo->updateModel($iModelId, $sName, $iDuration, $iMinThreshold, $sComment, $fTrainFile);
+        $bResult = $this->oRepo->updateModel($iModelId, $sName, $sComment, $fTrainFile, $iDuration, $iMinThreshold);
         if ($bResult)
             return Redirect::route('models.detail', ['iModelId' => $iModelId])->withForm_result('editDone');
         else

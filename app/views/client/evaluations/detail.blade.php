@@ -9,10 +9,18 @@
         {{--<small>{{ $model->comment }}</small>--}}
     {{--</blockquote>--}}
 {{--</div>--}}
-<div class="col-lg-10">
     {{ Breadcrumbs::render('evaluations', 'detail', $model_id) }}
+<div class="col-lg-4">
+    <ul class="list-group">
+        <li class="list-group-item">
     <div>Результат, полученный моделью <span class="badge">{{ $estimated_result }} {{ $estimated_result ? ' (Да)' : ' (Нет)' }}</span></div>
+            </li>
+        </ul>
+    </div>
+<div class="col-lg-10">
     {{ Form::open(array('route' => 'evaluations.confirm', 'class' => 'form-horizontal')) }}
+    <fieldset>
+        <legend>Выберите фактический результат</legend>
     <div class="form-group">
         {{ Form::label('real_result', 'Реальный результат', ['class' => 'col-lg-2 control-label']) }}
         <div class="col-lg-5">
@@ -20,13 +28,17 @@
             <span class="help-block">1 - Да; 0 - Нет</span>
         </div>
     </div>
+
     {{ Form::hidden('evaluation_id', $iEvaluationId) }}
     <div class="form-group">
         <div class="col-lg-10 col-lg-offset-2">
             {{ Form::submit('Ок', ['class' => 'btn btn-primary']) }}
         </div>
     </div>
+    </fieldset>
     {{ Form::close() }}
+    <p class="text-primary" id="eval_form_collapse">Показать значения параметров</p>
+    </div>
     @if ( !$errors->isEmpty() )
         @foreach($errors->all() as $error)
             <div class="col-lg-5">
@@ -37,14 +49,11 @@
             </div>
         @endforeach
     @endif
-</div>
-<button type="button" class="btn btn-primary" id="eval_form_collapse">Показать значения параметров</button>
 <span  id="eval_form" class="collapse">
 <div class="col-lg-10">
 <div class="row">
     {{ Form::open(array('class' => 'form-horizontal')) }}
     <fieldset>
-        <legend>Введите значения параметров для решения задачи</legend>
         @if(!empty($form))
         @foreach($form as $field)
             <div class="form-group">

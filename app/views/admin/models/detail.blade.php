@@ -4,7 +4,9 @@
 @stop
 @section('content')
     {{ Breadcrumbs::render('admin.models', $hierarchy, 'detail', $model->id) }}
-    <a href="{{ URL::route('models.dump', ['iModelId' => $model->id]) }}">Скачать основную обучающую выборку</a>
+    <div class="panel">
+    <a href="{{ URL::route('models.dump', ['iModelId' => $model->id]) }}" class="btn btn-default">Скачать основную обучающую выборку</a>
+    </div>
     <blockquote>
         <p>@if($model->threshold < $model->min_threshold)<i class="fa fa-lock"></i>@endif {{ $model->name }}</p>
         <small>{{ $model->comment }}</small>
@@ -23,6 +25,10 @@
         <li class="list-group-item">
             <span class="badge">{{ $model->curve_area }}</span>
             Площадь под кривой
+        </li>
+        <li class="list-group-item">
+            <span class="badge">{{ $model->duration }}</span>
+            Время корректности решения
         </li>
     </ul>
     </div>

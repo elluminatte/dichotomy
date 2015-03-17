@@ -22,7 +22,9 @@ class Situation extends Eloquent {
     protected static $aValidRules = [
         'id' => 'Integer',
         'name' => 'Required|Min:5',
-        'parent_id' => 'Integer'
+        'parent_id' => 'Integer',
+        'okved_correspondence' => 'Min:5|Max:16'
+
     ];
 
     /** получает родителя записи (реализована рекурсивная связь)

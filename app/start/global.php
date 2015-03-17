@@ -85,6 +85,14 @@ App::error(function(\Elluminate\Exceptions\SingularException $exception, $code)
 	return View::make('errors.exception', ['message' => $exception->getMessage()]);
 });
 
+//App::error(function(Exception $exception, $code)
+//{
+//	Log::error($exception);
+//	if(!Config::get('app.debug')) {
+//		return Response::view('errors.fatal', array(), 500);
+//	}
+//});
+
 
 /*
 |--------------------------------------------------------------------------
