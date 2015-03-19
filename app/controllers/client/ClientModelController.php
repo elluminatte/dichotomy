@@ -73,7 +73,7 @@ class ClientModelController extends \BaseController
         if ($oValidation->fails())
             return Redirect::route('tasks.detail', ['iModelId' => $aInput['model_id']])->withErrors($oValidation)->withInput();
         $fResult = $this->oRepo->computeResult($aInput);
-        $oModel = $this->oRepo->getModel($aInput['model_id'], ['id', 'reg_name', 'comment', 'situation_id', 'durations_id']);
+        $oModel = $this->oRepo->getModel($aInput['model_id'], ['id', 'reg_name', 'comment', 'situation_id', 'durations_id', 'sill']);
         $sRegName = isset($oModel->reg_name) ? $oModel->reg_name : '';
         $sComment = isset($oModel->comment) ? $oModel->comment : '';
         $aHierarchy = \Elluminate\Engine\E::buildHierarchy($oModel->situation_id);
@@ -82,7 +82,8 @@ class ClientModelController extends \BaseController
             'reg_name' => $sRegName,
             'comment' => $sComment,
             'hierarchy' => $aHierarchy,
-            'model_id' => $oModel->id
+            'model_id' => $oModel->id,
+            'sill' => round($oModel->sill, 2)
         ]);
     }
 }
