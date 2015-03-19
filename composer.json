@@ -5,7 +5,12 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework": "4.2.*"
+		"laravel/framework": "4.2.*",
+	  	"zizaco/confide": "~4.0@dev",
+	  	"zizaco/entrust": "1.2.*@dev",
+		"davejamesmiller/laravel-breadcrumbs": "~2.3",
+	  	"phpoffice/phpexcel": "dev-master",
+	  	"lavary/laravel-menu": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

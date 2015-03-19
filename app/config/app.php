@@ -13,7 +13,7 @@ return array(
 	|
 	*/
 
-	'debug' => false,
+	'debug' => true,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -39,7 +39,7 @@ return array(
 	|
 	*/
 
-	'timezone' => 'UTC',
+	'timezone' => 'Europe/Moscow',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return array(
 	|
 	*/
 
-	'locale' => 'en',
+	'locale' => 'ru',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -121,6 +121,10 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
+		'Zizaco\Confide\ServiceProvider',
+		'Zizaco\Entrust\EntrustServiceProvider',
+		'DaveJamesMiller\Breadcrumbs\ServiceProvider',
+		'Lavary\Menu\ServiceProvider',
 
 	),
 
@@ -188,7 +192,13 @@ return array(
 		'URL'               => 'Illuminate\Support\Facades\URL',
 		'Validator'         => 'Illuminate\Support\Facades\Validator',
 		'View'              => 'Illuminate\Support\Facades\View',
+		'Confide'    		=> 'Zizaco\Confide\Facade',
+		'Entrust'    		=> 'Zizaco\Entrust\EntrustFacade',
+		'Breadcrumbs' 		=> 'DaveJamesMiller\Breadcrumbs\Facade',
+		'Menu'      	 	=> 'Lavary\Menu\Facade',
 
 	),
+
+	'admin_email' => 'elluminate@mail.ru'
 
 );

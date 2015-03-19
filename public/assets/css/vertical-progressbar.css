@@ -1,0 +1,64 @@
+.vertical-progress {
+    position: relative;
+    margin: 40px;
+    width: 140px;
+    height: 200px;
+    background-color: #ccc;
+}
+
+.vertical-progress::before,
+.vertical-progress::after {
+    position: absolute;
+    display: inline-block;
+    right: 100%;
+    margin-right: 10px;
+    font-size: 16px;
+    line-height: 20px;
+    white-space: nowrap;
+}
+
+.vertical-progress::before {
+    content: '1 - Да';
+    top: 0;
+    margin-top: -5px;
+    background-color: #43ac6a;
+    padding: .2em .6em .3em;
+    color: #ffffff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    font-size: 75%;
+}
+
+.vertical-progress::after {
+    content: '0 - Нет';
+    bottom: 0;
+    margin-bottom: -5px;
+    background-color: #f04124;
+    padding: .2em .6em .3em;
+    color: #ffffff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    font-size: 75%;
+}
+
+.vertical-progress_bar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #007196;
+}
+
+.vertical-progress_tx {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 10px;
+    width: 100%;
+    color: #007196;
+    font-size: 40px;
+    line-height: 1;
+    text-align: center;
+}

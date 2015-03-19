@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => null, 'name' => null),
+	'from' => array('address' => 'postmaster@sandbox74c180a8d959478394676650cd4abd8e.mailgun.org', 'name' => 'Администрация Diagnostic'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => null,
+	'username' => 'postmaster@sandbox74c180a8d959478394676650cd4abd8e.mailgun.org',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'password' => null,
+	'password' => '9"8Q{V1TA+7xwDfv=FJG',
 
 	/*
 	|--------------------------------------------------------------------------

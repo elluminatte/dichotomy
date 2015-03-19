@@ -88,3 +88,14 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+App::missing(function($exception)
+{
+	return Response::view('errors.missing', array(), 404);
+});
+
+// закрываем все маршруты после admin, если нет роли администратора, переадресовываем на авторизацию
+\Entrust::routeNeedsRole( 'admin*', 'administrator', Redirect::to('users/login') );
+
+// закрываем все маршруты после admin, если нет роли администратора, переадресовываем на авторизацию
+\Entrust::routeNeedsRole( 'client*', 'user', Redirect::to('users/login') );

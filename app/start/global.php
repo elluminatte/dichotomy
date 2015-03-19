@@ -17,7 +17,8 @@ ClassLoader::addDirectories(array(
 	app_path().'/controllers',
 	app_path().'/models',
 	app_path().'/database/seeds',
-
+	app_path().'/classes',
+	app_path().'/traits',
 ));
 
 /*
@@ -49,7 +50,49 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 App::error(function(Exception $exception, $code)
 {
 	Log::error($exception);
+//	ToDo: раскомментировать на production
+//	return Response::view('errors.uncaught', array(), 500);
 });
+
+// свои исключения
+App::error(function(\Elluminate\Exceptions\TrainSetFileException $exception, $code)
+{
+	Log::error($exception);
+	return View::make('errors.exception', ['message' => $exception->getMessage()]);
+});
+
+App::error(function(\Elluminate\Exceptions\MathException $exception, $code)
+{
+	Log::error($exception);
+	return View::make('errors.exception', ['message' => $exception->getMessage()]);
+});
+
+App::error(function(\Elluminate\Exceptions\DumpSelectionException $exception, $code)
+{
+	Log::error($exception);
+	return View::make('errors.exception', ['message' => $exception->getMessage()]);
+});
+
+App::error(function(\Elluminate\Exceptions\EvaluationException $exception, $code)
+{
+	Log::error($exception);
+	return View::make('errors.exception', ['message' => $exception->getMessage()]);
+});
+
+App::error(function(\Elluminate\Exceptions\SingularException $exception, $code)
+{
+	Log::error($exception);
+	return View::make('errors.exception', ['message' => $exception->getMessage()]);
+});
+
+//App::error(function(Exception $exception, $code)
+//{
+//	Log::error($exception);
+//	if(!Config::get('app.debug')) {
+//		return Response::view('errors.fatal', array(), 500);
+//	}
+//});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -77,5 +120,8 @@ App::down(function()
 | definitions instead of putting them all in the main routes file.
 |
 */
-
 require app_path().'/filters.php';
+// подцепим наши правила валидации
+require app_path().'/validators.php';
+// подцепим наши составители шаблонов
+require app_path().'/composers.php';
